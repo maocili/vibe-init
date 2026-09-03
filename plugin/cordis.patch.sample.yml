@@ -1,6 +1,7 @@
 # 挂载样例 —— 复制本条目到 ~/.dsh/profiles/web/cordis.patch.yml 顶层数组（与 dsh-obsidian-bridge 同机制）
 # 注意：文件路径为 file:// 绝对路径，改动仓库位置后需同步更新；
+# file://// 四斜杠形态与线上 cordis.patch.yml 中 dsh-obsidian-bridge 先例一致（宿主 loader 接受）；
 # 可分发形态（M3）再改为 profile 依赖的 npm 包或官方化（DESIGN §6）。
 - insert:
     - id: dsh-rules
-      name: file:///Users/xuxifeng/Work/dsh-rules/plugin/dsh-rules.mjs
+      name: file:////Users/xuxifeng/Work/dsh-rules/plugin/dsh-rules.mjs

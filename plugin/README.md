@@ -59,7 +59,10 @@
 - **feature 默认值（v1.0）**：`textLinkManagement`/`bilingualPairing`/`docBudgets` 默认开；双语纪律段为独立 key `bilingualDocsDiscipline`、默认关。
   每次运行可用 `--feature <key>=<true|false>` 覆盖（按 key 合并、未覆盖者回落默认；关闭的段被移除），
   已冒烟验证默认态往返字节一致。
-- **安全测试**：用 `--project` 指向临时 git 项目即可完整演练；对真实项目写前会先展示计划并要求确认。
+- **自动化测试**：`cd plugin && pnpm test`（node:test；临时目录自清理）：cleanSource 剥离、段 upsert/移除幂等、
+  同文件多段不互相覆盖且字节稳定、feature 门控合并、e2e init 无占位泄漏/不覆盖用户内容、技能冲突保护、
+  projectRoot 定界。
+- **安全演练**：用 `--project` 指向临时 git 项目即可完整演练；对真实项目写前会先展示计划并要求确认。
 
 ## 挂载与开放问题
 

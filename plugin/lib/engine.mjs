@@ -1,15 +1,14 @@
-// dsh-rules materialization engine (M1).
-// Responsibilities (DESIGN §4/§5): turn a versioned rule pack into concrete files —
-//  • project scope: fresh .agents/notes skeleton (whole-subtree mirror, never clobbering
-//    existing notes) + marker-managed segments appended to the root AGENTS.md;
-//  • global scope: ~/.dsh/AGENTS.md segment managed by marker (user edits outside the
-//    segment are preserved) + selected optional skills copied to the user skill root.
-// Every operation is idempotent: content-equality short-circuits, marker segments are
-// located by id, and foreign/edited files are reported (conflict), never overwritten
-// unless --force.
+// dsh-rules materialization engine (M1, REQUIREMENTS v1.0 — project-only initializer).
+// Responsibilities: turn a versioned rule pack into concrete files per project —
+//  • fresh .agents/notes skeleton (whole-subtree mirror, never clobbering existing notes);
+//  • marker-managed segments appended to the root AGENTS.md (note-discipline block +
+//    feature sections per manifest.features defaults);
+//  • user-selected optional skill copies under .agents/skills/<name> (dependency-managed
+//    per project; conflict reported, never overwritten without --force).
+// The global plane (~/.dsh/AGENTS.md, user skill roots) is intentionally out of scope:
+// no command writes there (REQUIREMENTS v1.0 D1/D2). Every operation is idempotent:
 import { readFile, writeFile, mkdir, readdir, stat } from 'node:fs/promises'
 import { join, dirname, normalize, resolve, relative, sep } from 'node:path'
-import { homedir } from 'node:os'
 import { fileURLToPath } from 'node:url'
 import { cleanSource, listFiles } from './pack.mjs'
 import { preview } from './diff.mjs'
@@ -21,9 +20,6 @@ export function defaultPackDir() {
   if (env) return resolve(env)
   return normalize(join(THIS_LIB, '..', '..', 'rules-pack'))
 }
-export function defaultDshHome() { return process.env.DSH_HOME || join(homedir(), '.dsh') }
-export function defaultSkillRoot() { return process.env.DSH_RULES_SKILL_ROOT || join(homedir(), '.agents', 'skills') }
-
 /** Locate the project root: walk upward from start until a .git is found; fallback: start. */
 export async function resolveProjectRoot(start) {
   let dir = resolve(start)
@@ -41,10 +37,15 @@ export async function resolveProjectRoot(start) {
 function startMarker(id) { return '<!-- dsh-rules:' + id + ':start -->' }
 function endMarker(id) { return '<!-- dsh-rules:' + id + ':end -->' }
 
-/** Wrap cleaned content in the id-based marker segment (deterministic formatting). */
+/**
+ * Wrap cleaned content in the id-based marker segment (deterministic formatting).
+ * The block ends WITHOUT a trailing newline: upsertSegmentText owns all inter-block blank
+ * lines ('\n\n' separators). This keeps multi-segment files byte-stable across repeated
+ * runs (idempotent) — no double newlines between a block's own ending and the separator.
+ */
 export function makeSegment(id, body) {
   const inner = (body ?? '').replace(/\s+$/, '') + '\n'
-  return startMarker(id) + '\n' + inner + endMarker(id) + '\n'
+  return startMarker(id) + '\n' + inner + endMarker(id)
 }
 
 /** Build full-file text with the segment for id upserted. Never touches text outside the segment. */
@@ -139,27 +140,14 @@ export async function planProject(pack, projectRoot, opts = {}) {
       body: raw, label: 'AGENTS.md (segment ' + row.id + ')', feature: row.feature, enabled
     })
   }
-  return { scope: 'project', projectRoot, entries }
-}
 
-/**
- * Build the global-scope plan: the ~/.dsh/AGENTS.md segment row + optional skill copies.
- * opts.skills: extra skill names to install (beyond manifest features.optionalSkills).
- */
-export async function planGlobal(pack, dshHome, opts = {}) {
-  const entries = []
-  for (const row of pack.rows) {
-    if (!row.target.startsWith('~/')) continue
-    const relTarget = row.target.slice(2) // '.dsh/AGENTS.md'
-    const targetAbs = relTarget.startsWith('.dsh/')
-      ? join(dshHome, relTarget.slice('.dsh/'.length))
-      : join(homedir(), relTarget)
-    const body = cleanSource(await readFile(row.sourceAbs, 'utf8'))
-    entries.push({ kind: 'segment', id: row.id, targetAbs, body, label: 'global ' + row.target })
-  }
-  // optional skills
+  // (c) selected optional skills → <project>/.agents/skills/<name>/ (dependency-managed copies).
+  // Manifest features.optionalSkills is the always-selected baseline; opts.skills adds more.
+  // Copy semantics reuse 'file' evaluation: equal→skip, edited/foreign→conflict (never
+  // overwritten without --force), so user self-installed skills are never clobbered.
+  // Removal of a no-longer-selected skill and managed/user bookkeeping are deferred
+  // (REQUIREMENTS v1.0 §7 DP-F / DP-G).
   const wanted = new Set([...(pack.features.optionalSkills || []), ...(opts.skills || [])])
-  const skillRoot = opts.skillRoot || defaultSkillRoot()
   const skillsDir = join(pack.dir, 'skills-optional')
   for (const name of wanted) {
     const src = join(skillsDir, name)
@@ -167,16 +155,14 @@ export async function planGlobal(pack, dshHome, opts = {}) {
       const files = await listFiles(src)
       for (const f of files) {
         const content = cleanSource(await readFile(f.abs, 'utf8'))
-        entries.push({
-          kind: 'file', id: 'skill:' + name + ':' + f.rel, targetAbs: join(skillRoot, name, f.rel),
-          content, label: 'skill ' + name + '/' + f.rel
-        })
+        const targetAbs = join(projectRoot, '.agents', 'skills', name, f.rel)
+        entries.push({ kind: 'file', id: 'skill:' + name + ':' + f.rel, targetAbs, content, label: relative(projectRoot, targetAbs) })
       }
     } catch {
       entries.push({ kind: 'missing-skill', name, label: 'skill ' + name })
     }
   }
-  return { scope: 'global', dshHome, skillRoot, entries }
+  return { scope: 'project', projectRoot, entries }
 }
 
 
@@ -220,9 +206,16 @@ export async function evaluatePlan(plan, opts = {}) {
   return out
 }
 
-/** Apply evaluated results (call after review; segment results already carry desired content). */
+/**
+ * Apply evaluated results (call after review).
+ * copy-file ('file') rows write their own content. Segment rows targeting the same file are
+ * grouped per target and applied cumulatively in plan order (each upsert/remove computed against
+ * the evolving text), then written once — a fresh init with several enabled AGENTS.md segments
+ * (note block + feature sections) must not let one segment clobber another.
+ */
 export async function applyResults(results) {
   const applied = []
+  const segmentGroups = new Map() // targetAbs -> ordered segment results to write
   for (const r of results) {
     if (r.kind === 'dir') {
       await mkdir(r.targetAbs, { recursive: true })
@@ -230,10 +223,27 @@ export async function applyResults(results) {
       continue
     }
     if (r.action === 'skip' || r.action === 'conflict' || r.action === 'missing') continue
-    await mkdir(dirname(r.targetAbs), { recursive: true })
-    const content = r.kind === 'file' ? r.content : r.desired
-    if (content !== undefined) await writeFile(r.targetAbs, content, 'utf8')
-    applied.push(Object.assign({}, r, { applied: true }))
+    if (r.kind === 'file') {
+      await mkdir(dirname(r.targetAbs), { recursive: true })
+      await writeFile(r.targetAbs, r.content, 'utf8')
+      applied.push(Object.assign({}, r, { applied: true }))
+      continue
+    }
+    const list = segmentGroups.get(r.targetAbs) || []
+    list.push(r)
+    segmentGroups.set(r.targetAbs, list)
+  }
+  for (const [targetAbs, segs] of segmentGroups) {
+    let text = await readTarget(targetAbs)
+    if (text == null) text = ''
+    const changed = []
+    for (const s of segs) {
+      const desired = s.body === null ? removeSegmentText(text, s.id) : upsertSegmentText(text, s.id, s.body)
+      if (desired !== text) { text = desired; changed.push(s) }
+    }
+    await mkdir(dirname(targetAbs), { recursive: true })
+    if (changed.length) await writeFile(targetAbs, text, 'utf8')
+    for (const s of changed) applied.push(Object.assign({}, s, { applied: true }))
   }
   return applied
 }

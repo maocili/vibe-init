@@ -1,41 +1,47 @@
 # dsh-rules
 
-把「vibe-coding-templates 模板引用」做成 DSH 插件的开发仓库 —— 插件管理某个 project 的规则
-（agent note、文本链接管理、双语文档等，含但不限于），规则以内置 `rules-pack/` 版本化承载。
+把「vibe-coding-templates 模板引用」做成 DSH 插件的开发仓库：插件是**项目级初始化器**——对每个项目
+物化出受管面（根 `AGENTS.md` 规则段 + `.agents/notes/` 笔记骨架 + 选定技能副本），**不触碰用户全局面**
+（~/.dsh/AGENTS.md、用户技能根）。规则与技能文本以内置 `rules-pack/` 版本化承载，插件只做安装/管理。
 
-> EN TL;DR: Develop the **dsh-rules** DSH plugin that installs standing orders once into the
-> user-global plane (`~/.dsh/AGENTS.md`, user skill roots) and materializes only a fresh notes
-> skeleton per project (`.agents/notes/` + a standing-orders block in root `AGENTS.md`). The rule
-> pack lives in this repo (`rules-pack/`) and is the single versioned content source.
+> EN TL;DR: Develop **dsh-rules**, a per-project initializer DSH plugin. For each project it
+> materializes a managed surface from a versioned rule pack: marker-wrapped rule segments in the
+> root `AGENTS.md` (note discipline + text-link management by default), a fresh bilingual-ready
+> notes skeleton under `.agents/notes/`, and selected skill copies under `.agents/skills/` managed
+> like dependency packages. It never writes the user-global plane. Scope authority:
+> `REQUIREMENTS-dsh-rules-plugin.md` v1.0 (finalized; supersedes DESIGN §1/§2).
 
 ## 文档
 
 - [`AGENTS.md`](AGENTS.md) — 仓库入口（会话基线）。
-- `DESIGN-dsh-rules-plugin.md` — 设计方案（工作稿；实现前的决策权威）。
+- [`REQUIREMENTS-dsh-rules-plugin.md`](REQUIREMENTS-dsh-rules-plugin.md) — 需求与目标（**定案 v1.0**，范围口径）。
+- `DESIGN-dsh-rules-plugin.md` — 设计方案（实现方案细节的工作稿，已按 v1.0 对齐：全局面设计移除）。
 
 ## 目录结构
 
 ```
 dsh-rules/
-├── DESIGN-dsh-rules-plugin.md   # 设计方案（现有，工作稿）
-├── rules-pack/                       # 内置规则包 —— 唯一版本化内容源（manifest + sha256 门禁）
+├── REQUIREMENTS-dsh-rules-plugin.md  # 需求与目标（定案 v1.0，范围口径）
+├── DESIGN-dsh-rules-plugin.md        # 设计方案（工作稿，已按 v1.0 对齐）
+├── rules-pack/                       # 内置规则包 —— 唯一版本化内容源（manifest + sha256）
 │   ├── manifest.json                 #   version + files[]（target/source/sha256）+ features 开关
-│   ├── global/AGENTS.md              #   → ~/.dsh/AGENTS.md 全局常设规则
-│   ├── notes-skeleton/               #   → <project>/.agents/notes/ 新鲜骨架（README 三件套+四象限）
-│   ├── standing-orders-block.md      #   → 项目根 AGENTS.md 的 marker 规则块
-│   ├── skills-optional/              #   可选通用技能（SKILL.md，用户挑选）
-│   └── features/                     #   特性规则族：text-link-management / bilingual-docs（默认关）
-└── plugin/                           # dsh-rules 插件源码（host 层，安装器/管理器）
-    ├── dsh-rules.mjs
+│   ├── notes-skeleton/               #   → <project>/.agents/notes/ 骨架（双语三件套+四象限）
+│   ├── standing-orders-block.md      #   → 项目根 AGENTS.md 的 marker 规则块（指针式）
+│   ├── skills-optional/              #   可选通用技能（init --skill 挑选取用，依赖包式副本）
+│   └── features/                     #   特性规则族（textLinkManagement/bilingualDocsDiscipline 等）
+└── plugin/                           # dsh-rules 插件源码（host 层，项目级安装器/管理器）
+    ├── dsh-rules.mjs                 #   Cordis 插件入口（挂载无副作用）
+    ├── bin/dsh-rules.mjs             #   CLI 入口（init/upgrade/status/audit/hash/list-skills）
+    ├── lib/                          #   engine / pack / cli / diff
     ├── cordis.patch.sample.yml       #   挂载样例（cordis.patch.yml insert）
     └── README.md
 ```
 
 ## 当前状态与下一步
 
-- 目录与占位文件已就绪；各占位文件标注 `[实现期]`，内容从 `/Users/xuxifeng/Work/vibe-coding-templates`
-  （`.template/`、`.agents/`）提炼填充。
-- 实现顺序（DESIGN §8）：**M0** 手放全局规则 + 通用 skill 验证注入 → **M1** 挂载插件、实现
-  `install-global`/`init` → **M2** `status`/`upgrade`/`audit` + 污染迁移 → **M3** 可分发。
-- 说明：占位文件多为空模板；`rules-pack/notes-skeleton/{proposed,rejected}` 目录靠 `.gitkeep`
-  保持存在，实际骨架物化在插件 `init` 时生成。
+- 需求口径：**REQUIREMENTS v1.0 定案**（项目级初始化器、不碰全局面、默认特性开、双语纪律段默认关）。
+- M1 引擎：已按 v1.0 改造并通过冒烟验证（全局落点退役；幂等 init/upgrade；status/audit 只读项目面；
+  冲突保护；`--skill` 项目技能副本；manifest features 默认值同步）。
+- 规则内容：`rules-pack/` 正文仍为 `[实现期]` 占位，待从 `/Users/xuxifeng/Work/vibe-coding-templates`
+  （`.template/`、`.agents/`）提炼填充（提炼后同步 manifest sha256）。
+- 待办：rules-pack 内容提炼（M1）；真实项目挂载与验证（M2）；M3 可分发（npm 包/官方化）。

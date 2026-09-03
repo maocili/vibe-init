@@ -4,7 +4,8 @@
 // 本插件不硬编码任何规则内容（DESIGN §3）。
 //
 // M1 形态说明：apply() 在挂载时【不产生任何副作用】（不做自动物化），只校验规则包并就绪提示。
-// 物化动作（init / upgrade / install-global / status / audit / hash）通过随附 CLI
+// 物化动作（init / upgrade / status / audit / hash；install-global 已按 REQUIREMENTS v1.0
+// 退役——不写全局面）通过随附 CLI
 // （bin/dsh-rules.mjs，同一引擎 lib/engine.mjs）驱动；待会话工具注册 API 面验证后
 // （DESIGN §6「待验证 API」），工具将直接调用引擎函数 —— 若不可用，回退方案为随包 skill 驱动。
 import { loadPack } from './lib/pack.mjs'
@@ -20,7 +21,7 @@ export async function apply(/* ctx */) {
     const cli = new URL('./bin/dsh-rules.mjs', import.meta.url).pathname
     const problems = pack.problems.length ? ' (' + pack.problems.length + ' pack problem(s) — run "audit")' : ''
     console.log('[dsh-rules] mounted — pack ' + pack.version + ' @ ' + packDir + problems)
-    console.log('[dsh-rules] M1 actions: node ' + cli + ' <init|upgrade|install-global|status|audit|hash> [--project <dir>] [--dsh-home <dir>] [--dry-run|--yes]')
+    console.log('[dsh-rules] M1 actions (project-only, REQUIREMENTS v1.0): node ' + cli + ' <init|upgrade|status|audit|hash> [--project <dir>] [--skill <name>] [--dry-run|--yes]')
   } catch (err) {
     console.warn('[dsh-rules] mounted, but pack unavailable: ' + (err && err.message ? err.message : err))
   }

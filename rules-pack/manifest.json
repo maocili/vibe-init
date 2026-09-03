@@ -2,13 +2,6 @@
   "version": "0.1.0-draft",
   "files": [
     {
-      "id": "global-standing-orders",
-      "target": "~/.dsh/AGENTS.md",
-      "source": "global/AGENTS.md",
-      "mode": "merge-or-replace-by-marker",
-      "sha256": "184819214897b971ae86ff6926b9b4fc90e42d559a50175338be752a2560d3f4"
-    },
-    {
       "id": "project-notes-readme",
       "target": ".agents/notes/README.md",
       "source": "notes-skeleton/README.md",
@@ -58,14 +51,15 @@
       "target": "AGENTS.md",
       "source": "features/bilingual-docs.md",
       "mode": "append-under-marker",
-      "feature": "bilingualPairing",
+      "feature": "bilingualDocsDiscipline",
       "sha256": "3a326b2caf6ef0bfc154d360ea9d63ec4305acd17869cab6c586a1655797d206"
     }
   ],
   "features": {
-    "textLinkManagement": false,
-    "bilingualPairing": false,
-    "docBudgets": false,
+    "textLinkManagement": true,
+    "bilingualPairing": true,
+    "bilingualDocsDiscipline": false,
+    "docBudgets": true,
     "optionalSkills": []
   }
 }

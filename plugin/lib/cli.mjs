@@ -6,17 +6,17 @@ import { createInterface } from 'node:readline'
 import { join } from 'node:path'
 import { loadPack, hashPack } from './pack.mjs'
 import {
-  defaultPackDir, defaultDshHome, defaultSkillRoot, resolveProjectRoot,
-  planProject, planGlobal, evaluatePlan, applyResults, summarize, auditExtras
+  defaultPackDir, resolveProjectRoot,
+  planProject, evaluatePlan, applyResults, summarize, auditExtras
 } from './engine.mjs'
 
 const USAGE = `dsh-rules <command> [options]
 
-Commands (M1):
-  init             Materialize project scope: .agents/notes skeleton + root AGENTS.md block
+Commands (M1, REQUIREMENTS v1.0 — project-only; the global plane is never written):
+  init             Materialize project scope: .agents/notes skeleton + root AGENTS.md rule
+                   segments (+ selected optional skill copies into .agents/skills)
   upgrade          Alias of init for pack-version migration (same idempotent engine)
-  install-global   Write global standing orders (~/.dsh/AGENTS.md segment) + optional skills
-  status           Report installed/drifted state for project and global scopes (read-only)
+  status           Report installed/drifted state for the project scope (read-only)
   audit            status + pack integrity + old-residue heuristics (read-only)
   hash             Refresh manifest.json sha256 to current pack sources
   list-skills      List optional skills available in the pack (skills-optional/*)
@@ -25,9 +25,7 @@ Commands (M1):
 Options:
   --project <dir>   Project to act on (default: cwd, resolved upward to the .git root)
   --pack <dir>      Rule pack directory (default: repo-sibling ../rules-pack)
-  --dsh-home <dir>  DSH home resolving ~/.dsh targets (default: \$DSH_HOME or ~/.dsh)
-  --skill-root <dir> User skill root for optional skills (default: ~/.agents/skills)
-  --skill <name>    Install this optional skill (repeatable; install-global)
+  --skill <name>    Copy this optional skill into <project>/.agents/skills (repeatable; init/upgrade)
   --dry-run         Compute + preview only, never write
   --yes             Apply without interactive confirmation
   --force           Overwrite conflicting files (use with care — never for user notes)
@@ -42,8 +40,6 @@ function parseArgs(argv) {
     const take = (name) => { if (i + 1 >= argv.length) throw new Error('missing value for ' + name); return argv[++i] }
     if (a === '--project') opts.project = take(a)
     else if (a === '--pack') opts.pack = take(a)
-    else if (a === '--dsh-home') opts.dshHome = take(a)
-    else if (a === '--skill-root') opts.skillRoot = take(a)
     else if (a === '--skill') opts.skills.push(take(a))
     else if (a === '--dry-run') opts.dryRun = true
     else if (a === '--yes') opts.yes = true
@@ -131,13 +127,11 @@ export async function main(argv, io = {}) {
       return 0
     }
 
-    const dshHome = opts.dshHome || defaultDshHome()
     const projectRoot = opts.project ? await resolveProjectRoot(opts.project) : await resolveProjectRoot(process.cwd())
-    const skillRoot = opts.skillRoot || defaultSkillRoot()
-    const scopeOpts = { force: !!opts.force, skills: opts.skills, skillRoot }
+    const scopeOpts = { force: !!opts.force, skills: opts.skills }
 
     if (command === 'init' || command === 'upgrade') {
-      const plan = await planProject(pack, projectRoot)
+      const plan = await planProject(pack, projectRoot, scopeOpts)
       out('[dsh-rules] ' + command + ' — pack ' + pack.version + ' @ ' + pack.dir)
       out('  project: ' + plan.projectRoot)
       const r = await reviewThenApply(command, plan, pack, Object.assign({}, opts, { verbose: true }), 'project')
@@ -145,24 +139,17 @@ export async function main(argv, io = {}) {
       return 0
     }
     if (command === 'install-global') {
-      const plan = await planGlobal(pack, dshHome, scopeOpts)
-      out('[dsh-rules] install-global — pack ' + pack.version + ' @ ' + pack.dir)
-      out('  dsh home: ' + dshHome + '  skill root: ' + plan.skillRoot)
-      const r = await reviewThenApply('install-global', plan, pack, Object.assign({}, opts, { verbose: true }), 'global')
-      if (opts.json) out(JSON.stringify({ command, dshHome, skillRoot: plan.skillRoot, summary: r.summary }))
-      return 0
+      err('install-global retired (REQUIREMENTS v1.0 D1/D2): the plugin never writes the global plane (~/.dsh/AGENTS.md, user skill roots). Optional skills install per project via: init --skill <name>')
+      return 2
     }
     if (command === 'status' || command === 'audit') {
-      const pPlan = await planProject(pack, projectRoot)
-      const gPlan = await planGlobal(pack, dshHome, scopeOpts)
+      const pPlan = await planProject(pack, projectRoot, scopeOpts)
       const pRes = await evaluatePlan(pPlan, {})
-      const gRes = await evaluatePlan(gPlan, {})
       const extras = command === 'audit' ? await auditExtras(pack, projectRoot) : []
       if (opts.json) {
         const payload = {
           pack: { dir: pack.dir, version: pack.version, problems: pack.problems },
           project: { root: projectRoot, results: pRes.map((x) => ({ action: x.action, label: x.label })), summary: summarize(pRes) },
-          global: { dshHome, results: gRes.map((x) => ({ action: x.action, label: x.label })), summary: summarize(gRes) },
           notes: extras
         }
         out(JSON.stringify(payload))
@@ -170,8 +157,6 @@ export async function main(argv, io = {}) {
         out('[dsh-rules] ' + command + ' — pack ' + pack.version + ' @ ' + pack.dir)
         out('project scope (' + projectRoot + '):')
         for (const r of pRes) out('  ' + rowLine(r))
-        out('global scope (dshHome=' + dshHome + '):')
-        for (const r of gRes) out('  ' + rowLine(r))
         for (const n of extras) out('  [' + n.level + '] ' + n.what + ': ' + n.detail)
       }
       const flagged = pack.problems.length || extras.some((n) => n.level === 'warn' || n.level === 'flag')

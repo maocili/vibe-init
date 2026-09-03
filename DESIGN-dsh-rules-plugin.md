@@ -149,7 +149,7 @@ rules-pack/manifest.json（当前实现；features 语义按 REQUIREMENTS §3.2�
 | 阶段 | 内容 | 状态/验收 |
 |---|---|---|
 | M0 引擎对齐 | 全局面退役、项目级技能副本、features v1.0、同文件多段/幂等修复 | 已完成（2026-09-03 冒烟：幂等 init/upgrade、conflict 保护、技能副本） |
-| M1 内容提炼 | rules-pack 正文从 ../vibe-coding-templates 提炼（指针式根块、骨架门规、双语三件套、特性段）+ manifest sha256 | 进行中（2026-09-03）：上列已实写并 hash 同步；skills-optional/docBudgets 正文待提炼 |
+| M1 内容提炼 | rules-pack 正文从 ../vibe-coding-templates 提炼（指针式根块、骨架门规、双语三件套、textLink/bilingualDocs/docBudgets 特性段）+ manifest sha256 | 已完成（2026-09-03）；skills-optional 待 DP-F 解除 |
 | M2 真实项目 | 挂载 cordis.patch；对一个真实新项目跑 init；污染仓库迁移实测 | 新会话基线含规则段；重复运行幂等 |
 | M3 可分发 | 规则包打 tag；插件包装 npm 包/官方化；文档 | 另一机器/另一项目可一键安装 |
 

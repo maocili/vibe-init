@@ -68,6 +68,14 @@ test('init is idempotent via the CLI and status has no global scope', () => {
   assert.deepEqual(audJson.notes.filter((n) => n.what === 'pack-drift'), [])
 })
 
+test('plugin apply() mounts with no side effects (R10)', () => {
+  const script = "import('./plugin/dsh-rules.mjs').then((m) => m.apply({}))"
+  const r = spawnSync(process.execPath, ['-e', script], { encoding: 'utf8', cwd: ROOT })
+  assert.equal(r.status, 0)
+  assert.ok(r.stdout.includes('mounted'))
+  assert.ok(!r.stderr.includes('[dsh-rules] mounted, but pack unavailable'))
+})
+
 test('hash runs against a pack copy only and reaches 0 drift', () => {
   const packCopy = join(TMP, 'pack')
   cpSync(REAL_PACK, packCopy, { recursive: true })

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import { cleanSource, loadPack, hashPack } from '../lib/pack.mjs'
 import {
   planProject, evaluatePlan, applyResults, upsertSegmentText, removeSegmentText,
-  resolveProjectRoot
+  resolveProjectRoot, auditExtras
 } from '../lib/engine.mjs'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
@@ -137,6 +137,48 @@ test('skills: copy into project, idempotent, user edit -> conflict not overwritt
   writeFileSync(join(proj, '.agents', 'skills', 'sample', 'SKILL.md'), '# user skill\n')
   const res = await evaluatePlan(await planProject(pack, proj, { skills: ['sample'] }), {})
   assert.equal(res.find((r) => r.id === 'skill:sample:SKILL.md').action, 'conflict')
+})
+
+test('upgrade is isolated: only the version-changed segment updates, notes untouched', async () => {
+  const packDir = makePack()
+  const proj = fixtureProject('upgrade')
+  writeFileSync(join(proj, 'AGENTS.md'), '## Product\n')
+  const pack1 = await loadPack(packDir)
+  await applyResults(await evaluatePlan(await planProject(pack1, proj), {}))
+  const notesBefore = readFileSync(join(proj, '.agents', 'notes', 'AGENTS.md'), 'utf8')
+  // pack author ships a new version of one rule segment only
+  writeFileSync(join(packDir, 'standing-orders-block.md'), readFileSync(join(packDir, 'standing-orders-block.md'), 'utf8') + '\n- (v2) new standing line\n')
+  const pack2 = await loadPack(packDir)
+  const res = await evaluatePlan(await planProject(pack2, proj), {})
+  const standing = res.find((r) => r.id === 'project-standing-orders-block')
+  assert.equal(standing.action, 'update')
+  const notesRes = res.find((r) => r.label === '.agents/notes/AGENTS.md')
+  assert.equal(notesRes.action, 'skip')
+  assert.equal(readFileSync(join(proj, '.agents', 'notes', 'AGENTS.md'), 'utf8'), notesBefore)
+  await applyResults(res)   // apply the computed update
+  const root = readFileSync(join(proj, 'AGENTS.md'), 'utf8')
+  assert.ok(root.includes('(v2) new standing line'))
+  assert.equal(readFileSync(join(proj, '.agents', 'notes', 'AGENTS.md'), 'utf8'), notesBefore)
+})
+
+test('polluted project: residue flagged, user notes never clobbered', async () => {
+  const proj = fixtureProject('polluted')
+  writeFileSync(join(proj, 'AGENTS.md'), '## Product rules\n')
+  mkdirSync(join(proj, '.template'), { recursive: true })                    // old copy residue
+  mkdirSync(join(proj, '.agents', 'skills', 'dsh-old'), { recursive: true }) // dsh-* redundancy
+  mkdirSync(join(proj, '.agents', 'notes', 'proposed'), { recursive: true })
+  writeFileSync(join(proj, '.agents', 'notes', '2026-08-19-container-history.md'), '# old\n') // unknown top-level
+  writeFileSync(join(proj, '.agents', 'notes', 'README.md'), '# user README — hand-edited\n')
+  const pack = await loadPack(REAL_PACK)
+  const extras = await auditExtras(pack, proj)
+  const kinds = extras.map((n) => n.what)
+  assert.ok(kinds.includes('residue-template'))
+  assert.ok(kinds.includes('residue-skill'))
+  assert.ok(kinds.includes('unknown-top-level'))
+  const res = await evaluatePlan(await planProject(pack, proj), {})
+  const readme = res.find((r) => r.label === '.agents/notes/README.md')
+  assert.equal(readme.action, 'conflict')
+  assert.equal(readFileSync(join(proj, '.agents', 'notes', 'README.md'), 'utf8'), '# user README — hand-edited\n')
 })
 
 test('hashPack refreshes sha256 after a pack source changes', async () => {

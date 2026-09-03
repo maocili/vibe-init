@@ -34,3 +34,9 @@
 ## Pending (awaiting user decision)
 - Real mount into ~/.dsh/profiles/web/cordis.patch.yml + M2 verification;
 - docBudgets wording review; DP-F/DP-G (skill declaration/self-install detection); M3 distribution.
+## 2026-09-03 — traceability & consistency
+
+### docs: ACCEPTANCE matrix + consistency pass
+- ACCEPTANCE.md: REQUIREMENTS v1.0 D1-D10/R1-R10 traced to tests, commands, and code facts;
+  milestone status table (M0/M1 done; M2 needs user confirmation; M3 not started)
+- stale counts and status lines fixed across docs (17/17; docBudgets done; DESIGN todo tail)

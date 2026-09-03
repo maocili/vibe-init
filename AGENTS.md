@@ -32,7 +32,8 @@
   `manifest.json` 声明文件清单与 `sha256`（含 features 开关）；子目录映射物化目标
   （`notes-skeleton/` → 项目 `.agents/notes/`，`standing-orders-block.md` → 项目根 `AGENTS.md`
   的 marker 段，`skills-optional/` → 项目 `.agents/skills/`，`features/`）。`global/`（→ ~/.dsh）
-  已按 v1.0 退役删除。当前为骨架，占位文件标注 `[实现期]`，待从源容器语料提炼。
+  已按 v1.0 退役删除。内容提炼进行中（M1）：骨架门规/双语三件套/根块/特性段已实写并同步 sha256；
+  skills-optional 与 docBudgets 正文待提炼。
 - [`plugin/`](plugin/README.md) — dsh-rules 插件源码（host 层安装器/管理器）：
   `dsh-rules.mjs` + `cordis.patch.sample.yml`（挂载样例）。
 - `.template/` + `.agents/` — 从源容器（vibe-coding-templates）带入的子树：`.agents/notes/` 是

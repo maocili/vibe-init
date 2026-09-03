@@ -42,6 +42,6 @@ dsh-rules/
 - 需求口径：**REQUIREMENTS v1.0 定案**（项目级初始化器、不碰全局面、默认特性开、双语纪律段默认关）。
 - M1 引擎：已按 v1.0 改造并通过冒烟验证（全局落点退役；幂等 init/upgrade；status/audit 只读项目面；
   冲突保护；`--skill` 项目技能副本；manifest features 默认值同步）。
-- 规则内容：`rules-pack/` 正文仍为 `[实现期]` 占位，待从 `/Users/xuxifeng/Work/vibe-coding-templates`
-  （`.template/`、`.agents/`）提炼填充（提炼后同步 manifest sha256）。
+- 规则内容：`rules-pack/` 内容提炼进行中（M1）——骨架门规、双语三件套、指针式根块、特性段已实写并同步
+  manifest sha256；`skills-optional/` 与 docBudgets 正文待提炼。
 - 待办：rules-pack 内容提炼（M1）；真实项目挂载与验证（M2）；M3 可分发（npm 包/官方化）。

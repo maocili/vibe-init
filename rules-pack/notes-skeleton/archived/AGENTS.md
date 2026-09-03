@@ -1,1 +1,5 @@
-<!-- 占位：archived/ 目录门规（待提炼：归档命名与保留规则）。骨架物化时保持为空模板。 -->
+# archived/ — Agent Notes
+
+Archived notes are permanently frozen historical snapshots (Status: implemented + an Archived: line).
+Never edit, translate, reformat, update, move, or delete them, and never treat them as authority for
+current behavior. Active prose may still link into an archived note when it intentionally cites history.

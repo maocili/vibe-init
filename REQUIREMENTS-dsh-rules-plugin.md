@@ -77,8 +77,8 @@
 
 | 落点 | 物化内容 | 状态 |
 |---|---|---|
-| <project>/AGENTS.md | note 纪律规则块 + 文本链接纪律段（marker 包裹） | 内容 [实现期] 占位 |
-| <project>/.agents/notes/ | 笔记骨架：README（双语三件套）+ AGENTS.md 门规 + manifest + 四象限目录 | 内容 [实现期] 占位 |
+| <project>/AGENTS.md | note 纪律规则块 + 文本链接纪律段（marker 包裹） | 已实写（2026-09-03 M1 提炼） |
+| <project>/.agents/notes/ | 笔记骨架：README（双语三件套）+ AGENTS.md 门规 + manifest + 四象限目录 | 已实写（2026-09-03 M1 提炼） |
 | <project>/.agents/skills/ | 声明内技能副本（依赖包式，挑选制） | 空（skills-optional 待提炼） |
 | ~/.dsh/AGENTS.md、用户技能根 | **不物化任何内容（D1）** | — 从范围删除 |
 | 规则/技能文本的版本化出处 | rules-pack/（本仓库） | manifest 有 sha256；正文占位 |

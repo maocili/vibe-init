@@ -5,25 +5,25 @@
       "id": "project-notes-readme",
       "target": ".agents/notes/README.md",
       "source": "notes-skeleton/README.md",
-      "sha256": "6cc9c75f06ccd83c2b75528134c5eef217214e1f7f9eea5a7b109b741c2312ee"
+      "sha256": "beb075cc53748226fa4c42e62fc3b7b0f61d9377eda57547f4427f87e271e567"
     },
     {
       "id": "project-notes-readme-zh",
       "target": ".agents/notes/README.zh.md",
       "source": "notes-skeleton/README.zh.md",
-      "sha256": "ff1f9f8f5c7ce2bf1c9cf3bbb79cd5733f262087bf77050fcc948f84df64013c"
+      "sha256": "026ab8c204683e379c8f11606b482f37d00b59bf5eccaacb5b768585d8a3b40f"
     },
     {
       "id": "project-notes-i18n",
       "target": ".agents/notes/README.i18n.yaml",
       "source": "notes-skeleton/README.i18n.yaml",
-      "sha256": "5cee8a16f4cf55f107ebbc6ab1e8e1dfae5bc13ac2c911ef63ff756d7ea6f0a7"
+      "sha256": "45df95c6d9d7c34c7e7422ae4ca8f2befd48f058cc6c4117bd8b61b9ebc5e2d7"
     },
     {
       "id": "project-notes-agents",
       "target": ".agents/notes/AGENTS.md",
       "source": "notes-skeleton/AGENTS.md",
-      "sha256": "091cef3f5c6efd8903f5f2c0320929a34e09201949fbe98d8669998233cd0e1b"
+      "sha256": "15846bb03d2b73348777b4ff950858310f29a8bb306f2535b8b5c7692d7a0c42"
     },
     {
       "id": "project-notes-manifest",
@@ -36,7 +36,7 @@
       "target": "AGENTS.md",
       "source": "standing-orders-block.md",
       "mode": "append-under-marker",
-      "sha256": "15356e9a8c28cae00e18b53e95a494449d11ce64401b4437c351251381abf828"
+      "sha256": "fc1cd7910ffbeb7706fe49aa3ad7ada04cad837c4d3d96d502f877eef4f898ac"
     },
     {
       "id": "feature-text-link-management",
@@ -44,7 +44,7 @@
       "source": "features/text-link-management.md",
       "mode": "append-under-marker",
       "feature": "textLinkManagement",
-      "sha256": "80d1b98fbcd5d1aec3d924023af88fd588f336c310cc032af40a47ecd18e80ae"
+      "sha256": "4175a89f7050b96ca199423c633589408b0b9909ca07c00fbb25acbc4a720662"
     },
     {
       "id": "feature-bilingual-docs",
@@ -52,7 +52,7 @@
       "source": "features/bilingual-docs.md",
       "mode": "append-under-marker",
       "feature": "bilingualDocsDiscipline",
-      "sha256": "3a326b2caf6ef0bfc154d360ea9d63ec4305acd17869cab6c586a1655797d206"
+      "sha256": "d0af3f65111293c1b3705f60938e4ab35974cee29599cba82d132d69476abd58"
     }
   ],
   "features": {

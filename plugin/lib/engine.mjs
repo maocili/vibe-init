@@ -133,7 +133,8 @@ export async function planProject(pack, projectRoot, opts = {}) {
   // (b) marker-managed segments onto the project root AGENTS.md
   for (const row of pack.rows) {
     if (row.target !== 'AGENTS.md') continue
-    const enabled = !row.feature || (opts.features ? !!opts.features[row.feature] : !!pack.features[row.feature])
+    // feature gate: run-level override (opts.features) wins per key; absent keys fall back to pack defaults
+    const enabled = !row.feature || (opts.features && row.feature in opts.features ? !!opts.features[row.feature] : !!pack.features[row.feature])
     const raw = enabled ? cleanSource(await readFile(row.sourceAbs, 'utf8')) : null
     entries.push({
       kind: 'segment', id: row.id, targetAbs: join(projectRoot, 'AGENTS.md'),

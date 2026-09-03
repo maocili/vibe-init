@@ -3,4 +3,4 @@
 # 可分发形态（M3）再改为 profile 依赖的 npm 包或官方化（DESIGN §6）。
 - insert:
     - id: dsh-rules
-      name: file:////Users/xuxifeng/Work/dsh-rules/plugin/dsh-rules.mjs
+      name: file:///Users/xuxifeng/Work/dsh-rules/plugin/dsh-rules.mjs

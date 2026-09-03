@@ -39,7 +39,9 @@
 | `list-skills` | 规则包 | 列出 `skills-optional/` 可选技能 |
 
 选项：`--project <dir>`（默认 cwd，向上找 `.git` 定界）· `--pack <dir>`（默认 repo 兄弟 `../rules-pack`，可 `$DSH_RULES_PACK`）·
-`--skill <name>`（可重复，复制技能进 `<project>/.agents/skills/<name>`）· `--dry-run` · `--yes` · `--force` · `--json`。
+`--skill <name>`（可重复，复制技能进 `<project>/.agents/skills/<name>`）·
+`--feature <key>=<true|false>`（可重复：本次运行覆盖 feature 默认值；关闭的既有段会被移除）·
+`--dry-run` · `--yes` · `--force` · `--json`。
 
 ## 物化语义（引擎要点）
 
@@ -54,7 +56,9 @@
   （REQUIREMENTS §7 DP-F/DP-G）暂缓**，v1 只保证「安装 + 幂等 + 不覆盖自装」。
 - **冲突策略**：copy 型文件已存在且内容不同 → 报 `conflict` 并跳过（绝不覆盖），除非 `--force`；段型写入永不冲突。
 - **幂等**：第二次运行与第一次结果字节一致，报告 "nothing to do"（已冒烟验证：连跑三次 init/upgrade 无写入）。
-- **feature 默认值（v1.0）**：`textLinkManagement`/`bilingualPairing`/`docBudgets` 默认开；双语纪律段为独立 key `bilingualDocsDiscipline`、默认关（见 `rules-pack/manifest.json` 与 REQUIREMENTS §3.2）。
+- **feature 默认值（v1.0）**：`textLinkManagement`/`bilingualPairing`/`docBudgets` 默认开；双语纪律段为独立 key `bilingualDocsDiscipline`、默认关。
+  每次运行可用 `--feature <key>=<true|false>` 覆盖（按 key 合并、未覆盖者回落默认；关闭的段被移除），
+  已冒烟验证默认态往返字节一致。
 - **安全测试**：用 `--project` 指向临时 git 项目即可完整演练；对真实项目写前会先展示计划并要求确认。
 
 ## 挂载与开放问题

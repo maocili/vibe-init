@@ -26,6 +26,7 @@ Options:
   --project <dir>   Project to act on (default: cwd, resolved upward to the .git root)
   --pack <dir>      Rule pack directory (default: repo-sibling ../rules-pack)
   --skill <name>    Copy this optional skill into <project>/.agents/skills (repeatable; init/upgrade)
+  --feature <k>=<t|f> Override a pack feature for this run (repeatable; e.g. bilingualDocsDiscipline=true)
   --dry-run         Compute + preview only, never write
   --yes             Apply without interactive confirmation
   --force           Overwrite conflicting files (use with care — never for user notes)
@@ -34,13 +35,19 @@ Options:
 `
 
 function parseArgs(argv) {
-  const opts = { skills: [], positionals: [] }
+  const opts = { skills: [], features: {}, positionals: [] }
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]
     const take = (name) => { if (i + 1 >= argv.length) throw new Error('missing value for ' + name); return argv[++i] }
     if (a === '--project') opts.project = take(a)
     else if (a === '--pack') opts.pack = take(a)
     else if (a === '--skill') opts.skills.push(take(a))
+    else if (a === '--feature') {
+      const v = take(a)
+      const eq = v.indexOf('=')
+      if (eq < 1 || v.slice(eq + 1) !== 'true' && v.slice(eq + 1) !== 'false') throw new Error('--feature expects <key>=<true|false>, got: ' + v)
+      opts.features[v.slice(0, eq)] = v.slice(eq + 1) === 'true'
+    }
     else if (a === '--dry-run') opts.dryRun = true
     else if (a === '--yes') opts.yes = true
     else if (a === '--force') opts.force = true
@@ -128,7 +135,7 @@ export async function main(argv, io = {}) {
     }
 
     const projectRoot = opts.project ? await resolveProjectRoot(opts.project) : await resolveProjectRoot(process.cwd())
-    const scopeOpts = { force: !!opts.force, skills: opts.skills }
+    const scopeOpts = { force: !!opts.force, skills: opts.skills, features: opts.features }
 
     if (command === 'init' || command === 'upgrade') {
       const plan = await planProject(pack, projectRoot, scopeOpts)

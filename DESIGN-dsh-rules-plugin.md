@@ -105,7 +105,8 @@ rules-pack/manifest.json（当前实现；features 语义按 REQUIREMENTS §3.2�
 | list-skills | 规则包 | 列出 skills-optional 可选技能 |
 
 选项：--project（默认 cwd，向上找 .git 定界）· --pack（默认 repo 兄弟 ../rules-pack，可 $DSH_RULES_PACK）·
---skill <name>（可重复）· --dry-run · --yes · --force · --json。install-global 已退役：调用返回明确错误
+--skill <name>（可重复）· --feature <key>=<true|false>（可重复：本次运行覆盖 feature 默认值，关闭的既有段被移除）·
+--dry-run · --yes · --force · --json。install-global 已退役：调用返回明确错误
 （v1.0 D1/D2，不写全局面）。
 
 物化语义（engine 已实现）：

@@ -5,7 +5,7 @@ import assert from 'node:assert/strict'
 import { cpSync, mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { cleanSource, loadPack } from '../lib/pack.mjs'
+import { cleanSource, loadPack, hashPack } from '../lib/pack.mjs'
 import {
   planProject, evaluatePlan, applyResults, upsertSegmentText, removeSegmentText,
   resolveProjectRoot
@@ -134,6 +134,25 @@ test('skills: copy into project, idempotent, user edit -> conflict not overwritt
   writeFileSync(join(proj, '.agents', 'skills', 'sample', 'SKILL.md'), '# user skill\n')
   const res = await evaluatePlan(await planProject(pack, proj, { skills: ['sample'] }), {})
   assert.equal(res.find((r) => r.id === 'skill:sample:SKILL.md').action, 'conflict')
+})
+
+test('hashPack refreshes sha256 after a pack source changes', async () => {
+  const packDir = makePack()
+  const target = join(packDir, 'standing-orders-block.md')
+  writeFileSync(target, readFileSync(target, 'utf8') + '\nchanged\n')
+  const out = await hashPack(packDir)
+  assert.ok(out.changed >= 1)
+  const pack = await loadPack(packDir)
+  assert.equal(pack.problems.length, 0)
+  const row = pack.rows.find((r) => r.id === 'project-standing-orders-block')
+  assert.equal(row.declaredSha256, row.actualSha256)
+})
+
+test('loadPack reports rows whose source file is missing', async () => {
+  const packDir = makePack()
+  rmSync(join(packDir, 'standing-orders-block.md'), { force: true })
+  const pack = await loadPack(packDir)
+  assert.ok(pack.problems.some((m) => m.includes('missing source file')))
 })
 
 test('resolveProjectRoot stops at the nearest .git', async () => {

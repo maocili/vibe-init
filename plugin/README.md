@@ -66,8 +66,20 @@
 
 ## 挂载与开放问题
 
-1. 把 `cordis.patch.sample.yml` 的 insert 条目并入 `~/.dsh/profiles/web/cordis.patch.yml`（`name: file://…`
-   绝对路径），重启 profile 后 `apply()` 打印就绪行即验证挂载（挂载本身无副作用）。
-2. 待验证 API（DESIGN §6）：`dsh-tools` 的 `defineTool` 会话工具注册 / GUI 菜单项注册。若可用，工具直接调用
+1. **真实挂载（需用户显式确认——会写 ~/.dsh）**：把下列条目并入 `~/.dsh/profiles/web/cordis.patch.yml`
+   顶层数组（与 dsh-obsidian-bridge 同机制；`file:////` 四斜杠为宿主惯用形态）：
+
+   ```yaml
+   # dsh-rules: begin
+   - insert:
+       - id: dsh-rules
+         name: file:////Users/xuxifeng/Work/dsh-rules/plugin/dsh-rules.mjs
+   # dsh-rules: end
+   ```
+
+   重启 DSH profile 后日志出现 `[dsh-rules] mounted — pack …` 即挂载成功（`apply()` 无副作用）。
+2. **挂载后验证清单（M2）**：新项目 `init --dry-run` → `init --yes`：骨架 + 根规则段生效、重跑幂等；
+   `status`/`audit` 只读且无 pack-drift；含旧残留的项目 init 报 conflict/residue。
+3. 待验证 API（DESIGN §6）：`dsh-tools` 的 `defineTool` 会话工具注册 / GUI 菜单项注册。若可用，工具直接调用
    `lib/engine.mjs` 的 plan/evaluate/apply；否则回退 = 插件做 host 物化 + 随包 skill 驱动。
-3. 后续开发（按 REQUIREMENTS §6）：DESIGN 全局安装面章节同步修订、rules-pack 内容提炼、真实项目 M0 验证。
+4. 后续开发：docBudgets 轻量正文（物化目标待定）、DP-F/DP-G 解除后实现、M3 分发。

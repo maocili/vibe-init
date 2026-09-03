@@ -1,0 +1,13 @@
+{
+  "name": "dsh-rules",
+  "version": "0.1.0",
+  "private": true,
+  "description": "DSH host plugin (installer/manager) that materializes versioned rule packs: global standing orders (~/.dsh/AGENTS.md) + fresh per-project notes skeleton. Content lives in ../rules-pack.",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "exports": {
+    ".": "./dsh-rules.mjs",
+    "./lib/*": "./lib/*.mjs"
+  },
+  "bin": { "dsh-rules": "./bin/dsh-rules.mjs" }
+}

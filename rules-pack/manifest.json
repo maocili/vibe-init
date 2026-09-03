@@ -1,0 +1,71 @@
+{
+  "version": "0.1.0-draft",
+  "files": [
+    {
+      "id": "global-standing-orders",
+      "target": "~/.dsh/AGENTS.md",
+      "source": "global/AGENTS.md",
+      "mode": "merge-or-replace-by-marker",
+      "sha256": "184819214897b971ae86ff6926b9b4fc90e42d559a50175338be752a2560d3f4"
+    },
+    {
+      "id": "project-notes-readme",
+      "target": ".agents/notes/README.md",
+      "source": "notes-skeleton/README.md",
+      "sha256": "6cc9c75f06ccd83c2b75528134c5eef217214e1f7f9eea5a7b109b741c2312ee"
+    },
+    {
+      "id": "project-notes-readme-zh",
+      "target": ".agents/notes/README.zh.md",
+      "source": "notes-skeleton/README.zh.md",
+      "sha256": "ff1f9f8f5c7ce2bf1c9cf3bbb79cd5733f262087bf77050fcc948f84df64013c"
+    },
+    {
+      "id": "project-notes-i18n",
+      "target": ".agents/notes/README.i18n.yaml",
+      "source": "notes-skeleton/README.i18n.yaml",
+      "sha256": "5cee8a16f4cf55f107ebbc6ab1e8e1dfae5bc13ac2c911ef63ff756d7ea6f0a7"
+    },
+    {
+      "id": "project-notes-agents",
+      "target": ".agents/notes/AGENTS.md",
+      "source": "notes-skeleton/AGENTS.md",
+      "sha256": "091cef3f5c6efd8903f5f2c0320929a34e09201949fbe98d8669998233cd0e1b"
+    },
+    {
+      "id": "project-notes-manifest",
+      "target": ".agents/notes/manifest.json",
+      "source": "notes-skeleton/manifest.json",
+      "sha256": "5af473dd97dcb7b98ef793629304742872005060eaffa26ab0a0accee01f4268"
+    },
+    {
+      "id": "project-standing-orders-block",
+      "target": "AGENTS.md",
+      "source": "standing-orders-block.md",
+      "mode": "append-under-marker",
+      "sha256": "15356e9a8c28cae00e18b53e95a494449d11ce64401b4437c351251381abf828"
+    },
+    {
+      "id": "feature-text-link-management",
+      "target": "AGENTS.md",
+      "source": "features/text-link-management.md",
+      "mode": "append-under-marker",
+      "feature": "textLinkManagement",
+      "sha256": "80d1b98fbcd5d1aec3d924023af88fd588f336c310cc032af40a47ecd18e80ae"
+    },
+    {
+      "id": "feature-bilingual-docs",
+      "target": "AGENTS.md",
+      "source": "features/bilingual-docs.md",
+      "mode": "append-under-marker",
+      "feature": "bilingualPairing",
+      "sha256": "3a326b2caf6ef0bfc154d360ea9d63ec4305acd17869cab6c586a1655797d206"
+    }
+  ],
+  "features": {
+    "textLinkManagement": false,
+    "bilingualPairing": false,
+    "docBudgets": false,
+    "optionalSkills": []
+  }
+}

@@ -28,7 +28,7 @@
 | 文本链接管理（交叉引用 / 链接校验语义） | 根 `AGENTS.md`（`features/text-link-management.md`） | 开（`textLinkManagement`） |
 | 双语骨架（md/zh/i18n 三件套） | `notes-skeleton/README.{md,zh.md,i18n.yaml}` | 开（`bilingualPairing` = 三件套语义） |
 | 双语纪律段（md/zh 配对同步纪律，重机制） | 根 `AGENTS.md`（`features/bilingual-docs.md`） | 关（独立 key `bilingualDocsDiscipline`） |
-| doc 分层/预算轻量语义 | 依 `manifest.features.docBudgets` | 开（`docBudgets`） |
+| doc 分层/预算轻量语义 | 根 `AGENTS.md`（`features/doc-budgets.md`） | 开（`docBudgets`） |
 
 > 门禁：文件清单与 `sha256` 由 `manifest.json` 声明；`status` 靠摘要报漂移，`upgrade`
 > 只改规则包版本变化的文件。实现期按 `DESIGN…` §4/§5 落地；容器级评审门禁（doc-sync

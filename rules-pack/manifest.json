@@ -53,6 +53,14 @@
       "mode": "append-under-marker",
       "feature": "bilingualDocsDiscipline",
       "sha256": "d0af3f65111293c1b3705f60938e4ab35974cee29599cba82d132d69476abd58"
+    },
+    {
+      "id": "feature-doc-budgets",
+      "target": "AGENTS.md",
+      "source": "features/doc-budgets.md",
+      "mode": "append-under-marker",
+      "feature": "docBudgets",
+      "sha256": "49e794405509e4813eb5dc6d2b06f7eb7f250c6ab0cc3dcafa3e9283022e028c"
     }
   ],
   "features": {

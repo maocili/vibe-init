@@ -102,7 +102,8 @@ feature 开关语义（v1.0 定案，manifest 待同步）：
 - `bilingualPairing`：默认 **true**；含义 = **双语骨架三件套物化**（README.zh.md/i18n.yaml），
   与纪律段解耦；
 - 双语纪律段：**独立 feature key**（不并入 docBudgets），**默认 false**（D9；key 命名实现期定，建议 bilingualDocsDiscipline）；
-- `docBudgets`：默认 **true**（D10）；轻量 doc 分层/预算语义随默认开箱（物化目标实现期定）；
+- `docBudgets`：默认 **true**（D10）；轻量 doc 分层/预算语义物化为根 `AGENTS.md` 规则段
+  （`features/doc-budgets.md`，2026-09-03 落地；正文可随提炼微调）；
 - `optionalSkills`：可挑选技能清单（声明式依赖，默认空）。
 
 ### 3.3 明确不进入规则包/项目

@@ -85,6 +85,9 @@ test('feature gating: defaults per manifest, run-level override merges per key',
   assert.equal(dflt['project-standing-orders-block'], true)
   assert.equal(dflt['feature-text-link-management'], true)   // manifest default true
   assert.equal(dflt['feature-bilingual-docs'], false)        // bilingualDocsDiscipline default false
+  assert.equal(dflt['feature-doc-budgets'], true)            // docBudgets default true
+  const offD = await seg({ docBudgets: false })
+  assert.equal(offD['feature-doc-budgets'], false)
   const on = await seg({ bilingualDocsDiscipline: true })
   assert.equal(on['feature-bilingual-docs'], true)
   assert.equal(on['feature-text-link-management'], true)     // unmentioned keys fall back to defaults

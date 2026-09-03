@@ -90,7 +90,7 @@ rules-pack/manifest.json（当前实现；features 语义按 REQUIREMENTS §3.2�
 - sha256 内容寻址：status 报漂移，upgrade 只动规则包版本变化的物化文件，绝不动项目自己写的笔记；
 - bilingualPairing（默认 true）= 双语骨架三件套就绪（README.md/zh.md/i18n.yaml）；双语纪律段是独立 key
   bilingualDocsDiscipline（默认 false），两者解耦（REQUIREMENTS D3/D4/D9）；
-- docBudgets 默认 true，物化目标实现期定（轻量 doc 分层/预算语义）；
+- docBudgets 默认 true = doc 分层/预算轻量段入根 AGENTS.md（features/doc-budgets.md，2026-09-03）；
 - 无任何 ~/ 目标行——全局面不物化（v1.0）。
 
 ## 5. 命令面与物化语义（CLI 已实现，2026-09-03 冒烟通过）

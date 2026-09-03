@@ -2,7 +2,7 @@
 
 > 状态：**内容提炼进行中（M1，2026-09-03）**：notes 骨架门规、双语三件套、指针式根块、
 > textLinkManagement / bilingualDocsDiscipline 特性段已实写并同步 manifest sha256（`dsh-rules hash`）；
-> `skills-optional/` 技能内容与 `docBudgets` 正文待提炼（DP-F 暂缓）。
+> `skills-optional/` 技能内容待提炼（DP-F 暂缓）。
 > 本目录是本仓库内「纪律规则内容」的唯一版本化出处；dsh-rules 插件只是**安装器/管理器**，不硬编码
 > 规则文本（依据 `DESIGN-dsh-rules-plugin.md` §3）。语料唯一出处：`/Users/xuxifeng/Work/vibe-coding-templates`。
 

@@ -59,7 +59,7 @@
 - **feature 默认值（v1.0）**：`textLinkManagement`/`bilingualPairing`/`docBudgets` 默认开；双语纪律段为独立 key `bilingualDocsDiscipline`、默认关。
   每次运行可用 `--feature <key>=<true|false>` 覆盖（按 key 合并、未覆盖者回落默认；关闭的段被移除），
   已冒烟验证默认态往返字节一致。
-- **自动化测试**：`cd plugin && pnpm test`（node:test；临时目录自清理，16 条）：引擎层——cleanSource 剥离、
+- **自动化测试**：`cd plugin && pnpm test`（node:test；临时目录自清理，17 条）：引擎层——cleanSource 剥离、
   段 upsert/移除幂等、同文件多段不互相覆盖且字节稳定、feature 门控合并（默认+按 key 覆盖）、e2e init 无占位
   泄漏/不覆盖用户内容、技能冲突保护、**upgrade 隔离（只更新版本变更段、笔记不动）**、**污染项目残留
   flag + 用户内容保护**、hashPack 漂移刷新、缺源报错、projectRoot 定界；CLI 层——help/未知命令、

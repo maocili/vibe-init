@@ -41,7 +41,7 @@ dsh-rules/
 
 - 需求口径：**REQUIREMENTS v1.0 定案**（项目级初始化器、不碰全局面、默认特性开、双语纪律段默认关）。
 - 引擎：v1.0 全功能（全局落点退役、幂等 init/upgrade、status/audit 只读项目面、冲突保护、`--skill`
-  项目技能副本、`--feature` 按次覆盖）；**自动化测试 16/16 绿**（引擎语义 + CLI 端到端 + 升级隔离/污染）。
+  项目技能副本、`--feature` 按次覆盖）；**自动化测试 17/17 绿**（引擎语义 + CLI 端到端 + 升级隔离/污染 + apply 无副作用）。
 - 规则内容：`rules-pack/` 已实写——骨架门规、双语三件套、指针式根块、textLinkManagement/
   bilingualDocsDiscipline/docBudgets 特性段，manifest sha256 已同步；`skills-optional/`（DP-F）暂空。
 - 变更历史见 [CHANGELOG.md](CHANGELOG.md)。

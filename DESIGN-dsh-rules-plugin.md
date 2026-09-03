@@ -164,5 +164,5 @@ rules-pack/manifest.json（当前实现；features 语义按 REQUIREMENTS §3.2�
 
 - 已定案：命名（dsh-rules/rules-pack）；范围与目标（REQUIREMENTS v1.0 D1–D10，含全局面退役、features
   默认值、指针式根块、双语纪律段独立 key）。
-- 待办（实现细节）：技能声明集合的记录与移除、自装识别口径（DP-F/DP-G）；docBudgets 物化目标；
-  defineTool/GUI 注册验证；rules-pack 内容提炼（M1）。
+- 待办（实现细节）：技能声明集合的记录与移除、自装识别口径（DP-F/DP-G）；defineTool/GUI 注册验证；
+  真实挂载与 M2 验证（需用户确认）；M3 分发。

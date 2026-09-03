@@ -31,8 +31,12 @@
   bilingualDocsDiscipline off); docs aligned (REQUIREMENTS v1.0 as scope authority,
   DESIGN rewritten to v1.0).
 
+## 2026-09-03 — live mount applied (user consent)
+- dsh-rules insert added to ~/.dsh/profiles/web/cordis.patch.yml; apply() verified loadable;
+  pending: profile restart + M2 live-session verification.
+
 ## Pending (awaiting user decision)
-- Real mount into ~/.dsh/profiles/web/cordis.patch.yml + M2 verification;
+- M2 verification after profile restart; docBudgets wording review;
 - docBudgets wording review; DP-F/DP-G (skill declaration/self-install detection); M3 distribution.
 ## 2026-09-03 — traceability & consistency
 

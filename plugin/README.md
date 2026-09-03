@@ -68,8 +68,8 @@
 
 ## 挂载与开放问题
 
-1. **真实挂载（需用户显式确认——会写 ~/.dsh）**：把下列条目并入 `~/.dsh/profiles/web/cordis.patch.yml`
-   顶层数组（与 dsh-obsidian-bridge 同机制；`file:////` 四斜杠为宿主惯用形态）：
+1. **真实挂载（已执行，2026-09-03，用户同意）**：下列条目已并入 `~/.dsh/profiles/web/cordis.patch.yml`
+   （与 dsh-obsidian-bridge 同机制；`file:////` 四斜杠为宿主惯用形态），待重启 profile 生效：
 
    ```yaml
    # dsh-rules: begin

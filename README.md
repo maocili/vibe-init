@@ -15,7 +15,6 @@
 
 - [`AGENTS.md`](AGENTS.md) — 仓库入口（会话基线）。
 - [`REQUIREMENTS-dsh-rules-plugin.md`](REQUIREMENTS-dsh-rules-plugin.md) — 需求与目标（**定案 v1.0**，范围口径）。
-- [`REQUIREMENTS-dsh-rules-plugin.md`](REQUIREMENTS-dsh-rules-plugin.md) — 需求与目标（v1.0 定案）。
 - [`ACCEPTANCE.md`](ACCEPTANCE.md) — 需求-验证追溯矩阵（D1–D10 / R1–R10 → 测试与证据）。
 - `DESIGN-dsh-rules-plugin.md` — 设计方案（实现方案细节的工作稿，已按 v1.0 对齐：全局面设计移除）。
 

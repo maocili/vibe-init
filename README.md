@@ -40,8 +40,10 @@ dsh-rules/
 ## 当前状态与下一步
 
 - 需求口径：**REQUIREMENTS v1.0 定案**（项目级初始化器、不碰全局面、默认特性开、双语纪律段默认关）。
-- M1 引擎：已按 v1.0 改造并通过冒烟验证（全局落点退役；幂等 init/upgrade；status/audit 只读项目面；
-  冲突保护；`--skill` 项目技能副本；manifest features 默认值同步）。
-- 规则内容：`rules-pack/` 内容提炼进行中（M1）——骨架门规、双语三件套、指针式根块、特性段已实写并同步
-  manifest sha256；`skills-optional/` 与 docBudgets 正文待提炼。
-- 待办：rules-pack 内容提炼（M1）；真实项目挂载与验证（M2）；M3 可分发（npm 包/官方化）。
+- 引擎：v1.0 全功能（全局落点退役、幂等 init/upgrade、status/audit 只读项目面、冲突保护、`--skill`
+  项目技能副本、`--feature` 按次覆盖）；**自动化测试 16/16 绿**（引擎语义 + CLI 端到端 + 升级隔离/污染）。
+- 规则内容：`rules-pack/` 已实写——骨架门规、双语三件套、指针式根块、textLinkManagement/
+  bilingualDocsDiscipline/docBudgets 特性段，manifest sha256 已同步；`skills-optional/`（DP-F）暂空。
+- 变更历史见 [CHANGELOG.md](CHANGELOG.md)。
+- 待办（需决策/确认）：真实挂载与 M2 验证（写入 ~/.dsh 需用户确认）；DP-F/DP-G 解除后实现；
+  M3 可分发（npm 包/官方化）。

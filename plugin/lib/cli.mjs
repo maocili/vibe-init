@@ -113,6 +113,7 @@ export async function main(argv, io = {}) {
   try { opts = parseArgs(argv) } catch (e) { err(e.message); out(USAGE); return 2 }
   if (opts.help || opts.positionals.length === 0) { out(USAGE); return opts.help ? 0 : 2 }
   const command = opts.positionals[0]
+  if (command === 'help') { out(USAGE); return 0 }
   const packDir = opts.pack || defaultPackDir()
   let pack
   try { pack = await load(packDir) } catch (e) { err('cannot load pack at ' + packDir + ': ' + e.message); return 2 }

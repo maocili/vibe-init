@@ -13,7 +13,9 @@ cost, encourages duplicate Skills, and makes failures difficult to verify or han
 Skill authoring separates two contracts: concise metadata routes a task, while the body instructs the
 matched agent how to execute it. The [prose standard](../../../skills/prose-standard/SKILL.md) governs
 clarity and removal of reasoning leakage; this note adds the Skill-specific routing and execution
-boundaries.
+boundaries. During maintenance, compare each changed packaged workflow with its corresponding reference
+template, retain portable constraints and executable checks, and generalize repository-specific paths
+or policies instead of copying them blindly.
 
 ### Metadata is the routing contract
 
@@ -116,7 +118,8 @@ workflow needs it.
 
 Future Skills use frontmatter as a small, stable routing surface and the body as an executable,
 bounded workflow. Reviews can check matching quality separately from procedural completeness, and
-failure reports can point to a named missing prerequisite or verification result. Adding a new Skill or
-changing its invocation policy remains a process change: update the relevant Skill metadata and
-sidecar, run the applicable gates, and keep any product-specific runtime contract in its owning source
-or decision record rather than duplicating it here.
+failure reports can point to a named missing prerequisite or verification result. Packaged workflow
+changes are compared against their reference templates before completion; Harness-only facts are
+generalized or omitted. Adding a new Skill or changing its invocation policy remains a process change:
+update the relevant Skill metadata and sidecar, run the applicable gates, and keep any product-specific
+runtime contract in its owning source or decision record rather than duplicating it here.

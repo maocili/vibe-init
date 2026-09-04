@@ -39,6 +39,13 @@
       "sha256": "fc1cd7910ffbeb7706fe49aa3ad7ada04cad837c4d3d96d502f877eef4f898ac"
     },
     {
+      "id": "project-docs-agents",
+      "target": "docs/AGENTS.md",
+      "source": "docs/AGENTS.md",
+      "feature": "docBudgets",
+      "sha256": "40ff28e4064d3f30de1c86446d7ba6b7be456e412cb899e6fa4851a2f8c5a39a"
+    },
+    {
       "id": "feature-text-link-management",
       "target": "AGENTS.md",
       "source": "features/text-link-management.md",
@@ -60,7 +67,7 @@
       "source": "features/doc-budgets.md",
       "mode": "append-under-marker",
       "feature": "docBudgets",
-      "sha256": "729e9d74767fa5f92ea961cb7128b4a734fe666361a342ebec7e801adf49b86a"
+      "sha256": "b15ec5b6425ffde64ee6e00253f4b2f86af93d9745fbd98fa3c916884ad7be80"
     }
   ],
   "toolchain": {

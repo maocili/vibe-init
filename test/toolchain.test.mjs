@@ -70,6 +70,7 @@ test('default init materializes scaffold + docGates/base + default-on groups onl
   assert.ok(existsSync(inHome(proj, 'scripts/verify-md-links.ts')))
   assert.ok(existsSync(inHome(proj, 'scripts/verify-doc-budgets.ts')))
   assert.ok(existsSync(inHome(proj, 'scripts/doc-budgets.manifest.json')))
+  assert.ok(existsSync(join(proj, 'docs', 'AGENTS.md')))
   // default-off groups NOT materialized
   assert.ok(!existsSync(inHome(proj, 'scripts/verify-translation-pairing.ts')))
   assert.ok(!existsSync(inHome(proj, 'docs/i18n/terminology.md')))

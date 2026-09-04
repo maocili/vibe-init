@@ -83,7 +83,7 @@ test('hash runs against a pack copy only and reaches 0 drift', () => {
   assert.equal(h1.code, 0)
   const h2 = run(['hash', '--pack', packCopy])
   assert.equal(h2.code, 0)
-  assert.ok(h2.out.includes('0/9'))
+  assert.ok(h2.out.includes('0/10'))
   // real pack manifest untouched
   const real = readFileSync(join(REAL_PACK, 'manifest.json'), 'utf8')
   assert.ok(real.includes('"feature-doc-budgets"'))

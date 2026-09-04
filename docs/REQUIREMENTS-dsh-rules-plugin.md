@@ -52,6 +52,7 @@
 | `AGENTS.md` | Agent Note、文本链接和文档预算 marker 段 |
 | `.agents/notes/` | README 三件套、门规、manifest 与四象限目录 |
 | `.agents/skills/` | 仅在用户指定 `--skill` 后的可选技能副本 |
+| `docs/AGENTS.md` | 文档分层、篇幅目标与预算门禁规范（由 `docBudgets` 管理） |
 | `.dsh-rules/toolchain/` | docGates scaffold、默认门禁、挂钩与组装的 `package.json` |
 
 | Feature | 默认 | 作用 |

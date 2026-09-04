@@ -6,6 +6,7 @@
 | 文档 | 用途 |
 |---|---|
 | [REQUIREMENTS](REQUIREMENTS-dsh-rules-plugin.md) | 定案的范围、行为契约、默认值与非目标 |
+| [AGENTS.md](AGENTS.md) | 文档分层、篇幅目标与预算门禁规范 |
 | [ACCEPTANCE](ACCEPTANCE.md) | 每项需求和决策对应的代码、测试或实测证据 |
 | [实现设计 Agent Note](../.agents/notes/implemented/architecture/2026-09-04-dsh-rules-implementation-design.md) | 物化引擎、规则包和工具链的实现取舍 |
 | [实现历史 Agent Note](../.agents/notes/implemented/process/2026-09-04-dsh-rules-implementation-history.md) | 决策级里程碑；细粒度历史以 Git 为准 |

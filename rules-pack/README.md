@@ -13,6 +13,7 @@
 | 本目录文件 | 物化目标 | 语义 |
 |---|---|---|
 | `notes-skeleton/**` | `<project>/.agents/notes/**` | 项目笔记新鲜骨架（只结构，无历史内容；双语三件套为默认开箱形态；archived 六类目录 + 基线 manifest 随骨架就位，保证 verify-archived-agent-notes 开箱通过） |
+| `docs/AGENTS.md` | `<project>/docs/AGENTS.md`（`docBudgets` 开启时） | 文档分层、篇幅目标与预算门禁规范 |
 | `standing-orders-block.md` | `<project>/AGENTS.md`（marker 包裹追加） | 项目常设规则块（指针式，指向项目笔记骨架门规） |
 | `skills-optional/**` | `<project>/.agents/skills/<name>/`（`init --skill` 挑选） | 依赖包式项目技能副本（声明/升级管理；用户自装不覆盖；SKILL.md 格式） |
 | `toolchain/**` | `<project>/.dsh-rules/toolchain`（docGates 伞） | doc-gate/双语/挂钩工具链：`spec.json` 声明组（scaffold/base/text-link/doc-budgets/bilingual/extras/hooks），按 feature 开关物化并组装 package.json |

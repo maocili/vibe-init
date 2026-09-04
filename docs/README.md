@@ -5,10 +5,12 @@
 
 | 文档 | 用途 |
 |---|---|
-| [REQUIREMENTS](REQUIREMENTS-dsh-rules-plugin.md) | 定案的范围、行为契约、默认值与非目标；与 DESIGN 冲突时以它为准 |
-| [DESIGN](DESIGN-dsh-rules-plugin.md) | 物化引擎、规则包和工具链的实现方案 |
+| [REQUIREMENTS](REQUIREMENTS-dsh-rules-plugin.md) | 定案的范围、行为契约、默认值与非目标 |
 | [ACCEPTANCE](ACCEPTANCE.md) | 每项需求和决策对应的代码、测试或实测证据 |
-| [CHANGELOG](CHANGELOG.md) | 决策级变更历史 |
+| [实现设计 Agent Note](../.agents/notes/implemented/architecture/2026-09-04-dsh-rules-implementation-design.md) | 物化引擎、规则包和工具链的实现取舍 |
+| [实现历史 Agent Note](../.agents/notes/implemented/process/2026-09-04-dsh-rules-implementation-history.md) | 决策级里程碑；细粒度历史以 Git 为准 |
+
+旧链接仍可访问：[DESIGN 指针页](DESIGN-dsh-rules-plugin.md)、[CHANGELOG 指针页](CHANGELOG.md)。
 
 仓库入口与会话规则见 [`../AGENTS.md`](../AGENTS.md)，规则包的内容映射见
 [`../rules-pack/README.md`](../rules-pack/README.md)。

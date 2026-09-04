@@ -12,7 +12,7 @@
 | D3 textLink/bilingualPairing 默认开 | rules-pack/manifest.json features + feature-gating 测试 | 达成 |
 | D4 双语纪律段默认关 | manifest bilingualDocsDiscipline=false + gating 测试 + CLI 默认段测试 | 达成 |
 | D5 技能 = 项目级副本（依赖包式） | skill 测试：复制/幂等/用户编辑冲突不覆盖；移除与自装识别待 DP-F/DP-G | 部分（DP-F/G） |
-| D6/D7 本文档定案、取代 DESIGN §1/§2 | 文档权威关系（AGENTS/REQUIREMENTS/DESIGN 头部） | 达成 |
+| D6/D7 本文档定案；实现细节记录在 Agent Note | 文档权威关系（AGENTS/REQUIREMENTS/实现设计 Note 头部） | 达成 |
 | D8 根规则块指针式（短块指骨架） | standing-orders-block.md 内容形态 + e2e 物化后根 AGENTS.md 指针文案 | 达成 |
 | D9 双语纪律段独立 key | manifest feature-bilingual-docs 行 feature=bilingualDocsDiscipline | 达成 |
 | D10 docBudgets 默认开 | manifest feature-doc-budgets 行 + gating 测试 + CLI 默认段测试 | 达成 |

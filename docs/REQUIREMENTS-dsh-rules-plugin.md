@@ -1,7 +1,9 @@
 # dsh-rules：需求与范围
 
 > 状态：**定案 v1.0**（2026-09-03，M1b 决策补充于 2026-09-04）。本文档定义范围和可验收行为；如与
-> [DESIGN](DESIGN-dsh-rules-plugin.md) 冲突，以本文为准。
+> 实现设计与架构取舍记录在
+> [Agent Note：dsh-rules 实现设计](../.agents/notes/implemented/architecture/2026-09-04-dsh-rules-implementation-design.md)；
+> 本文只定义范围与可验收行为。
 
 `dsh-rules` 是项目级初始化器，不是全局安装器。它从本仓库的 `rules-pack/` 物化项目受管面：根
 `AGENTS.md` 规则段、`.agents/notes/` 骨架、可选技能副本和 `.dsh-rules/toolchain/`。它永不写入
@@ -16,7 +18,7 @@
 | D3 | `textLinkManagement` 与 `bilingualPairing` 默认开启。 |
 | D4 | 双语骨架就绪不等于强制双语纪律。 |
 | D5 | 技能是项目级、依赖包式副本；不覆盖用户自装技能。 |
-| D6/D7 | 本文档是范围权威；DESIGN 只说明实现。 |
+| D6/D7 | 本文档是范围权威；实现细节与取舍记录在 Agent Note。 |
 | D8 | 根规则块保持短小，以链接指向笔记骨架中的细则。 |
 | D9 | `bilingualDocsDiscipline` 独立于双语骨架，默认关闭。 |
 | D10 | `docBudgets` 默认开启。 |

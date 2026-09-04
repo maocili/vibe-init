@@ -1,6 +1,6 @@
 # features — 特性规则族（manifest.features 开关物化）
 
-> 依据 REQUIREMENTS §3.2 / DESIGN §4：每份规则以 marker 段追加到项目根 AGENTS.md
+> 依据 REQUIREMENTS §3.2 / 实现设计 Agent Note：每份规则以 marker 段追加到项目根 AGENTS.md
 > （mode: append-under-marker），与核心 note 纪律块分离，便于 upgrade 定位与按次 --feature 开关。
 
 | 文件 | feature 键 | 默认（v1.0） | 语义 |

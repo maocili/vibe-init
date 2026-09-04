@@ -94,6 +94,6 @@ node bin/dsh-rules.mjs hash --pack rules-pack
 详细资料在 [`docs/`](docs/README.md)：
 
 - [需求与范围](docs/REQUIREMENTS-dsh-rules-plugin.md) 是定案口径；
-- [设计](docs/DESIGN-dsh-rules-plugin.md) 说明实现机制；
 - [验收矩阵](docs/ACCEPTANCE.md) 对应实现和测试；
-- [变更记录](docs/CHANGELOG.md) 保留历史。
+- [实现设计 Agent Note](.agents/notes/implemented/architecture/2026-09-04-dsh-rules-implementation-design.md) 记录实现取舍；
+- [实现历史 Agent Note](.agents/notes/implemented/process/2026-09-04-dsh-rules-implementation-history.md) 记录里程碑。

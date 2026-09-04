@@ -1,7 +1,7 @@
 # dsh-rules toolchain（门禁与双语工具链）
 
 本目录是 dsh-rules 为每个项目物化的**受管工具链**（manifest `toolchain` → `docGates` 特性，缺省随 `init`/旧项目 `upgrade` 安装），
-语料从 `../vibe-coding-templates/.template` 提炼（迁移记录见仓库 CHANGELOG / ACCEPTANCE）。它是插件受管副本：
+语料从 `../vibe-coding-templates/.template` 提炼（迁移记录见实现历史 Agent Note / ACCEPTANCE）。它是插件受管副本：
 `status` 逐文件报 ok/drift/conflict，`upgrade` 按版本迁移，**请勿直接改这里**——本地改动会在下次 `status`/`upgrade` 报 conflict。
 
 ## 前置

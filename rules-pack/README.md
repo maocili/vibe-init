@@ -5,7 +5,8 @@
 > `toolchain/` 门禁工具链（doc-gate + 双语 + lefthook）均已实写并同步 manifest sha256（`dsh-rules hash`）；
 > `skills-optional/` 技能内容待提炼（DP-F 暂缓）。
 > 本目录是本仓库内「纪律规则内容与工具链」的唯一版本化出处；dsh-rules 插件只是**安装器/管理器**，不硬编码
-> 规则文本（依据 [`docs/DESIGN-dsh-rules-plugin.md`](../docs/DESIGN-dsh-rules-plugin.md) §3）。语料唯一出处：`/Users/xuxifeng/Work/vibe-coding-templates`。
+> 规则文本按 [`docs/REQUIREMENTS-dsh-rules-plugin.md`](../docs/REQUIREMENTS-dsh-rules-plugin.md) 的范围契约维护；实现取舍见
+> [Agent Note：dsh-rules 实现设计](../.agents/notes/implemented/architecture/2026-09-04-dsh-rules-implementation-design.md)。语料唯一出处：`/Users/xuxifeng/Work/vibe-coding-templates`。
 
 ## 目录 → 物化目标映射
 
@@ -20,7 +21,7 @@
 > v1.0 修订：`global/`（→ `~/.dsh/AGENTS.md`）全局落点已退役删除——插件只做项目级初始化，
 > **不触碰全局面**（REQUIREMENTS §0 D1/D2）。
 > M1b（2026-09-04 用户拍板）：门禁运行时由「不做移植」改为 **docGates 受管工具链**（默认开），
-> 见 REQUIREMENTS §0 决策行与 DESIGN §4/§5。
+> 见 REQUIREMENTS §0 决策行与实现设计 Agent Note。
 
 ## 内置规则族（规划，含但不限于）
 
@@ -35,5 +36,5 @@
 | docGates 扩展门禁（逐段折行/重门禁） | toolchain extras 组（verify-md-wrap/mermaid/skill-metadata） | 关（`docGatesExtras`） |
 
 > 门禁：manifest `files[]` 的 sha256 由 manifest 声明（`hash` 刷新）；`toolchain/spec.json` 声明组与依赖、
-> `status` 靠内容比对报 ok/drift/conflict，`upgrade` 幂等迁移、关闭特性移除受管副本。实现见 `DESIGN…` §4/§5；
+> `status` 靠内容比对报 ok/drift/conflict，`upgrade` 幂等迁移、关闭特性移除受管副本。实现见实现设计 Agent Note；
 > 引擎测试：仓库根 `pnpm test`（26 条，含 docGates 物化/移除/audit/CLI 端到端）。

@@ -4,7 +4,8 @@
 （项目根 AGENTS.md 的 marker 规则段 + `.agents/notes/` 笔记骨架 + 选定技能副本），**不触碰用户全局面**
 （~/.dsh/AGENTS.md、用户技能根）。规则与技能文本的唯一版本化出处是同仓的 `rules-pack/`，插件只做
 项目级安装/管理；项目文档在 `docs/`。
-范围/目标口径：`docs/REQUIREMENTS-dsh-rules-plugin.md`（**定案 v1.0，取代 DESIGN §1/§2**）；实现方案：`docs/DESIGN-dsh-rules-plugin.md`。
+范围/目标口径：`docs/REQUIREMENTS-dsh-rules-plugin.md`（**定案 v1.0**）；实现方案与取舍记录在
+`.agents/notes/implemented/architecture/2026-09-04-dsh-rules-implementation-design.md`。
 
 > EN TL;DR: this repo is the **dsh-rules** plugin itself — a per-project initializer. The repo root
 > holds the plugin sources, `rules-pack/` is the single versioned content source, and the project
@@ -13,7 +14,7 @@
 > bilingual-ready notes skeleton under `.agents/notes/`, and declared skill copies under
 > `.agents/skills/` managed like dependency packages. It never touches the user-global plane
 > (`~/.dsh/AGENTS.md`, user skill roots). Scope authority: `REQUIREMENTS-dsh-rules-plugin.md` v1.0
-> (+ M1b decisions D11/D12 — supersedes DESIGN §1/§2); rule-pack content (skeleton gates, bilingual
+> (+ M1b decisions D11/D12); rule-pack content (skeleton gates, bilingual
 > trio, pointer block, feature sections, docGates toolchain under `toolchain/`) is distilled from
 > `../vibe-coding-templates/` and sha256-synced; `skills-optional/` awaits DP-F.
 
@@ -22,12 +23,11 @@
 - [`README.md`](README.md) — 仓库总览 + 插件说明（命令面、物化语义、挂载、当前状态）。
 - [`docs/README.md`](docs/README.md) — 项目文档索引与总览（2026-09-04 目录调整由仓库根移入 docs/）。
 - [`docs/REQUIREMENTS-dsh-rules-plugin.md`](docs/REQUIREMENTS-dsh-rules-plugin.md) — 需求与目标
-  （**定案 v1.0**；据用户决策：**项目级初始化器、不碰全局面**；定案后**取代 DESIGN §1/§2 作为范围口径**；
+  （**定案 v1.0**；据用户决策：**项目级初始化器、不碰全局面**；作为唯一范围口径；
   决策基线 D1–D12 见文档 §0）。
-- [`docs/DESIGN-dsh-rules-plugin.md`](docs/DESIGN-dsh-rules-plugin.md) — 设计方案工作稿；实现方案细节的
-  决策权威（分层归属、manifest 格式、命令面、权限模型、里程碑）。命名已定案：插件名/命令前缀
-  `dsh-rules`、规则包目录 `rules-pack/`。
-- [`docs/ACCEPTANCE.md`](docs/ACCEPTANCE.md)、[`docs/CHANGELOG.md`](docs/CHANGELOG.md) — 验收追溯矩阵、变更历史。
+- [`docs/ACCEPTANCE.md`](docs/ACCEPTANCE.md) — 验收追溯矩阵。
+- [实现设计 Agent Note](.agents/notes/implemented/architecture/2026-09-04-dsh-rules-implementation-design.md)、
+  [实现历史 Agent Note](.agents/notes/implemented/process/2026-09-04-dsh-rules-implementation-history.md) — 实现设计与决策级历史。
 - [`rules-pack/README.md`](rules-pack/README.md) — 内置规则包内容映射与门禁说明。
 
 ## 目录结构（2026-09-04 调整后）
@@ -51,9 +51,9 @@ dsh-rules/                      # 仓库根 = 插件源码（原 plugin/ 展平�
 └── docs/                       # 项目文档（原仓库根文档移入本目录）
     ├── README.md               #   总览/目录结构/当前状态（原根 README）
     ├── REQUIREMENTS-dsh-rules-plugin.md  # 需求与目标（定案 v1.0，范围口径）
-    ├── DESIGN-dsh-rules-plugin.md        # 设计方案（工作稿）
+    ├── DESIGN-dsh-rules-plugin.md        # 设计 Agent Note 的兼容指针页
     ├── ACCEPTANCE.md           #   需求-验证追溯矩阵
-    └── CHANGELOG.md            #   变更历史
+    └── CHANGELOG.md            #   实现历史 Agent Note 的兼容指针页
 ```
 
 - 内容源与插件同仓：`rules-pack/` 的 `manifest.json` 声明文件清单与 `sha256`（含 features 开关与
@@ -65,9 +65,9 @@ dsh-rules/                      # 仓库根 = 插件源码（原 plugin/ 展平�
 
 ## 会话规则
 
-- 开工前先读「入口文档」；**范围与目标以 `docs/REQUIREMENTS…`（v1.0 定案，取代 DESIGN §1/§2）为准**，
-  占位内容与实现方案细节以根 `README.md`、`docs/DESIGN…` 为准。
-- **规则内容一律写入 `rules-pack/`**（DESIGN §3：不把规则内容硬编码进插件）；改仓库根插件源码
+- 开工前先读「入口文档」；**范围与目标以 `docs/REQUIREMENTS…`（v1.0 定案）为准**，实现方案与取舍以
+  [实现设计 Agent Note](.agents/notes/implemented/architecture/2026-09-04-dsh-rules-implementation-design.md) 为准。
+- **规则内容一律写入 `rules-pack/`**（不把规则内容硬编码进插件）；改仓库根插件源码
   （`dsh-rules.mjs`、`bin/`、`lib/`、`test/`、`package.json`）只动安装/管理逻辑。
 - 修改 `rules-pack/` 文件时保持 `manifest.json` 的 files 清单与 `sha256` 同步
   （`status`/`upgrade` 依赖内容寻址；刷新用 `node bin/dsh-rules.mjs hash --pack rules-pack` 或
@@ -128,3 +128,17 @@ classification precedes writing. Budget ceilings are enforced mechanically by th
 toolchain (verify-doc-budgets, installed by default; budget list lives in
 `.dsh-rules/toolchain/scripts/doc-budgets.manifest.json`).
 <!-- dsh-rules:feature-doc-budgets:end -->
+
+<!-- dsh-rules:feature-bilingual-docs:start -->
+## 双语文档纪律（dsh-rules feature: bilingualDocsDiscipline，默认关）
+
+- 启用双语后，主文档（.md）与中文配对（.zh.md）**逐节对应**；Agent Note 的头 token
+  （# Agent Note: 与 Status: 行）保持英文原样。
+- 每对文档登记进所在目录的 README.i18n.yaml（或项目约定的配对表）；任何一侧的修改都必须在
+  **同一变更**内同步另一侧，避免两侧漂移。
+- 归档/移动时须整对移动，并保留双方结构对应。
+- 默认关闭：仅当项目确实双语交付时才开启；未开启时 .zh.md 与 i18n 侧车文件可忽略。
+
+EN: bilingual docs discipline (off by default) — .md/.zh.md pairs stay section-aligned, are declared
+in the i18n pair list, and change together in the same change.
+<!-- dsh-rules:feature-bilingual-docs:end -->

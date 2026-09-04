@@ -12,8 +12,8 @@ otherwise small changes to leave contradictory paths or stale test counts behind
 
 The root README is the concise user entry: initialize a project, select features, mount the local
 plugin, and run tests. `docs/README.md` is navigation only. REQUIREMENTS retains the scope contract
-and defaults; DESIGN retains implementation mechanics; ACCEPTANCE retains evidence; CHANGELOG records
-decision-level history. Each fact has one primary home, with links instead of duplicated explanations.
+and defaults; ACCEPTANCE retains evidence; implementation design and decision-level history live in
+the linked Agent Notes. Each fact has one primary home, with links instead of duplicated explanations.
 
 ## Alternatives considered
 
@@ -25,6 +25,7 @@ maintainer material in an operational guide.
 
 ## Consequences
 
-Future user-facing changes start in the root README, contractual changes in REQUIREMENTS, and engine
-changes in DESIGN and ACCEPTANCE. A documentation change that changes one of those boundaries updates
-its owning document rather than copying the same prose elsewhere.
+Future user-facing changes start in the root README, contractual changes in REQUIREMENTS, evidence
+changes in ACCEPTANCE, and architecture/history changes in the owning Agent Note. A documentation
+change that changes one of those boundaries updates its owning document rather than copying the same
+prose elsewhere.

@@ -14,7 +14,7 @@ test('materialized standing orders require one commit per completed step', async
   try {
     mkdirSync(join(project, '.git'))
     writeFileSync(join(project, 'AGENTS.md'), '# Product\n')
-    const pack = await loadPack(join(ROOT, 'rules-pack'))
+    const pack = await loadPack(join(ROOT, 'packages'))
     const plan = await planProject(pack, project)
     await applyResults(await evaluatePlan(plan, {}))
     const root = readFileSync(join(project, 'AGENTS.md'), 'utf8')

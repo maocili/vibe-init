@@ -5,7 +5,7 @@
 > [Agent Note：dsh-rules 实现设计](../.agents/notes/implemented/architecture/2026-09-04-dsh-rules-implementation-design.md)；
 > 本文只定义范围与可验收行为。
 
-`dsh-rules` 是项目级初始化器，不是全局安装器。它从本仓库的 `rules-pack/` 物化项目受管面：根
+`dsh-rules` 是项目级初始化器，不是全局安装器。它从本仓库的 `packages/` 物化项目受管面：根
 `AGENTS.md` 规则段、`.agents/notes/` 骨架、默认技能副本和 `.dsh-rules/toolchain/`。它永不写入
 `~/.dsh/AGENTS.md` 或用户技能根。
 
@@ -29,7 +29,7 @@
 ## 1. 目标
 
 旧的整棵模板复制会让规则不在会话基线、已复制内容漂移，并把容器开发史带进下游项目。插件以可审计的
-受管副本取代复制：规则正文只在 `rules-pack/` 维护，项目只得到新鲜骨架和选定的受管内容。
+受管副本取代复制：规则正文只在 `packages/` 维护，项目只得到新鲜骨架和选定的受管内容。
 
 ## 2. 行为契约
 
@@ -39,7 +39,7 @@
 | R2 | 所有命令都不改全局面。 |
 | R3 | manifest 声明的全部技能复制到项目 `.agents/skills/`；`init` 对用户编辑报告冲突，`upgrade` 覆盖规则包声明的技能文件，但保留技能目录中的用户新增文件。 |
 | R4 | 只物化新鲜骨架、规则段、声明的技能和工具链；历史与作者专用物不进入项目。 |
-| R5 | 规则与技能正文的唯一版本化来源是 `rules-pack/`；规则行位于 `manifest.files`，技能资产位于 `manifest.skills`，两者都以 sha256 寻址。 |
+| R5 | 规则与技能正文的唯一版本化来源是 `packages/`；规则行位于 `manifest.files`，技能资产位于 `manifest.skills`，两者都以 sha256 寻址。 |
 | R6 | 不覆盖 Agent Note 正文、根 marker 段外内容、业务文档或用户自装内容；冲突应报告而非静默覆盖。 |
 | R7 | 对同一规则包重复运行字节稳定，并报告无变更。 |
 | R8 | `status`/`audit` 只读报告受管状态、漂移和旧残留。 |
@@ -91,4 +91,4 @@
 插件可以计划、物化、升级、移除受管副本并报告状态；用户拥有业务代码、笔记正文、根文件段外内容和
 自装技能。所有写入先显示差异并取得确认（或以 `--yes` 明确执行），不新增自动备份目录，回滚依赖 Git。
 
-DP-G（自装技能识别口径）仍待决定。M3 已定案为公共 npm 包 `@xuxf/dsh-rules`：包声明 DSH `dsh.bundle.patch`，由 profile 的插件管理命令安装，bundle patch 再激活同包的 Cordis plugin。随包技能清单（DP-F）已由 `rules-pack/manifest.json` 固化并默认安装。
+DP-G（自装技能识别口径）仍待决定。M3 已定案为公共 npm 包 `@xuxf/dsh-rules`：包声明 DSH `dsh.bundle.patch`，由 profile 的插件管理命令安装，bundle patch 再激活同包的 Cordis plugin。随包技能清单（DP-F）已由 `packages/manifest.json` 固化并默认安装。

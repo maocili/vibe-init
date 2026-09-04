@@ -14,7 +14,7 @@ import {
 import { nextProjectState, readProjectState, writeProjectState } from '../lib/state.mjs'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const REAL_PACK = join(ROOT, 'rules-pack')
+const REAL_PACK = join(ROOT, 'packages')
 let TMP
 
 before(() => { TMP = mkdtempSync(join(ROOT, '.smoke-test-')) })
@@ -163,7 +163,7 @@ test('bilingualPairing controls note-pair artifacts and preserves user edits on 
 
 test('skills: copy into project, idempotent, user edit -> conflict not overwritten', async () => {
   const packDir = makePack()
-  const skillDir = join(packDir, 'skills-optional', 'sample')
+  const skillDir = join(packDir, 'skills', 'sample')
   mkdirSync(skillDir, { recursive: true })
   writeFileSync(join(skillDir, 'SKILL.md'), '# sample\n')
   const proj = fixtureProject('skills')
@@ -226,7 +226,7 @@ test('materialized agent content keeps portable internal links', async () => {
 test('shipped skill workflows are generic and bilingual guidance names the installed skill', async () => {
   const pack = await loadPack(REAL_PACK)
   for (const skill of pack.skills) {
-    const text = readFileSync(join(REAL_PACK, 'skills-optional', skill.name, 'SKILL.md'), 'utf8')
+    const text = readFileSync(join(REAL_PACK, 'skills', skill.name, 'SKILL.md'), 'utf8')
     assert.doesNotMatch(text, /deepseek-harness|DeepSeek Harness|Cordis|dsh-translate-docs/)
   }
   const bilingualFiles = [
@@ -262,8 +262,8 @@ test('toolchain bilingual source pairs record their current contents', () => {
 })
 
 test('translate-docs remains explicit-only across its two invocation metadata formats', () => {
-  const skill = readFileSync(join(REAL_PACK, 'skills-optional', 'translate-docs', 'SKILL.md'), 'utf8')
-  const metadata = readFileSync(join(REAL_PACK, 'skills-optional', 'translate-docs', 'agents', 'openai.yaml'), 'utf8')
+  const skill = readFileSync(join(REAL_PACK, 'skills', 'translate-docs', 'SKILL.md'), 'utf8')
+  const metadata = readFileSync(join(REAL_PACK, 'skills', 'translate-docs', 'agents', 'openai.yaml'), 'utf8')
   assert.match(skill, /^disable-model-invocation: true$/m)
   assert.match(skill, /^user-invocable: true$/m)
   assert.match(metadata, /^  allow_implicit_invocation: false$/m)
@@ -330,7 +330,7 @@ test('upgrade ownership matrix: managed files overwrite while user assets stay b
   const noteBefore = readFileSync(noteBody, 'utf8')
   const toolSource = join(packDir, 'toolchain', 'text-link', 'scripts', 'verify-md-links.ts')
   writeFileSync(toolSource, readFileSync(toolSource, 'utf8') + '\n// pack v2\n')
-  const skillSource = join(packDir, 'skills-optional', 'archive-agent-notes', 'SKILL.md')
+  const skillSource = join(packDir, 'skills', 'archive-agent-notes', 'SKILL.md')
   writeFileSync(skillSource, readFileSync(skillSource, 'utf8') + '\nPack v2 guidance.\n')
   const docsSource = join(packDir, 'docs', 'AGENTS.md')
   writeFileSync(docsSource, readFileSync(docsSource, 'utf8') + '\nPack v2 docs guidance.\n')
@@ -376,7 +376,7 @@ test('upgrade removes only unmodified state-owned stale files and preserves modi
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
   const skill = manifest.skills.find((s) => s.name === 'prose-standard')
   skill.files = skill.files.filter((f) => f.path !== 'references/examples.md')
-  rmSync(join(packDir, 'skills-optional', 'prose-standard', 'references', 'examples.md'))
+  rmSync(join(packDir, 'skills', 'prose-standard', 'references', 'examples.md'))
   writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n')
   await hashPack(packDir)
   const pack2 = await loadPack(packDir)
@@ -486,7 +486,7 @@ test('hashPack refreshes sha256 after a pack source changes', async () => {
 
 test('skill assets are content-addressed and hash refresh repairs their drift', async () => {
   const packDir = makePack()
-  const skill = join(packDir, 'skills-optional', 'prose-standard', 'references', 'examples.md')
+  const skill = join(packDir, 'skills', 'prose-standard', 'references', 'examples.md')
   writeFileSync(skill, readFileSync(skill, 'utf8') + '\nnew calibration\n')
   const drifted = await loadPack(packDir)
   assert.ok(drifted.problems.some(problem => problem.includes('prose-standard/references/examples.md sha256 drift')))

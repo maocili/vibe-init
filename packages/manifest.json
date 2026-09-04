@@ -17,7 +17,7 @@
       "id": "project-notes-i18n",
       "target": ".agents/notes/README.i18n.yaml",
       "source": "notes-skeleton/README.i18n.yaml",
-      "sha256": "adbba40075bbdf143b2a9978d5d76f1d762886bb2991fa6dacf850bc596878a3"
+      "sha256": "84cc48e930a4d29d4155035390bc5cfd39d2b03b87dc1fe49ad4f6545f0578ed"
     },
     {
       "id": "project-notes-agents",

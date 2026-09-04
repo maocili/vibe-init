@@ -1,9 +1,9 @@
-# rules-pack — 内置规则包（内容唯一出处）
+# packages — 内置规则包（内容唯一出处）
 
 > 状态：**M1 内容提炼完成 + M1b docGates 工具链迁移完成（2026-09-04）**：notes 骨架门规、双语三件套
 > （含有效 pairing record）、指针式根块、textLinkManagement / bilingualDocsDiscipline / docBudgets 特性段、
 > `toolchain/` 门禁工具链（doc-gate + 双语 + lefthook）均已实写并同步 manifest sha256（`dsh-rules hash`）；
-> `skills-optional/` 已提供 11 个从 Harness `.agents` 工作流提炼出的项目级技能，并默认物化。
+> `skills/` 已提供 11 个从 Harness `.agents` 工作流提炼出的项目级技能，并默认物化。
 > 本目录是本仓库内「纪律规则内容与工具链」的唯一版本化出处；dsh-rules 插件只是**安装器/管理器**，不硬编码
 > 规则文本按 [`docs/REQUIREMENTS-dsh-rules-plugin.md`](../docs/REQUIREMENTS-dsh-rules-plugin.md) 的范围契约维护；实现取舍见
 > [Agent Note：dsh-rules 实现设计](../.agents/notes/implemented/architecture/2026-09-04-dsh-rules-implementation-design.md)。语料唯一出处：`/Users/xuxifeng/Work/vibe-coding-templates`。
@@ -15,7 +15,7 @@
 | `notes-skeleton/**` | `<project>/.agents/notes/**` | 项目笔记新鲜骨架（只结构，无历史内容；双语三件套为默认开箱形态；archived 六类目录 + 基线 manifest 随骨架就位，保证 verify-archived-agent-notes 开箱通过） |
 | `docs/AGENTS.md` | `<project>/docs/AGENTS.md`（`docBudgets` 开启时） | 文档分层、篇幅目标与预算门禁规范 |
 | `standing-orders-block.md` | `<project>/AGENTS.md`（marker 包裹追加） | 项目常设规则块（指针式，指向项目笔记骨架门规） |
-| `skills-optional/**` | `<project>/.agents/skills/<name>/`（默认全部） | 依赖包式项目技能副本（声明/升级管理；init 保守冲突、upgrade 同步受管文件并保留用户新增；SKILL.md 格式） |
+| `skills/**` | `<project>/.agents/skills/<name>/`（默认全部） | 依赖包式项目技能副本（声明/升级管理；init 保守冲突、upgrade 同步受管文件并保留用户新增；SKILL.md 格式） |
 | `toolchain/**` | `<project>/.dsh-rules/toolchain`（docGates 伞） | doc-gate/双语/挂钩工具链：`spec.json` 声明组（scaffold/base/text-link/doc-budgets/bilingual/extras/hooks），按 feature 开关物化并组装 package.json |
 | `features/**` | 依 `manifest.json.features` 开关物化 | 特性规则族（见下；默认按 REQUIREMENTS v1.0 + M1b 决策） |
 

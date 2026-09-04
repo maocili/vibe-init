@@ -9,7 +9,7 @@
 |---|---|---|
 | D1 不做全局规则/全局面 | `lib/` 无任何 ~/.dsh / 用户技能根写入（grep 仅命中退役错误文案）；CLI 测试 install-global retired | 达成 |
 | D2 每个项目显式初始化 | planProject 仅项目面；CLI init/upgrade/status/audit/hash/list-skills 全部 --project 作用域 | 达成 |
-| D3 textLink/bilingualPairing 默认开 | rules-pack/manifest.json features + feature-gating 测试 | 达成 |
+| D3 textLink/bilingualPairing 默认开 | packages/manifest.json features + feature-gating 测试 | 达成 |
 | D4 双语纪律段默认关 | manifest bilingualDocsDiscipline=false + gating 测试 + CLI 默认段测试 | 达成 |
 | D5 全部技能 = 项目级副本（依赖包式） | default-skills 测试：11 个默认复制/幂等；init 用户编辑冲突不覆盖；upgrade ownership 测试覆盖受管文件刷新与用户新增保留 | 达成 |
 | D6/D7 本文档定案；实现细节记录在 Agent Note | 文档权威关系（AGENTS/REQUIREMENTS/实现设计 Note 头部） | 达成 |
@@ -43,6 +43,6 @@
 |---|---|
 | M0 引擎 v1.0 对齐 | 已完成（提交 ee9dd7d…e4c241a） |
 | M1 内容提炼 | 已完成（骨架门规/分类目录/双语三件套/指针根块/三特性段/11 个默认项目 skill，sha256 同步） |
-| M1b docGates 工具链 | **已完成（2026-09-04）**：rules-pack/toolchain（scaffold/base/text-link/doc-budgets/bilingual/extras/hooks + spec.json）；引擎组门控物化/组装 package.json/关闭移除；41/41 测试绿；真实验证：临时新项目 init→pnpm install→doc-sync（默认与 bilingual）exit 0，pre-commit 挂钩由 postinstall 写入且不覆盖外来配置 |
+| M1b docGates 工具链 | **已完成（2026-09-04）**：packages/toolchain（scaffold/base/text-link/doc-budgets/bilingual/extras/hooks + spec.json）；引擎组门控物化/组装 package.json/关闭移除；41/41 测试绿；真实验证：临时新项目 init→pnpm install→doc-sync（默认与 bilingual）exit 0，pre-commit 挂钩由 postinstall 写入且不覆盖外来配置 |
 | M2 真实挂载与验证 | **已通过（2026-09-03）**：insert 已写入（用户同意）；宿主重启日志出现 mounted；真实项目 /Users/xuxifeng/Work/dsh-rules-demo init/status/audit 验证绿 |
 | M3 可分发 | `package.json` 的 `@xuxf/dsh-rules` + `dsh.bundle.patch`、根 `cordis.patch.yml`；`test/package.test.mjs` 验证 npm tarball 清单、临时安装、Cordis 入口和 CLI init/status | 达成（2026-09-04） |

@@ -10,7 +10,7 @@ import { loadPack } from '../lib/pack.mjs'
 import { planProject, evaluatePlan, applyResults, auditExtras, composeToolchainPackageJson } from '../lib/engine.mjs'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const REAL_PACK = join(ROOT, 'rules-pack')
+const REAL_PACK = join(ROOT, 'packages')
 let TMP
 
 before(() => { TMP = mkdtempSync(join(ROOT, '.toolchain-test-')) })

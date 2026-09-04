@@ -5,14 +5,14 @@
     "access": "public"
   },
   "license": "MIT",
-  "description": "DSH plugin (per-project initializer, REQUIREMENTS v1.0): materializes a versioned rule pack into each project — fresh .agents/notes skeleton, marker rule segments in root AGENTS.md, and selected skill copies under .agents/skills. Never writes the user-global plane. Content lives in rules-pack/.",
+  "description": "DSH plugin (per-project initializer, REQUIREMENTS v1.0): materializes a versioned rule pack into each project — fresh .agents/notes skeleton, marker rule segments in root AGENTS.md, and selected skill copies under .agents/skills. Never writes the user-global plane. Content lives in packages/.",
   "type": "module",
   "engines": { "node": ">=18" },
   "files": [
     "dsh-rules.mjs",
     "bin/",
     "lib/",
-    "rules-pack/",
+    "packages/",
     "cordis.patch.yml"
   ],
   "scripts": { "test": "node --test" },

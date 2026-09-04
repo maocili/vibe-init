@@ -15,4 +15,4 @@
 旧链接仍可访问：[DESIGN 指针页](DESIGN-dsh-rules-plugin.md)、[CHANGELOG 指针页](CHANGELOG.md)。
 
 仓库入口与会话规则见 [`../AGENTS.md`](../AGENTS.md)，规则包的内容映射见
-[`../rules-pack/README.md`](../rules-pack/README.md)。
+[`../packages/README.md`](../packages/README.md)。

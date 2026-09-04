@@ -9,7 +9,7 @@ Status: implemented
 
 ## Decision
 
-实现采用确定性的 plan → evaluate → apply 流程。`rules-pack/` 是规则与技能内容唯一的版本化来源；
+实现采用确定性的 plan → evaluate → apply 流程。`packages/` 是规则与技能内容唯一的版本化来源；
 `manifest.json` 记录特性默认值、工具链分组、文件目标和内容摘要。引擎写入带 marker 的规则段、全新的笔记骨架、
 选定技能，并管理项目工具链；用户改动过的内容保留并报告为冲突。重复执行会收敛为无写入，`status`/`audit`
 复用同一只读计划。
@@ -19,7 +19,7 @@ Cordis 入口只校验规则包并报告插件已挂载；项目写入由显式 
 
 可分发形态确定为公共 npm 包 `@xuxf/dsh-rules`。包 manifest 声明指向包内 `cordis.patch.yml` 的
 `dsh.bundle.patch`；DSH profile 安装 bundle 后，该 patch 将同包作为 Cordis plugin 插入。npm `files` 白名单只携带
-运行时、CLI、patch 和 `rules-pack/`；绝对 `file://` 条目仅保留为 checkout 开发回退。
+运行时、CLI、patch 和 `packages/`；绝对 `file://` 条目仅保留为 checkout 开发回退。
 
 原设计文档现在只保留指针；本笔记负责承载实现决策及其理由。稳定范围和行为见
 [`REQUIREMENTS`](../../../../docs/REQUIREMENTS-dsh-rules-plugin.md)，证据见

@@ -10,7 +10,7 @@ duplicate or contradict the requirements.
 
 ## Decision
 
-The implementation is organized as a deterministic plan → evaluate → apply pipeline. `rules-pack/`
+The implementation is organized as a deterministic plan → evaluate → apply pipeline. `packages/`
 is the only versioned source for rule and skill content; `manifest.json` records feature defaults,
 toolchain groups, file targets, and content hashes. The engine appends marker-wrapped rule blocks,
 materializes fresh notes and selected skills, and manages the project toolchain while preserving
@@ -24,7 +24,7 @@ updates the user-global `~/.dsh/` plane.
 The distributable form is the public npm package `@xuxf/dsh-rules`. Its manifest declares
 `dsh.bundle.patch` pointing to the package-local `cordis.patch.yml`; that patch inserts the same package
 as the Cordis plugin when a DSH profile installs the bundle. The npm `files` allowlist carries only the
-runtime, CLI, patch, and `rules-pack/`; an absolute `file://` entry remains a checkout-development
+runtime, CLI, patch, and `packages/`; an absolute `file://` entry remains a checkout-development
 fallback.
 
 The former design document is now a pointer; this note is the home for implementation decisions and
@@ -54,7 +54,7 @@ fallback.
 ## Consequences
 
 Future architecture or implementation changes update this note (and its Chinese counterpart) in the
-same change. Public docs link here instead of copying mechanics. Any change to the rules-pack
+same change. Public docs link here instead of copying mechanics. Any change to the packages
 manifest, materialization semantics, conflict policy, or mount behavior must keep the implementation
 tests and acceptance evidence aligned. The package manifest, bundle patch, tarball file list, and
 package-consumer smoke test are the source of truth for the M3 distribution contract.

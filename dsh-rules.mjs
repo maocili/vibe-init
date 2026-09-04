@@ -1,6 +1,6 @@
 // dsh-rules —— DSH host 插件（安装器/管理器，本机 MVP 形态；同 dsh-obsidian-bridge 挂载先例）。
 // 设计/挂载依据：DESIGN-dsh-rules-plugin.md §6（挂载与生命周期）；挂载样例见
-// cordis.patch.sample.yml。规则文本一律来自版本化规则包（默认仓库根 rules-pack/），
+// cordis.patch.sample.yml。规则文本一律来自版本化规则包（默认仓库根 packages/），
 // 本插件不硬编码任何规则内容（DESIGN §3）。
 //
 // M1 形态说明：apply() 在挂载时【不产生任何副作用】（不做自动物化），只校验规则包并就绪提示。

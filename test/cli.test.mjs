@@ -1,5 +1,5 @@
 // dsh-rules CLI integration tests (node:test): spawn the real bin.
-// Uses a temp project fixture and a temp copy of the pack (real rules-pack is never mutated;
+// Uses a temp project fixture and a temp copy of the pack (real packages is never mutated;
 // hash runs only against the temp copy).
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
@@ -11,7 +11,7 @@ import { installToolchainIfNeeded } from '../lib/cli.mjs'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const BIN = join(ROOT, 'bin', 'dsh-rules.mjs')
-const REAL_PACK = join(ROOT, 'rules-pack')
+const REAL_PACK = join(ROOT, 'packages')
 let TMP
 
 function run(args, opts = {}) {

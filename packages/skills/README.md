@@ -1,4 +1,4 @@
-# skills-optional — 项目级通用技能
+# skills — 项目级通用技能
 
 本目录的每个子目录是一个完整的 `SKILL.md` 包。`init` 与 `upgrade` 默认将 manifest 中声明的全部技能
 复制到目标项目的 `.agents/skills/`；它们永不写入用户全局技能根。技能安装不等于自动执行：只有用户任务

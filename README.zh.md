@@ -7,7 +7,7 @@
 
 它管理的内容包括项目根 `AGENTS.md` 中带 marker 的规则段、`.agents/notes/` 骨架说明、声明的
 `.agents/skills/` 技能副本、生成的 `docs/AGENTS.md` 和 `.dsh-rules/toolchain/` 文档门禁工具链。规则正文的唯一来源是
-[`rules-pack/`](rules-pack/README.md)；插件代码只负责计划、比对和物化。
+[`packages/`](packages/README.md)；插件代码只负责计划、比对和物化。
 
 ## 快速开始
 
@@ -79,7 +79,7 @@ pnpm dlx @xuxf/dsh-rules upgrade \
 | `upgrade` | 以同一幂等引擎迁移到规则包当前版本 |
 | `status` | 查看逐项状态，不写盘 |
 | `audit` | `status` 加规则包完整性和旧残留检查，不写盘 |
-| `hash --pack rules-pack` | 在修改规则包后刷新规则行与技能资产的 manifest sha256 |
+| `hash --pack packages` | 在修改规则包后刷新规则行与技能资产的 manifest sha256 |
 | `list-skills` | 列出默认安装的项目技能 |
 
 `init` 与 `upgrade` 默认复制 manifest 声明的全部技能到项目 `.agents/skills/`；`--skill <name>` 仅为
@@ -114,10 +114,10 @@ dsh plugin --profile web add @xuxf/dsh-rules
 pnpm test
 ```
 
-`pnpm test` 运行 48 个 Node 测试。修改 `rules-pack/` 后必须刷新摘要：
+`pnpm test` 运行 48 个 Node 测试。修改 `packages/` 后必须刷新摘要：
 
 ```bash
-node bin/dsh-rules.mjs hash --pack rules-pack
+node bin/dsh-rules.mjs hash --pack packages
 ```
 
 详细资料在 [`docs/`](docs/README.md)：

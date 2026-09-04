@@ -4,7 +4,7 @@ English | [中文](README.zh.md)
 
 dsh-rules is a **per-project initializer**. It installs a versioned rule pack into a project without touching the user's global configuration or skill directories.
 
-It manages marker-wrapped rule segments in the project's root `AGENTS.md`, the `.agents/notes/` skeleton documentation, declared `.agents/skills/` skill copies, generated `docs/AGENTS.md`, and the `.dsh-rules/toolchain/` documentation quality-gate toolchain. The sole source of truth for rule text is [`rules-pack/`](rules-pack/README.md); plugin code only plans, compares, and materializes content.
+It manages marker-wrapped rule segments in the project's root `AGENTS.md`, the `.agents/notes/` skeleton documentation, declared `.agents/skills/` skill copies, generated `docs/AGENTS.md`, and the `.dsh-rules/toolchain/` documentation quality-gate toolchain. The sole source of truth for rule text is [`packages/`](packages/README.md); plugin code only plans, compares, and materializes content.
 
 ## Quick start
 
@@ -70,7 +70,7 @@ Each project stores the pack version, feature configuration, markers, and source
 | `upgrade` | Migrate to the current rule-pack version with the same idempotent engine |
 | `status` | Show itemized status without writing to disk |
 | `audit` | Run `status` plus rule-pack integrity and legacy-residue checks without writing to disk |
-| `hash --pack rules-pack` | Refresh manifest sha256 values for rule lines and skill assets after modifying the rule pack |
+| `hash --pack packages` | Refresh manifest sha256 values for rule lines and skill assets after modifying the rule pack |
 | `list-skills` | List the project skills installed by default |
 
 `init` and `upgrade` copy every skill declared by the manifest into the project's `.agents/skills/` by default; `--skill <name>` remains for compatibility with older invocations. `init` reports edited user skills as conflicts; `upgrade` overwrites files declared by the rule pack while retaining user-added files in skill directories.
@@ -103,10 +103,10 @@ This is a checkout-only fallback path, not the installation method for the publi
 pnpm test
 ```
 
-`pnpm test` runs 48 Node tests. After modifying `rules-pack/`, refresh its manifest summary:
+`pnpm test` runs 48 Node tests. After modifying `packages/`, refresh its manifest summary:
 
 ```bash
-node bin/dsh-rules.mjs hash --pack rules-pack
+node bin/dsh-rules.mjs hash --pack packages
 ```
 
 Detailed material is in [`docs/`](docs/README.md):

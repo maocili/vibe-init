@@ -1,14 +1,30 @@
 {
-  "name": "dsh-rules",
+  "name": "@deepseek-ai/dsh-rules",
   "version": "0.1.0",
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
   "description": "DSH plugin (per-project initializer, REQUIREMENTS v1.0): materializes a versioned rule pack into each project — fresh .agents/notes skeleton, marker rule segments in root AGENTS.md, and selected skill copies under .agents/skills. Never writes the user-global plane. Content lives in rules-pack/.",
   "type": "module",
   "engines": { "node": ">=18" },
+  "files": [
+    "dsh-rules.mjs",
+    "bin/",
+    "lib/",
+    "rules-pack/",
+    "cordis.patch.yml"
+  ],
   "scripts": { "test": "node --test" },
   "exports": {
     ".": "./dsh-rules.mjs",
-    "./lib/*": "./lib/*.mjs"
+    "./lib/*": "./lib/*.mjs",
+    "./cordis.patch.yml": "./cordis.patch.yml"
   },
-  "bin": { "dsh-rules": "./bin/dsh-rules.mjs" }
+  "bin": { "dsh-rules": "./bin/dsh-rules.mjs" },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
 }

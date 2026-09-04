@@ -1,0 +1,4 @@
+# Activate dsh-rules as a profile plugin when this package is installed.
+- insert:
+    - id: dsh-rules
+      name: '@deepseek-ai/dsh-rules'

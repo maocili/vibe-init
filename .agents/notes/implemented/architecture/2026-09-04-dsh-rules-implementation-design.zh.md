@@ -17,7 +17,7 @@ Status: implemented
 Cordis 入口只校验规则包并报告插件已挂载；项目写入由显式 CLI 命令完成。项目边界是永久约束：任何命令都不安装或
 更新用户全局的 `~/.dsh/` 面。
 
-可分发形态确定为公共 npm 包 `@deepseek-ai/dsh-rules`。包 manifest 声明指向包内 `cordis.patch.yml` 的
+可分发形态确定为公共 npm 包 `@xuxf/dsh-rules`。包 manifest 声明指向包内 `cordis.patch.yml` 的
 `dsh.bundle.patch`；DSH profile 安装 bundle 后，该 patch 将同包作为 Cordis plugin 插入。npm `files` 白名单只携带
 运行时、CLI、patch 和 `rules-pack/`；绝对 `file://` 条目仅保留为 checkout 开发回退。
 

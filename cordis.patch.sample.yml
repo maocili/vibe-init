@@ -1,5 +1,5 @@
 # 发布包安装（推荐）：在 profile 中运行：
-# dsh plugin --profile web add @deepseek-ai/dsh-rules
+# dsh plugin --profile web add @xuxf/dsh-rules
 # 宿主会根据包内 dsh.bundle.patch 自动加入该插件。
 # 以下条目仅用于 checkout 开发或兼容旧的本地挂载：
 # 复制到 ~/.dsh/profiles/web/cordis.patch.yml 的顶层数组。

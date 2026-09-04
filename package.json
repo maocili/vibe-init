@@ -1,5 +1,5 @@
 {
-  "name": "@deepseek-ai/dsh-rules",
+  "name": "@xuxf/dsh-rules",
   "version": "0.1.0",
   "publishConfig": {
     "access": "public"

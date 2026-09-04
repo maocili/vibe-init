@@ -45,4 +45,4 @@
 | M1 内容提炼 | 已完成（骨架门规/分类目录/双语三件套/指针根块/三特性段/11 个默认项目 skill，sha256 同步） |
 | M1b docGates 工具链 | **已完成（2026-09-04）**：rules-pack/toolchain（scaffold/base/text-link/doc-budgets/bilingual/extras/hooks + spec.json）；引擎组门控物化/组装 package.json/关闭移除；41/41 测试绿；真实验证：临时新项目 init→pnpm install→doc-sync（默认与 bilingual）exit 0，pre-commit 挂钩由 postinstall 写入且不覆盖外来配置 |
 | M2 真实挂载与验证 | **已通过（2026-09-03）**：insert 已写入（用户同意）；宿主重启日志出现 mounted；真实项目 /Users/xuxifeng/Work/dsh-rules-demo init/status/audit 验证绿 |
-| M3 可分发 | `package.json` 的 `@deepseek-ai/dsh-rules` + `dsh.bundle.patch`、根 `cordis.patch.yml`；`test/package.test.mjs` 验证 npm tarball 清单、临时安装、Cordis 入口和 CLI init/status | 达成（2026-09-04） |
+| M3 可分发 | `package.json` 的 `@xuxf/dsh-rules` + `dsh.bundle.patch`、根 `cordis.patch.yml`；`test/package.test.mjs` 验证 npm tarball 清单、临时安装、Cordis 入口和 CLI init/status | 达成（2026-09-04） |

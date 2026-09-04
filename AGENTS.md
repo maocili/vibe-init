@@ -41,7 +41,7 @@ dsh-rules/                      # 仓库根 = 插件源码（原 plugin/ 展平�
 ├── bin/dsh-rules.mjs           # CLI 入口（init/upgrade/status/audit/hash/list-skills）
 ├── lib/                        # engine / pack / cli / diff
 ├── test/                       # 自动化测试（node:test；仓库根 pnpm test，48 条）
-├── package.json                # name @deepseek-ai/dsh-rules；bin；dsh.bundle 元数据
+├── package.json                # name @xuxf/dsh-rules；bin；dsh.bundle 元数据
 ├── cordis.patch.yml            # 发布包的 DSH bundle patch
 ├── cordis.patch.sample.yml     # checkout 开发挂载样例（指向仓库根入口）
 ├── rules-pack/                 # 内置规则包 —— 唯一版本化内容源（manifest.json + sha256）

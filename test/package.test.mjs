@@ -61,16 +61,16 @@ test('tarball contains the public runtime, bundle patch, and complete rules pack
   assert.equal([...tarballFiles].some((path) => path.startsWith('.dsh-rules/')), false)
   assert.equal([...tarballFiles].some((path) => path.startsWith('node_modules/')), false)
 
-  const manifest = JSON.parse(readFileSync(join(consumer, 'node_modules', '@deepseek-ai', 'dsh-rules', 'package.json'), 'utf8'))
-  assert.equal(manifest.name, '@deepseek-ai/dsh-rules')
+  const manifest = JSON.parse(readFileSync(join(consumer, 'node_modules', '@xuxf', 'dsh-rules', 'package.json'), 'utf8'))
+  assert.equal(manifest.name, '@xuxf/dsh-rules')
   assert.equal(manifest.private, undefined)
   assert.equal(manifest.dsh.bundle.patch, './cordis.patch.yml')
-  assert.equal(readFileSync(join(consumer, 'node_modules', '@deepseek-ai', 'dsh-rules', 'cordis.patch.yml'), 'utf8'), "# Activate dsh-rules as a profile plugin when this package is installed.\n- insert:\n    - id: dsh-rules\n      name: '@deepseek-ai/dsh-rules'\n")
+  assert.equal(readFileSync(join(consumer, 'node_modules', '@xuxf', 'dsh-rules', 'cordis.patch.yml'), 'utf8'), "# Activate dsh-rules as a profile plugin when this package is installed.\n- insert:\n    - id: dsh-rules\n      name: '@xuxf/dsh-rules'\n")
 })
 
 test('installed Cordis entry and CLI use the package-local rules pack', () => {
-  const packageDir = join(consumer, 'node_modules', '@deepseek-ai', 'dsh-rules')
-  const mounted = run(process.execPath, ['--input-type=module', '-e', "const plugin = await import('@deepseek-ai/dsh-rules'); await plugin.apply()"], { cwd: consumer })
+  const packageDir = join(consumer, 'node_modules', '@xuxf', 'dsh-rules')
+  const mounted = run(process.execPath, ['--input-type=module', '-e', "const plugin = await import('@xuxf/dsh-rules'); await plugin.apply()"], { cwd: consumer })
   assert.equal(mounted.code, 0, mounted.err)
   assert.match(mounted.out, /\[dsh-rules\] mounted .*pack 0\.1\.0-draft/)
 

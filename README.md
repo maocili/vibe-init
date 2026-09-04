@@ -12,18 +12,18 @@
 在目标项目中先预览，再明确执行：
 
 ```bash
-node /Users/xuxifeng/Work/dsh-rules/bin/dsh-rules.mjs init --dry-run
-node /Users/xuxifeng/Work/dsh-rules/bin/dsh-rules.mjs init --yes
+pnpm dlx @deepseek-ai/dsh-rules init --dry-run
+pnpm dlx @deepseek-ai/dsh-rules init --yes
 ```
 
 之后可用：
 
 ```bash
 # 检查受管内容、规则包摘要与旧容器残留（只读）
-node /Users/xuxifeng/Work/dsh-rules/bin/dsh-rules.mjs audit
+pnpm dlx @deepseek-ai/dsh-rules audit
 
 # 将规则包的新版内容迁移到项目（先加 --dry-run 更稳妥）
-node /Users/xuxifeng/Work/dsh-rules/bin/dsh-rules.mjs upgrade --yes
+pnpm dlx @deepseek-ai/dsh-rules upgrade --yes
 ```
 
 默认入口是当前目录所属的 Git 项目；也可指定 `--project <dir>`。写入命令在非交互环境必须带
@@ -43,11 +43,11 @@ node /Users/xuxifeng/Work/dsh-rules/bin/dsh-rules.mjs upgrade --yes
 
 ```bash
 # 为本次迁移启用双语纪律及其门禁
-node /Users/xuxifeng/Work/dsh-rules/bin/dsh-rules.mjs upgrade \
+pnpm dlx @deepseek-ai/dsh-rules upgrade \
   --feature bilingualDocsDiscipline=true --yes
 
 # 移除由插件管理的 docGates 工具链
-node /Users/xuxifeng/Work/dsh-rules/bin/dsh-rules.mjs upgrade \
+pnpm dlx @deepseek-ai/dsh-rules upgrade \
   --feature docGates=false --yes
 ```
 
@@ -74,9 +74,19 @@ node /Users/xuxifeng/Work/dsh-rules/bin/dsh-rules.mjs upgrade \
 兼容旧调用保留。`init` 遇到用户编辑的技能会报告 conflict；`upgrade` 会覆盖规则包声明的技能文件，
 但保留技能目录中的用户新增文件。
 
-## 作为 DSH 本地插件挂载
+## 安装到 DSH profile
 
-将 [`cordis.patch.sample.yml`](cordis.patch.sample.yml) 的条目合并到本机 profile，并使用仓库根入口：
+公共包以 DSH bundle 形式发布。在 profile 中安装后，宿主会依据包的 `dsh.bundle.patch` 声明自动加入插件层：
+
+```bash
+dsh plugin --profile web add @deepseek-ai/dsh-rules
+```
+
+重启 profile 后，日志出现 `[dsh-rules] mounted` 即表示加载成功。挂载本身没有写盘副作用；仍须运行上面的 CLI 命令来初始化项目。
+
+## 本地 checkout 开发挂载
+
+本地开发或未安装宿主包时，可将 [`cordis.patch.sample.yml`](cordis.patch.sample.yml) 的条目合并到本机 profile：
 
 ```yaml
 - insert:
@@ -84,8 +94,7 @@ node /Users/xuxifeng/Work/dsh-rules/bin/dsh-rules.mjs upgrade \
       name: file:////Users/xuxifeng/Work/dsh-rules/dsh-rules.mjs
 ```
 
-重启 profile 后，日志出现 `[dsh-rules] mounted` 即表示加载成功。挂载本身没有写盘副作用；仍须运行
-上面的 CLI 命令来初始化项目。
+这是 checkout 专用的回退路径，不是发布包的安装方式。
 
 ## 开发与文档
 
@@ -93,7 +102,7 @@ node /Users/xuxifeng/Work/dsh-rules/bin/dsh-rules.mjs upgrade \
 pnpm test
 ```
 
-`pnpm test` 运行 41 个 Node 测试。修改 `rules-pack/` 后必须刷新摘要：
+`pnpm test` 运行 48 个 Node 测试。修改 `rules-pack/` 后必须刷新摘要：
 
 ```bash
 node bin/dsh-rules.mjs hash --pack rules-pack

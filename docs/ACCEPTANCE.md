@@ -1,7 +1,7 @@
 # ACCEPTANCE — REQUIREMENTS v1.0 逐条追溯
 
-> 每条需求/决策给出实现证据（测试名、命令、代码事实）。测试入口：仓库根 `pnpm test`（41/41，含升级所有权迁移与 M1b docGates）。
-> 范围权威：REQUIREMENTS-dsh-rules-plugin.md（v1.0 定案）。未实现项均已标注（DP-G 与 M3 仍待决定）。
+> 每条需求/决策给出实现证据（测试名、命令、代码事实）。测试入口：仓库根 `pnpm test`（48/48，含升级所有权迁移、M1b docGates 与 M3 tarball 安装）。
+> 范围权威：REQUIREMENTS-dsh-rules-plugin.md（v1.0 定案）。未实现项均已标注（DP-G 仍待决定）。
 
 ## 决策基线（§0 D1–D13）
 
@@ -45,4 +45,4 @@
 | M1 内容提炼 | 已完成（骨架门规/分类目录/双语三件套/指针根块/三特性段/11 个默认项目 skill，sha256 同步） |
 | M1b docGates 工具链 | **已完成（2026-09-04）**：rules-pack/toolchain（scaffold/base/text-link/doc-budgets/bilingual/extras/hooks + spec.json）；引擎组门控物化/组装 package.json/关闭移除；41/41 测试绿；真实验证：临时新项目 init→pnpm install→doc-sync（默认与 bilingual）exit 0，pre-commit 挂钩由 postinstall 写入且不覆盖外来配置 |
 | M2 真实挂载与验证 | **已通过（2026-09-03）**：insert 已写入（用户同意）；宿主重启日志出现 mounted；真实项目 /Users/xuxifeng/Work/dsh-rules-demo init/status/audit 验证绿 |
-| M3 可分发 | 未启动（用户决策） |
+| M3 可分发 | `package.json` 的 `@deepseek-ai/dsh-rules` + `dsh.bundle.patch`、根 `cordis.patch.yml`；`test/package.test.mjs` 验证 npm tarball 清单、临时安装、Cordis 入口和 CLI init/status | 达成（2026-09-04） |

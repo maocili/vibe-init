@@ -21,6 +21,12 @@ The Cordis entry point only validates the pack and reports that the plugin is mo
 commands perform project-local writes. The project boundary is permanent: no command installs or
 updates the user-global `~/.dsh/` plane.
 
+The distributable form is the public npm package `@deepseek-ai/dsh-rules`. Its manifest declares
+`dsh.bundle.patch` pointing to the package-local `cordis.patch.yml`; that patch inserts the same package
+as the Cordis plugin when a DSH profile installs the bundle. The npm `files` allowlist carries only the
+runtime, CLI, patch, and `rules-pack/`; an absolute `file://` entry remains a checkout-development
+fallback.
+
 The former design document is now a pointer; this note is the home for implementation decisions and
 their rationale. Stable scope and behavior remain in
 [`REQUIREMENTS`](../../../../docs/REQUIREMENTS-dsh-rules-plugin.md), and evidence remains in
@@ -37,9 +43,18 @@ review and would blur what users can rely on with how the plugin currently works
 **Use only commit messages.** Git history is useful for forensics but is not a discoverable,
 cross-linked decision record and does not state rejected alternatives.
 
+**Publish a plain plugin package without bundle metadata.** That would make the module installable but
+would leave DSH profile management unable to discover its patch layer; the package therefore declares the
+host's bundle contract and owns the minimal self-inserting patch.
+
+**Keep the absolute file URL as the distribution path.** It works for a checkout but ties profile state to
+one machine path and cannot be consumed from a package manager; it remains only as a local development
+fallback.
+
 ## Consequences
 
 Future architecture or implementation changes update this note (and its Chinese counterpart) in the
 same change. Public docs link here instead of copying mechanics. Any change to the rules-pack
 manifest, materialization semantics, conflict policy, or mount behavior must keep the implementation
-tests and acceptance evidence aligned.
+tests and acceptance evidence aligned. The package manifest, bundle patch, tarball file list, and
+package-consumer smoke test are the source of truth for the M3 distribution contract.

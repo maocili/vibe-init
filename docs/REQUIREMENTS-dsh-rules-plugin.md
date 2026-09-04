@@ -91,4 +91,4 @@
 插件可以计划、物化、升级、移除受管副本并报告状态；用户拥有业务代码、笔记正文、根文件段外内容和
 自装技能。所有写入先显示差异并取得确认（或以 `--yes` 明确执行），不新增自动备份目录，回滚依赖 Git。
 
-仍待决定：DP-G（自装技能识别口径）和 M3（可分发形态）。随包技能清单（DP-F）已由 `rules-pack/manifest.json` 固化并默认安装。
+DP-G（自装技能识别口径）仍待决定。M3 已定案为公共 npm 包 `@deepseek-ai/dsh-rules`：包声明 DSH `dsh.bundle.patch`，由 profile 的插件管理命令安装，bundle patch 再激活同包的 Cordis plugin。随包技能清单（DP-F）已由 `rules-pack/manifest.json` 固化并默认安装。

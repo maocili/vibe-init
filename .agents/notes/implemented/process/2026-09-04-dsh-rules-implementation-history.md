@@ -22,8 +22,9 @@ The decision history is maintained here as a concise timeline; fine-grained chan
   docs were consolidated under `docs/`, and the public README became the user entry point. Design and
   history were then moved into Agent Notes so the docs tree keeps stable contract and evidence pages.
 
-Open work remains DP-F (optional skills), DP-G (self-installed skill detection), and M3 (distribution
-form).
+M3 (2026-09-04) made `@deepseek-ai/dsh-rules` a public npm package with a DSH bundle patch,
+package-local runtime content, and tarball/consumer regression coverage. Open work remains DP-G
+(self-installed skill detection).
 
 ## Alternatives considered
 

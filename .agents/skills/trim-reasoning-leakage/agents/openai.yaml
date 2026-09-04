@@ -1,0 +1,4 @@
+interface:
+  display_name: "Trim Reasoning Leakage"
+  short_description: "Remove session narration while preserving durable facts"
+  default_prompt: "Use $trim-reasoning-leakage for the specified prose scope."

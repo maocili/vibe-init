@@ -16,11 +16,7 @@
     "verify-doc-refs": "tsx scripts/verify-doc-refs.ts",
     "verify-md-links": "tsx scripts/verify-md-links.ts",
     "verify-doc-budgets": "tsx scripts/verify-doc-budgets.ts",
-    "gen-translation-brief": "tsx scripts/gen-translation-brief.ts",
-    "resolve-translation-pairing-conflicts": "tsx scripts/merge-translation-pairing.ts --resolve",
-    "doc-typecheck": "tsx scripts/doc-typecheck.ts",
-    "verify-translation-pairing": "tsx scripts/verify-translation-pairing.ts",
-    "doc-sync": "pnpm run verify-agent-note-classification && pnpm run verify-agent-note-format && pnpm run verify-archived-agent-notes && pnpm run verify-doc-refs && pnpm run verify-md-links && pnpm run verify-doc-budgets && pnpm run doc-typecheck && pnpm run verify-translation-pairing"
+    "doc-sync": "pnpm run verify-agent-note-classification && pnpm run verify-agent-note-format && pnpm run verify-archived-agent-notes && pnpm run verify-doc-refs && pnpm run verify-md-links && pnpm run verify-doc-budgets"
   },
   "devDependencies": {
     "@types/mdast": "^4.0.4",
@@ -30,8 +26,6 @@
     "mdast-util-gfm": "^3.1.0",
     "micromark-extension-gfm": "^3.0.0",
     "tsx": "^4.22.4",
-    "typescript": "^6.0.3",
-    "@types/js-yaml": "^4.0.9",
-    "js-yaml": "^4.2.0"
+    "typescript": "^6.0.3"
   }
 }

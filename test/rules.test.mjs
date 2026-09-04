@@ -2,6 +2,7 @@
 // Fixtures live under the repository root and are removed after the run.
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
 import { cpSync, mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -199,6 +200,52 @@ test('default init installs every declared project skill', async () => {
   for (const name of expected) {
     assert.equal(second.find((r) => r.id === 'skill:' + name + ':SKILL.md').action, 'skip', name)
   }
+})
+
+test('shipped skill workflows are generic and bilingual guidance names the installed skill', async () => {
+  const pack = await loadPack(REAL_PACK)
+  for (const skill of pack.skills) {
+    const text = readFileSync(join(REAL_PACK, 'skills-optional', skill.name, 'SKILL.md'), 'utf8')
+    assert.doesNotMatch(text, /deepseek-harness|DeepSeek Harness|Cordis|dsh-translate-docs/)
+  }
+  const bilingualFiles = [
+    'toolchain/bilingual/docs/i18n/README.md',
+    'toolchain/bilingual/docs/i18n/README.zh.md',
+    'toolchain/bilingual/docs/i18n/translation-rules.md',
+    'toolchain/bilingual/docs/i18n/translation-rules.zh.md',
+    'toolchain/bilingual/docs/i18n/translation-prompt.md',
+    'toolchain/bilingual/scripts/gen-translation-brief.ts',
+    'toolchain/bilingual/scripts/translation-brief.ts',
+  ]
+  for (const rel of bilingualFiles) {
+    const text = readFileSync(join(REAL_PACK, rel), 'utf8')
+    assert.ok(!text.includes('dsh-translate-docs'), rel)
+    assert.ok(text.includes('translate-docs'), rel)
+  }
+})
+
+test('toolchain bilingual source pairs record their current contents', () => {
+  const pairs = [
+    ['toolchain/bilingual/docs/i18n/README.md', 'toolchain/bilingual/docs/i18n/README.zh.md', 'toolchain/bilingual/docs/i18n/README.i18n.yaml'],
+    ['toolchain/bilingual/docs/i18n/translation-rules.md', 'toolchain/bilingual/docs/i18n/translation-rules.zh.md', 'toolchain/bilingual/docs/i18n/translation-rules.i18n.yaml'],
+  ]
+  const blobHash = (rel) => {
+    const content = readFileSync(join(REAL_PACK, rel))
+    return createHash('sha1').update(`blob ${content.length}\0`).update(content).digest('hex')
+  }
+  for (const [source, zh, record] of pairs) {
+    const sidecar = readFileSync(join(REAL_PACK, record), 'utf8')
+    assert.match(sidecar, new RegExp(`^${source.split('/').at(-1)}: ${blobHash(source)}$`, 'm'))
+    assert.match(sidecar, new RegExp(`^${zh.split('/').at(-1)}: ${blobHash(zh)}$`, 'm'))
+  }
+})
+
+test('translate-docs remains explicit-only across its two invocation metadata formats', () => {
+  const skill = readFileSync(join(REAL_PACK, 'skills-optional', 'translate-docs', 'SKILL.md'), 'utf8')
+  const metadata = readFileSync(join(REAL_PACK, 'skills-optional', 'translate-docs', 'agents', 'openai.yaml'), 'utf8')
+  assert.match(skill, /^disable-model-invocation: true$/m)
+  assert.match(skill, /^user-invocable: true$/m)
+  assert.match(metadata, /^  allow_implicit_invocation: false$/m)
 })
 
 test('every shipped skill must be declared as a default installation', async () => {

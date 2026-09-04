@@ -1,6 +1,0 @@
-{
-  "excluded": [
-    "docs/AGENTS.md",
-    ".dsh-rules/toolchain/README.md"
-  ]
-}

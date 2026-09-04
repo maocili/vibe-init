@@ -1,0 +1,4 @@
+interface:
+  display_name: "Documentation Standards"
+  short_description: "Place, write, and validate project documentation"
+  default_prompt: "Use $documentation-standards for the specified documentation scope."

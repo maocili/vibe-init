@@ -1,7 +1,7 @@
 # dsh-rules toolchain（门禁与双语工具链）
 
 本目录是 dsh-rules 为每个项目物化的**受管工具链**（manifest `toolchain` → `docGates` 特性，缺省随 `init`/旧项目 `upgrade` 安装），
-语料从 `../vibe-coding-templates/.template` 提炼（迁移记录见仓库 CHANGELOG / ACCEPTANCE）。它是插件受管副本：
+语料从 `../vibe-coding-templates/.template` 提炼（迁移记录见实现历史 Agent Note / ACCEPTANCE）。它是插件受管副本：
 `status` 逐文件报 ok/drift/conflict，`upgrade` 按版本迁移，**请勿直接改这里**——本地改动会在下次 `status`/`upgrade` 报 conflict。
 
 ## 前置
@@ -31,7 +31,7 @@ pnpm -C .dsh-rules/toolchain run doc-sync
 | `docGates` 伞（true） | verify-doc-refs | ts 注释中的 docs 引用校验 |
 | `textLinkManagement`（true） | verify-md-links | 相对链接/锚点完整性 |
 | `docBudgets`（true） | verify-doc-budgets | `scripts/doc-budgets.manifest.json` 字数预算（默认只预算根 AGENTS.md；新增档位在清单里加行，路径相对项目根） |
-| `bilingualDocsDiscipline`（false） | verify-translation-pairing、doc-typecheck + gen-translation-brief / resolve-translation-pairing-conflicts | 双语配对一致性（git blob 记录）+ 文档 ts 围栏类型检查；语料在 `docs/i18n/`（terminology/translation-rules/style-samples/translation-prompt） |
+| `bilingualDocsDiscipline`（false） | verify-translation-pairing、verify-translation-prompt、doc-typecheck + gen-translation-brief / resolve-translation-pairing-conflicts | 双语配对一致性（git blob 记录）、双向提示词渲染与文档 ts 围栏类型检查；语料在 `docs/i18n/`（terminology/translation-rules/style-samples/translation-prompt） |
 | `docGatesExtras`（false） | verify-md-wrap / verify-mermaid / verify-skill-invocation-metadata | 逐段单物理行折行纪律（默认关：本插件物化的中文规则文本按段落折行，默认态需自洽；需要严格一物理行一行的仓库开启）+ 重门禁（jsdom+mermaid；技能元数据 js-yaml） |
 
 ## 与源容器（vibe-coding-templates/.template）的蒸馏差异

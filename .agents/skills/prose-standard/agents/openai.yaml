@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prose Standard"
+  short_description: "Keep required prose complete and concise"
+  default_prompt: "Use $prose-standard for the specified prose scope."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Merge Stacked PRs"
+  short_description: "Land an official GitHub pull-request stack"
+  default_prompt: "Use $merge-stacked-prs for this GitHub PR stack."

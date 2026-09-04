@@ -41,8 +41,8 @@
       "id": "project-standing-orders-block",
       "target": "AGENTS.md",
       "source": "standing-orders-block.md",
-      "sourceSha256": "8906001e1313a8186a78f2c7f5870724e60df0b0498c31e0015422347f24e6a0",
-      "installedSha256": "c6905ee48d184415540e797de09d16818d2b1a73c985338a3783ab02e1758504"
+      "sourceSha256": "d29e712ecf041b99a97c66ae4a82394557b06963604450354e8fc387030458dc",
+      "installedSha256": "28b66f9374bfb57a4ec1daf0549d3216414435b854e0f57453c736b12205de56"
     }
   ],
   "files": [
@@ -176,15 +176,15 @@
       "path": ".agents/skills/pre-push-checks/agents/openai.yaml",
       "kind": "skill",
       "source": "skills-optional/pre-push-checks/agents/openai.yaml",
-      "sourceSha256": "bfefded1a03bceaccafe47cf65b5eec2beaa825882f1a4324eecd011e083f9f3",
-      "installedSha256": "bfefded1a03bceaccafe47cf65b5eec2beaa825882f1a4324eecd011e083f9f3"
+      "sourceSha256": "5d57844b8817f919a0683651657d444c33fe408dc099b63eb83bb3c9da7bcd96",
+      "installedSha256": "5d57844b8817f919a0683651657d444c33fe408dc099b63eb83bb3c9da7bcd96"
     },
     {
       "path": ".agents/skills/pre-push-checks/SKILL.md",
       "kind": "skill",
       "source": "skills-optional/pre-push-checks/SKILL.md",
-      "sourceSha256": "c0e5015469be8266be4650202cfb5634c64c7e26a516595647083b4f2f24b685",
-      "installedSha256": "c0e5015469be8266be4650202cfb5634c64c7e26a516595647083b4f2f24b685"
+      "sourceSha256": "e157d48e5f66b624a866160eae2917a375031a7df880d6135eeeba64018d8b10",
+      "installedSha256": "e157d48e5f66b624a866160eae2917a375031a7df880d6135eeeba64018d8b10"
     },
     {
       "path": ".agents/skills/prose-standard/agents/openai.yaml",

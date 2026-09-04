@@ -179,11 +179,11 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "246ba22842a83e3afdc6e976cad4fbc99d867b7aba87f12d4b8d75b9cbde686f"
+          "sha256": "e157d48e5f66b624a866160eae2917a375031a7df880d6135eeeba64018d8b10"
         },
         {
           "path": "agents/openai.yaml",
-          "sha256": "009ce9c582e6451093f14dd9e9e178fdc0634c9f267144f840cc0c45de3470c0"
+          "sha256": "5d57844b8817f919a0683651657d444c33fe408dc099b63eb83bb3c9da7bcd96"
         }
       ]
     },

@@ -22,7 +22,7 @@ stack safeguards. Their instructions discover the target project's contracts, si
 validation commands, and optional capabilities instead of referring to Harness packages, CI, or product
 architecture. Existing metadata, supporting examples, recall batteries, and the deterministic GIF
 encoder remain managed assets. The explicit-only translation skill is also the name used by the bundled
-bilingual toolchain documentation and briefing comments. The generic `pre-push-checks` skill follows the same execution skeleton as the Harness-specific workflow: deterministic worktree and base inspection, project-declared scope and check discovery, hook boundaries, focused evidence, protected rewrite handling, a normal commit before push, and post-push remote verification. Project-specific commands remain conditional. Portable cross-references are retained in the root marker, note skeleton, and packaged workflows; they point only to project-local managed files or sibling skills installed with them.
+bilingual toolchain documentation and briefing comments. The generic `pre-push-checks` skill follows the same execution skeleton as the Harness-specific workflow: deterministic worktree and base inspection, project-declared scope and check discovery, hook boundaries, focused evidence, protected rewrite handling, a normal commit before push, and post-push remote verification. Project-specific commands remain conditional, but every branch names its executable command, input source, replacement rule, and stop condition. Portable cross-references are retained in the root marker, note skeleton, and packaged workflows; they point only to project-local managed files or sibling skills installed with them.
 
 ## Alternatives considered
 

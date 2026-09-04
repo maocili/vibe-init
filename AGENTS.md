@@ -94,9 +94,12 @@ dsh-rules/                      # 仓库根 = 插件源码（原 plugin/ 展平�
   并必须含 ## Alternatives considered。
 - **一致性**：新笔记先做 supersession 检查并与相关旧笔记交叉链接；implemented/ 笔记随实现保持现行
   （只更新事实）；archived/ 是冻结历史，不可改动、不可当作现行依据。
+- **提交纪律**：每完成一个可独立验证的 step（一个有明确结果的实现、文档、配置或测试变更），必须先通过适用
+  校验，再创建一个 Git commit；不要把多个已完成 step 合并到同一个 commit。
 
 EN: standing order — record non-trivial decisions as Agent Notes under .agents/notes/
 (four-quadrant lifecycle, dated naming, required header/format). Full rules: [Agent Note rules](.agents/notes/README.md).
+- **Commit discipline**: after each independently verifiable step (one implementation, documentation, configuration, or test change with a clear result), run the applicable checks and create one Git commit. Do not combine multiple completed steps in one commit.
 <!-- dsh-rules:project-standing-orders-block:end -->
 
 <!-- dsh-rules:feature-text-link-management:start -->

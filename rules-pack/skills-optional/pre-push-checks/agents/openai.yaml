@@ -1,4 +1,4 @@
 interface:
   display_name: "Pre-Push Checks"
-  short_description: "Inspect scope, run focused checks, and verify the push"
-  default_prompt: "Use $pre-push-checks to inspect, validate, commit, and push this change."
+  short_description: "Resolve scope, run declared checks, commit, and verify the push"
+  default_prompt: "Use $pre-push-checks to resolve the base, run declared checks, commit, and verify this push."

@@ -5,7 +5,7 @@
 > `toolchain/` 门禁工具链（doc-gate + 双语 + lefthook）均已实写并同步 manifest sha256（`dsh-rules hash`）；
 > `skills-optional/` 技能内容待提炼（DP-F 暂缓）。
 > 本目录是本仓库内「纪律规则内容与工具链」的唯一版本化出处；dsh-rules 插件只是**安装器/管理器**，不硬编码
-> 规则文本（依据 `DESIGN-dsh-rules-plugin.md` §3）。语料唯一出处：`/Users/xuxifeng/Work/vibe-coding-templates`。
+> 规则文本（依据 [`docs/DESIGN-dsh-rules-plugin.md`](../docs/DESIGN-dsh-rules-plugin.md) §3）。语料唯一出处：`/Users/xuxifeng/Work/vibe-coding-templates`。
 
 ## 目录 → 物化目标映射
 
@@ -36,4 +36,4 @@
 
 > 门禁：manifest `files[]` 的 sha256 由 manifest 声明（`hash` 刷新）；`toolchain/spec.json` 声明组与依赖、
 > `status` 靠内容比对报 ok/drift/conflict，`upgrade` 幂等迁移、关闭特性移除受管副本。实现见 `DESIGN…` §4/§5；
-> 引擎测试 `cd plugin && pnpm test` 26/26（含 docGates 物化/移除/audit/CLI 端到端）。
+> 引擎测试：仓库根 `pnpm test`（26 条，含 docGates 物化/移除/audit/CLI 端到端）。

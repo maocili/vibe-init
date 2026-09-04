@@ -36,7 +36,7 @@
       "target": "AGENTS.md",
       "source": "standing-orders-block.md",
       "mode": "append-under-marker",
-      "sha256": "548d0d2669f1eae718f492895e9b0560b343b0c980bb066f60c5a12d899bed86"
+      "sha256": "22b81e85fbe9a33de27f4633f541d0d5ae4910ad2c1ea70c2d7558e9aec537b9"
     },
     {
       "id": "project-docs-agents",

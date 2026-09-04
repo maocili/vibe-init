@@ -11,13 +11,13 @@
       "id": "project-notes-readme-zh",
       "target": ".agents/notes/README.zh.md",
       "source": "notes-skeleton/README.zh.md",
-      "sha256": "026ab8c204683e379c8f11606b482f37d00b59bf5eccaacb5b768585d8a3b40f"
+      "sha256": "9d57b7a9aa836c94b25dfb1fdbbb4e439afb47531dc416dcc12ec63f3f78a205"
     },
     {
       "id": "project-notes-i18n",
       "target": ".agents/notes/README.i18n.yaml",
       "source": "notes-skeleton/README.i18n.yaml",
-      "sha256": "45df95c6d9d7c34c7e7422ae4ca8f2befd48f058cc6c4117bd8b61b9ebc5e2d7"
+      "sha256": "8e0dba027da1fdc4468e345c0d36d20a2cf8d28029d20a2fc428735ab1c4eea4"
     },
     {
       "id": "project-notes-agents",
@@ -44,7 +44,7 @@
       "source": "features/text-link-management.md",
       "mode": "append-under-marker",
       "feature": "textLinkManagement",
-      "sha256": "4175a89f7050b96ca199423c633589408b0b9909ca07c00fbb25acbc4a720662"
+      "sha256": "14f72f62477d58b0fdbd4c8867c4c9b693a4faadd0aaeba9d6c5b4e15dae19f6"
     },
     {
       "id": "feature-bilingual-docs",
@@ -60,14 +60,20 @@
       "source": "features/doc-budgets.md",
       "mode": "append-under-marker",
       "feature": "docBudgets",
-      "sha256": "49e794405509e4813eb5dc6d2b06f7eb7f250c6ab0cc3dcafa3e9283022e028c"
+      "sha256": "729e9d74767fa5f92ea961cb7128b4a734fe666361a342ebec7e801adf49b86a"
     }
   ],
+  "toolchain": {
+    "target": ".dsh-rules/toolchain",
+    "spec": "toolchain/spec.json"
+  },
   "features": {
     "textLinkManagement": true,
     "bilingualPairing": true,
     "bilingualDocsDiscipline": false,
     "docBudgets": true,
+    "docGates": true,
+    "docGatesExtras": false,
     "optionalSkills": []
   }
 }

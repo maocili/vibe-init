@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-09-04 — M1b: docGates 门禁/双语/挂钩工具链迁入 rules-pack（REQUIREMENTS D11/D12）
+
+### feat(rules-pack): toolchain subtree + spec + manifest 声明
+- rules-pack/toolchain/：spec.json 声明 7 组（scaffold/hooks/base/text-link/doc-budgets/bilingual/extras）与依赖/scripts；
+- 蒸馏自 ../vibe-coding-templates/.template：note/链接/预算/doc-refs 门禁、双语配对门禁+生成工具+docs/i18n 语料、消费者向 install-lefthook.mjs（T3）；
+- 蒸馏差异：门禁扫描根 = 项目根（agentCorpusRoot）；manifest/doc-typecheck/语料路径指向工具链本目录；T4（*.spec.ts/vitest）与作者向工具不随迁；
+- 自洽化：verify-md-wrap 归 docGatesExtras（默认关，默认态需与物化中文规则文本自洽）；双语配对 scope 不含 .agents/notes（notes 双语可选）；
+- notes-skeleton 补齐 archived 六类目录 + 基线 manifest + README 三件套有效 pairing record。
+
+### feat(plugin): docGates 物化引擎
+- pack.mjs loadPack 解析 toolchain 声明与 spec（分组预枚举，坏 spec 报错）；
+- engine planProject (d) 阶段：伞 docGates 门控 + 组 feature 门控；package.json（doc-sync=启用 verify 链）确定性组装（managedUpdate）；
+- 关闭组/伞 → 移除受管副本（字节等于源才删；用户改动 conflict 保留，--force 可强制；空目录裁剪）；audit 感知受管目录多余文件；
+- cli：remove 动作支持；status/audit 文案；USAGE 同步。
+
+### test(plugin): 26/26 绿
+- 新增 toolchain.test.mjs（默认物化集、幂等、bilingual 开/关移除、docGates=false 整目录移除且用户改动保留、extras opt-in、audit、compose 确定性）与 cli-toolchain.test.mjs（CLI 端到端开关）；
+- 真实验证：临时 git 项目 init → pnpm install → doc-sync 默认与 bilingual 均 exit 0；postinstall 写入 pre-commit 挂钩且外来 lefthook.yml 不覆盖；
+- 文档：REQUIREMENTS/DESIGN/README/CHANGELOG/ACCEPTANCE/AGENTS/rules-pack README/plugin README/features 正文同步（运行时门禁口径由『不做移植』改为受管 docGates）。
+- 真实验证（demo）：/Users/xuxifeng/Work/dsh-rules-demo `upgrade --yes --force` 后 audit exit 0（summary dir/skip、notes 空）；`.dsh-rules/toolchain` 内 `pnpm install` + `doc-sync` exit 0（受管 pre-commit 挂钩随 postinstall 安装）。
 ## 2026-09-03 — engine v1.0 (project-only initializer) + content M1 + tests
 
 ### feat(rules-pack): docBudgets materializes — `85fdda2`

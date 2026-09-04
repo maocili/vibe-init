@@ -5,8 +5,10 @@
 - **篇幅预算是护栏而非削减目标**：长期维护文档设字数软上限；超限先重组、下移内容或链接到所属档位，
   而不是新增重复文档；确需提额时在变更里说明理由。
 - 文档分类与分层选择先于写作：先定位文档归属、再定详略与档位、tutorial 按前置知识排序、低层细节用链接替代。
-- Agent Note（.agents/notes/）与代码注释不属本档位。本项目不强制运行时 doc 门禁（完整 verify 留容器），
-  轻量校验由各项目按需自建。
+- Agent Note（.agents/notes/）与代码注释不属本档位。预算的机械执行由 dsh-rules 的 docGates 工具链提供
+  （verify-doc-budgets，默认安装；默认只预算根 AGENTS.md，档位清单在 `.dsh-rules/toolchain/scripts/doc-budgets.manifest.json`）。
 
 EN: doc tiers (tutorial/reference, one home per fact) plus wordcount budgets as guardrails;
-classification precedes writing; no runtime gate by default.
+classification precedes writing. Budget ceilings are enforced mechanically by the docGates
+toolchain (verify-doc-budgets, installed by default; budget list lives in
+`.dsh-rules/toolchain/scripts/doc-budgets.manifest.json`).

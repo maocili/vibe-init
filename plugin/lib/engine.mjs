@@ -4,10 +4,12 @@
 //  • marker-managed segments appended to the root AGENTS.md (note-discipline block +
 //    feature sections per manifest.features defaults);
 //  • user-selected optional skill copies under .agents/skills/<name> (dependency-managed
-//    per project; conflict reported, never overwritten without --force).
+//    per project; conflict reported, never overwritten without --force);
+//  • the docGates toolchain under <project>/.dsh-rules/toolchain (umbrella feature +
+//    per-group gating; composed package.json; disabled groups remove managed copies).
 // The global plane (~/.dsh/AGENTS.md, user skill roots) is intentionally out of scope:
 // no command writes there (REQUIREMENTS v1.0 D1/D2). Every operation is idempotent:
-import { readFile, writeFile, mkdir, readdir, stat } from 'node:fs/promises'
+import { readFile, writeFile, mkdir, readdir, rmdir, stat, unlink } from 'node:fs/promises'
 import { join, dirname, normalize, resolve, relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { cleanSource, listFiles } from './pack.mjs'
@@ -92,7 +94,59 @@ export function removeSegmentText(existing, id) {
   return out === '' ? '' : out + '\n'
 }
 
+/** Feature gate: run-level override (opts.features) wins per key; absent keys fall back to pack defaults. */
+function featureEnabled(pack, opts, key) {
+  if (!key) return true
+  if (opts.features && key in opts.features) return !!opts.features[key]
+  return !!pack.features[key]
+}
 
+/** Deterministically compose the toolchain package.json for a set of enabled group ids. */
+export function composeToolchainPackageJson(tc, enabledGroupIds) {
+  const pg = tc.packageJson || {}
+  const scripts = Object.assign({}, pg.baseScripts || {})
+  const deps = Object.assign({}, pg.baseDeps || {})
+  const verifyNames = []
+  for (const g of tc.groups) {
+    if (!enabledGroupIds.has(g.id)) continue
+    Object.assign(scripts, g.scripts)
+    Object.assign(deps, g.deps)
+    for (const v of g.verify) {
+      scripts[v] = 'tsx scripts/' + v + '.ts'
+      verifyNames.push(v)
+    }
+  }
+  scripts['doc-sync'] = verifyNames.length
+    ? verifyNames.map((v) => 'pnpm run ' + v).join(' && ')
+    : 'echo "no doc gates enabled (dsh-rules: enable a gate group)"'
+  const body = {
+    name: pg.name || 'dsh-rules-toolchain',
+    version: pg.version || '0.0.0',
+    private: pg.private !== undefined ? pg.private : true,
+    type: pg.type || 'module',
+    engines: pg.engines || { node: '>=20' },
+    scripts,
+    devDependencies: deps
+  }
+  return JSON.stringify(body, null, 2) + '\n'
+}
+
+async function readText(abs) {
+  try { return await readFile(abs, 'utf8') } catch { return null }
+}
+
+/** Remove an empty file's parent dirs up to (and including) the managed home. */
+async function pruneEmptyDirs(filePath, homeAbs) {
+  let dir = dirname(filePath)
+  while (homeAbs && (dir === homeAbs || dir.startsWith(homeAbs + sep))) {
+    let names = []
+    try { names = await readdir(dir) } catch { return }
+    if (names.length > 0) return
+    try { await rmdir(dir) } catch { return }
+    if (dir === homeAbs) return
+    dir = dirname(dir)
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Plan construction
@@ -102,7 +156,8 @@ export function removeSegmentText(existing, id) {
  * Build the project-scope plan for init/upgrade/status.
  * Returns { scope, projectRoot, entries } where each entry is one of
  *   { kind:'dir', targetAbs, label }
- *   { kind:'file', id, targetAbs, content, label }                 (skeleton mirror; exact copy)
+ *   { kind:'file', id, targetAbs, content, label }                 (exact copy / composed)
+ *   { kind:'file-remove', id, targetAbs, home, expect, label }     (managed-copy removal)
  *   { kind:'segment', id, targetAbs, body, label, feature, enabled }  (AGENTS.md marker blocks)
  */
 export async function planProject(pack, projectRoot, opts = {}) {
@@ -163,6 +218,57 @@ export async function planProject(pack, projectRoot, opts = {}) {
       entries.push({ kind: 'missing-skill', name, label: 'skill ' + name })
     }
   }
+  // (d) docGates toolchain → <project>/<toolchain.target>/ — umbrella feature + per-group gating.
+  // Enabled groups materialize their files plus the composed package.json; disabled groups
+  // schedule removal of managed copies (byte-equal ⇒ remove; edited/drifted ⇒ conflict).
+  const tc = pack.toolchain
+  if (tc) {
+    const home = join(projectRoot, tc.target)
+    const umbrella = featureEnabled(pack, opts, tc.feature)
+    const enabledGroups = new Set()
+    const defaultGroups = new Set()
+    if (umbrella) entries.push({ kind: 'dir', targetAbs: home, label: tc.target })
+    for (const g of tc.groups) {
+      const on = umbrella && featureEnabled(pack, opts, g.feature)
+      const onByDefault = !g.feature || !!pack.features[g.feature]
+      if (on) enabledGroups.add(g.id)
+      if (onByDefault) defaultGroups.add(g.id)
+      for (const f of g.files) {
+        const targetAbs = join(home, f.rel)
+        const label = join(tc.target, f.rel)
+        if (on) {
+          const content = await readText(f.abs)
+          if (content !== null) {
+            entries.push({ kind: 'file', id: 'toolchain:' + g.id + ':' + f.rel, targetAbs, content, label, feature: g.feature, group: g.id })
+          }
+        } else {
+          // schedule removal only when the managed copy actually exists (keeps status quiet)
+          let present = false
+          try { present = (await stat(targetAbs)).isFile() } catch { /* absent */ }
+          if (present) {
+            const expect = await readText(f.abs)
+            entries.push({ kind: 'file-remove', id: 'toolchain-remove:' + g.id + ':' + f.rel, targetAbs, label, home, expect, note: 'group ' + g.id + ' disabled' })
+          }
+        }
+      }
+    }
+    const pkgPath = join(home, 'package.json')
+    if (umbrella) {
+      const pkg = composeToolchainPackageJson(tc, enabledGroups)
+      // The composed package.json is fully managed (derived from enabled groups): feature
+      // toggles/upgrades update it like a segment, not a user-owned copy.
+      entries.push({ kind: 'file', id: 'toolchain:package.json', targetAbs: pkgPath, content: pkg, label: join(tc.target, 'package.json'), group: 'package.json', managedUpdate: true })
+    } else {
+      // docGates off ⇒ remove the whole managed toolchain; package.json is removable when it
+      // still matches the pack-default composition (customized ⇒ conflict, manual cleanup).
+      const pkgRef = composeToolchainPackageJson(tc, defaultGroups)
+      let pkgPresent = false
+      try { pkgPresent = (await stat(pkgPath)).isFile() } catch { /* absent */ }
+      if (pkgPresent) {
+        entries.push({ kind: 'file-remove', id: 'toolchain-remove:package.json', targetAbs: pkgPath, label: join(tc.target, 'package.json'), home, expect: pkgRef, note: 'docGates disabled' })
+      }
+    }
+  }
   return { scope: 'project', projectRoot, entries }
 }
 
@@ -193,8 +299,14 @@ export async function evaluatePlan(plan, opts = {}) {
     if (e.kind === 'file') {
       if (existing === null) out.push(Object.assign({}, e, { action: 'create' }))
       else if (existing === e.content) out.push(Object.assign({}, e, { action: 'skip' }))
-      else if (opts.force) out.push(Object.assign({}, e, { action: 'update', preview: preview(e.label, existing, e.content) }))
+      else if (opts.force || e.managedUpdate) out.push(Object.assign({}, e, { action: 'update', preview: preview(e.label, existing, e.content) }))
       else out.push(Object.assign({}, e, { action: 'conflict', preview: preview(e.label, existing, e.content) }))
+      continue
+    }
+    if (e.kind === 'file-remove') {
+      if (existing === null) out.push(Object.assign({}, e, { action: 'skip', note: 'not present' }))
+      else if (opts.force || (e.expect !== null && existing === e.expect)) out.push(Object.assign({}, e, { action: 'remove' }))
+      else out.push(Object.assign({}, e, { action: 'conflict', note: 'modified or version-drifted — kept; remove with --force or manually' }))
       continue
     }
     // segment
@@ -224,6 +336,12 @@ export async function applyResults(results) {
       continue
     }
     if (r.action === 'skip' || r.action === 'conflict' || r.action === 'missing') continue
+    if (r.action === 'remove' && r.kind === 'file-remove') {
+      try { await unlink(r.targetAbs) } catch { /* already gone */ }
+      await pruneEmptyDirs(r.targetAbs, r.home)
+      applied.push(Object.assign({}, r, { applied: true }))
+      continue
+    }
     if (r.kind === 'file') {
       await mkdir(dirname(r.targetAbs), { recursive: true })
       await writeFile(r.targetAbs, r.content, 'utf8')
@@ -287,6 +405,30 @@ export async function auditExtras(pack, projectRoot) {
         if (!known.includes(name)) notes.push({ level: 'info', what: 'unknown-top-level', detail: '.agents/notes/' + name })
       }
     } catch { }
+    // managed docGates toolchain: files inside the managed home that the pack does not own
+    // (node_modules, lockfiles, the composed package.json) are expected; anything else is reported.
+    if (pack.toolchain) {
+      const home = join(projectRoot, pack.toolchain.target)
+      const managed = new Set()
+      for (const g of pack.toolchain.groups) for (const f of g.files) managed.add(f.rel)
+      const expected = (rel) => rel === 'package.json' || rel.split('/').includes('node_modules') || /\.(lock|log)$/.test(rel)
+      const walk = async (dirAbs, prefix) => {
+        let names = []
+        try { names = await readdir(dirAbs) } catch { return }
+        for (const name of names) {
+          if (name === 'node_modules') continue
+          const abs = join(dirAbs, name)
+          const rel = prefix ? prefix + '/' + name : name
+          let isDir = false
+          try { isDir = (await stat(abs)).isDirectory() } catch { continue }
+          if (isDir) { await walk(abs, rel); continue }
+          if (!managed.has(rel) && !expected(rel)) {
+            notes.push({ level: 'info', what: 'toolchain-extra', detail: rel + ' inside the managed ' + pack.toolchain.target + '/' })
+          }
+        }
+      }
+      await walk(home, '')
+    }
   }
   return notes
 }

@@ -27,6 +27,8 @@
 | D8 | **DP-A 定案**：项目根规则块 = **指针式**——短块指向 .agents/notes/ 骨架门规；细节在骨架内；受基线字节预算约束 | §1 G1、§3.2 根块行、standing-orders-block 内容形态 |
 | D9 | **DP-E 定案**：双语纪律段 = **独立 feature key**（不并入 docBudgets），默认关（D4）；key 命名实现期定 | §3.2 feature 语义 |
 | D10 | **docBudgets 默认开启**：轻量 doc 分层/预算语义随默认开箱（与双语纪律段互不归属） | §3.2 feature 语义、§5 |
+| D11 | **M1b（2026-09-04）门禁工具链入规则包**：doc-gate/双语/挂钩工具链从 `../vibe-coding-templates/.template` 提炼为 rules-pack 受管内容，物化为特性 `docGates`（伞，默认 true）与 `docGatesExtras`（默认 false）；**每个 discipline feature 配自己的脚本组**（方案甲，按 feature 开关物化/移除） | §3.1/§3.2/§3.3/§4/§5 修订 |
+| D12 | **M1b 取舍**：工具链物化到 `<project>/.dsh-rules/toolchain/`（默认随 docGates 装）；bilingualDocsDiscipline 开时含双语门禁+生成工具+`docs/i18n/` 语料；T3 lefthook pre-commit 挂钩默认随伞（postinstall 安装，外来配置冲突不覆盖）；T4 测试链（`*.spec.ts`/vitest）不随迁；运行时保持源形态（tsx+mdast，消费者自 `pnpm install`，Node>=20） | §3.3、§4、§5 |
 
 ## 1. 目标重述（病根 → 目标 → 验收）
 
@@ -80,6 +82,7 @@
 | <project>/AGENTS.md | note 纪律规则块 + 文本链接纪律段（marker 包裹） | 已实写（2026-09-03 M1 提炼） |
 | <project>/.agents/notes/ | 笔记骨架：README（双语三件套）+ AGENTS.md 门规 + manifest + 四象限目录 | 已实写（2026-09-03 M1 提炼） |
 | <project>/.agents/skills/ | 声明内技能副本（依赖包式，挑选制） | 空（skills-optional 待提炼） |
+| <project>/.dsh-rules/toolchain/ | docGates 工具链（门禁/双语/挂钩；按 spec.json 组与 feature 门控，含组装 package.json） | 已实现（2026-09-04 M1b；默认 docGates 开） |
 | ~/.dsh/AGENTS.md、用户技能根 | **不物化任何内容（D1）** | — 从范围删除 |
 | 规则/技能文本的版本化出处 | rules-pack/（本仓库） | manifest 有 sha256；正文占位 |
 
@@ -95,6 +98,7 @@
 | 根 AGENTS.md：文本链接管理纪律段 | 交叉引用/校验语义 | 默认（textLinkManagement） |
 | 根 AGENTS.md：双语纪律段 | 双语配对/同步纪律（重机制） | **默认关**（独立 feature key，D9） |
 | 技能项目副本 | 用户挑选后复制进 .agents/skills/；声明式管理、可升级；自装不覆盖 | 机制默认，内容挑选制 |
+| docGates 工具链 | .dsh-rules/toolchain/（常设门禁 + 默认开特性脚本 + pre-commit 挂钩）；扩展门禁随 docGatesExtras | 默认（docGates） |
 
 feature 开关语义（v1.0 定案，manifest 待同步）：
 
@@ -104,13 +108,18 @@ feature 开关语义（v1.0 定案，manifest 待同步）：
 - 双语纪律段：**独立 feature key**（不并入 docBudgets），**默认 false**（D9；key 命名实现期定，建议 bilingualDocsDiscipline）；
 - `docBudgets`：默认 **true**（D10）；轻量 doc 分层/预算语义物化为根 `AGENTS.md` 规则段
   （`features/doc-budgets.md`，2026-09-03 落地；正文可随提炼微调）；
+- `docGates`：默认 **true**（D11）；伞开关——scaffold/常设 note 门禁/T3 挂钩 + 默认开特性（textLink/docBudgets）脚本组物化到
+  `<project>/.dsh-rules/toolchain/`；关闭 ⇒ 整个工具链移除；
+- `docGatesExtras`：默认 **false**；重门禁 opt-in（verify-md-wrap 逐段折行纪律、verify-mermaid、verify-skill-invocation-metadata）；
 - `optionalSkills`：可挑选技能清单（声明式依赖，默认空）。
 
 ### 3.3 明确不进入规则包/项目
 
 - 容器自己的开发史 note（P3 的病根物）；
 - harness 专用物（dsh-* 等与 DSH 内置重复的技能——内置同名者不必再分发）；
-- 完整 doc-sync/verify 门禁工具链正文（只以 feature 形态提供轻量语义）。
+- 完整 doc-sync/verify 门禁运行时——已按 D11 收编为**受管工具链 docGates**（默认开；见 §3.2），不再属于排除项；
+- 容器/作者专用物（不进规则包/项目）：vitest 测试链（`*.spec.ts`、test-fixture-cleanup，T4）、lefthook 全量安装器、
+  docs/ 语料正文（i18n/postmortem/README 文本属规则文本域，不整树随工具链物化）。
 
 ## 4. 插件行为边界（管什么 / 不管什么）
 
@@ -119,7 +128,7 @@ feature 开关语义（v1.0 定案，manifest 待同步）：
 | 物化/更新/移除项目根规则段（marker 按 id 定位） | 全局面：~/.dsh/AGENTS.md、用户级技能根（R2） |
 | 生成笔记骨架；对已有笔记只读、绝不覆盖（R6） | 用户笔记内容、根 AGENTS.md 段外编辑、自装技能（识别报告，不动） |
 | 声明内技能副本的安装/升级/移除（依赖包式） | 项目业务代码、产品规则文本的创作 |
-| status/audit 只读报告（版本/漂移/冲突/污染/技能归属） | 完整 doc-sync/verify 门禁的运行时移植 |
+| status/audit 只读报告（版本/漂移/冲突/污染/技能归属、toolchain 受管集外多余文件） | 容器/作者专用物：vitest 测试链、lefthook 全量安装器、docs/ 语料正文整树（docGates 之外不移植） |
 | 写前差异展示 + 确认；一切动作显式触发（R10） | 自动/隐式行为 |
 
 边界原则一句话：**插件 = 项目的受管面初始化器与依赖管理器；用户拥有内容面（笔记、段外编辑、

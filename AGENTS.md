@@ -13,9 +13,10 @@
 > managed like dependency packages. It never touches the user-global plane (`~/.dsh/AGENTS.md`,
 > user skill roots). The versioned rule pack under [`rules-pack/`](rules-pack/README.md) is the
 > single content source; the plugin under [`plugin/`](plugin/README.md) only installs/manages per
-> project. Scope authority: `REQUIREMENTS-dsh-rules-plugin.md` (v1.0, finalized — supersedes
-> DESIGN §1/§2); rule-pack content (skeleton gates, bilingual trio, pointer block, feature
-> sections) is distilled and sha256-synced; `skills-optional/` awaits DP-F.
+> project. Scope authority: `REQUIREMENTS-dsh-rules-plugin.md` (v1.0 + M1b decisions D11/D12 —
+> supersedes DESIGN §1/§2); rule-pack content (skeleton gates, bilingual trio, pointer block,
+> feature sections, and the docGates toolchain under `toolchain/`) is distilled and
+> sha256-synced; `skills-optional/` awaits DP-F.
 
 ## 入口文档
 
@@ -31,9 +32,10 @@
 - [`rules-pack/`](rules-pack/README.md) — 内置规则包：**唯一版本化内容源**。
   `manifest.json` 声明文件清单与 `sha256`（含 features 开关）；子目录映射物化目标
   （`notes-skeleton/` → 项目 `.agents/notes/`，`standing-orders-block.md` → 项目根 `AGENTS.md`
-  的 marker 段，`skills-optional/` → 项目 `.agents/skills/`，`features/`）。`global/`（→ ~/.dsh）
-  已按 v1.0 退役删除。内容已实写并同步 sha256（M1：骨架门规/双语三件套/指针根块/三特性段）；
-  skills-optional 技能内容待提炼（DP-F）。
+  的 marker 段，`skills-optional/` → 项目 `.agents/skills/`，`features/`，
+  `toolchain/` → 项目 `.dsh-rules/toolchain`，docGates 伞 + spec.json 组）。`global/`（→ ~/.dsh）
+  已按 v1.0 退役删除。内容已实写并同步 sha256（M1 内容 + **M1b（2026-09-04）toolchain docGates 工具链**：
+  doc-gate/双语/挂钩，REQUIREMENTS D11/D12）；skills-optional 技能内容待提炼（DP-F）。
 - [`plugin/`](plugin/README.md) — dsh-rules 插件源码（host 层安装器/管理器）：
   `dsh-rules.mjs` + `cordis.patch.sample.yml`（挂载样例）。
 - `.template/` + `.agents/` — 从源容器（vibe-coding-templates）带入的子树：`.agents/notes/` 是
@@ -49,7 +51,8 @@
 - **规则内容一律写入 `rules-pack/`**（DESIGN §3：不把规则内容硬编码进插件）；改 `plugin/`
   只动安装/管理逻辑。
 - 修改 `rules-pack/` 文件时保持 `manifest.json` 的 files 清单与 `sha256` 同步（`status`/
-  `upgrade` 依赖内容寻址）。
+  `upgrade` 依赖内容寻址）；改动 `toolchain/**` 分组/依赖时同步 `spec.json`，并跑
+  `cd plugin && pnpm test`（26 条含 docGates 物化/移除回归）。
 - 修改 `.template/` 内容后，提交前在 `.template/` 内跑 `pnpm run doc-sync`。
 - 根级文件（本文件、`README.md`、`DESIGN…`、`rules-pack/`、`plugin/`）为容器级，不在
   `.template/` 门禁范围内；`rules-pack/` 自己的评审门禁（doc-sync 语义子集）实现期待定。

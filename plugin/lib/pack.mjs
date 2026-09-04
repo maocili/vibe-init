@@ -2,7 +2,7 @@
 // The pack is the single content source (DESIGN §3); this plugin never hardcodes rule text.
 import { createHash } from 'node:crypto'
 import { readFile, readdir, stat, writeFile } from 'node:fs/promises'
-import { join, relative } from 'node:path'
+import { dirname, join, relative } from 'node:path'
 
 export function sha256OfBytes(bytes) {
   return createHash('sha256').update(bytes).digest('hex')
@@ -56,7 +56,49 @@ export function cleanSource(text) {
 }
 
 /**
- * Load and validate a pack directory. Returns { dir, version, features, rows, manifest }.
+ * Load a toolchain declaration from the pack manifest + spec (docGates umbrella).
+ * Returns null when the pack declares no toolchain; pushes problems on a broken one.
+ * Groups are pre-enumerated so planning can gate each group by its feature key.
+ */
+async function loadToolchain(packDir, manifest, problems) {
+  const cfg = manifest.toolchain
+  if (!cfg || typeof cfg !== 'object') return null
+  if (!cfg.spec || !cfg.target) { problems.push('toolchain: spec and target are required'); return null }
+  const specPath = join(packDir, String(cfg.spec).replace(/^\/+/, ''))
+  let spec
+  try {
+    spec = JSON.parse(await readFile(specPath, 'utf8'))
+  } catch (error) {
+    problems.push('toolchain: cannot parse spec ' + cfg.spec + ': ' + (error instanceof Error ? error.message : String(error)))
+    return null
+  }
+  const specDir = dirname(specPath)
+  const groups = []
+  for (const g of spec.groups || []) {
+    if (!g || !g.id || !g.src) { problems.push('toolchain spec: group needs id and src'); continue }
+    const src = join(specDir, String(g.src))
+    let files = []
+    try { files = await listFiles(src) } catch { problems.push('toolchain spec: missing group dir ' + g.src); continue }
+    groups.push({
+      id: String(g.id),
+      feature: g.feature || null,
+      src,
+      files,
+      verify: Array.isArray(g.verify) ? g.verify : [],
+      scripts: g.scripts || {},
+      deps: g.deps || {}
+    })
+  }
+  return {
+    target: String(cfg.target).replace(/^\/+/, ''),
+    feature: spec.feature || 'docGates',
+    packageJson: spec.packageJson || {},
+    groups
+  }
+}
+
+/**
+ * Load and validate a pack directory. Returns { dir, version, features, rows, toolchain, manifest }.
  * rows = manifest.files resolved with: id, sourceAbs, rel, target, mode, feature, declaredSha256, actualSha256.
  * mode defaults to 'copy' (exact byte sync); other modes are segment-managed writes.
  */
@@ -91,11 +133,13 @@ export async function loadPack(packDir) {
       actualSha256
     })
   }
+  const toolchain = await loadToolchain(packDir, manifest, problems)
   return {
     dir: packDir,
     version: manifest.version,
     features: manifest.features || {},
     rows,
+    toolchain,
     manifest,
     problems
   }

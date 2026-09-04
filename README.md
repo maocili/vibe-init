@@ -29,6 +29,7 @@ dsh-rules/
 │   ├── notes-skeleton/               #   → <project>/.agents/notes/ 骨架（双语三件套+四象限）
 │   ├── standing-orders-block.md      #   → 项目根 AGENTS.md 的 marker 规则块（指针式）
 │   ├── skills-optional/              #   可选通用技能（init --skill 挑选取用，依赖包式副本）
+│   ├── toolchain/                     #   docGates 工具链（spec.json 组：门禁/双语/挂钩 → .dsh-rules/toolchain）
 │   └── features/                     #   特性规则族（textLinkManagement/bilingualDocsDiscipline 等）
 └── plugin/                           # dsh-rules 插件源码（host 层，项目级安装器/管理器）
     ├── dsh-rules.mjs                 #   Cordis 插件入口（挂载无副作用）
@@ -42,10 +43,14 @@ dsh-rules/
 
 - 需求口径：**REQUIREMENTS v1.0 定案**（项目级初始化器、不碰全局面、默认特性开、双语纪律段默认关）。
 - 引擎：v1.0 全功能（全局落点退役、幂等 init/upgrade、status/audit 只读项目面、冲突保护、`--skill`
-  项目技能副本、`--feature` 按次覆盖）；**自动化测试 17/17 绿**（引擎语义 + CLI 端到端 + 升级隔离/污染 + apply 无副作用）。
-- 规则内容：`rules-pack/` 已实写——骨架门规、双语三件套、指针式根块、textLinkManagement/
-  bilingualDocsDiscipline/docBudgets 特性段，manifest sha256 已同步；`skills-optional/`（DP-F）暂空。
+  项目技能副本、`--feature` 按次覆盖）+ **M1b docGates 工具链**（spec.json 组门控物化、package.json 组装、
+  关闭移除、audit 感知）；**自动化测试 26/26 绿**（引擎语义 + CLI 端到端 + 升级隔离/污染 + docGates 物化/移除 + apply 无副作用）。
+- 规则内容：`rules-pack/` 已实写——骨架门规、双语三件套（含有效 pairing record）、指针式根块、
+  textLinkManagement/bilingualDocsDiscipline/docBudgets 特性段、**`toolchain/` docGates 工具链**（doc-gate/双语/挂钩，
+  notes 骨架含归档六类目录），manifest sha256 已同步；`skills-optional/`（DP-F）暂空。
 - 变更历史见 [CHANGELOG.md](CHANGELOG.md)。
 - 挂载与 M2：**已完成**（2026-09-03）——cordis.patch.yml insert 生效（宿主日志 mounted），真实项目
   /Users/xuxifeng/Work/dsh-rules-demo init/status/audit 验证通过（可在此目录开新会话体验）。
-- 待办（需决策/确认）：docBudgets 正文措辞评审；DP-F/DP-G 解除后实现；M3 可分发（npm 包/官方化）。
+- M1b 已完成（2026-09-04；真实验证：临时项目默认与 bilingual doc-sync 全绿 exit 0、pre-commit 挂钩生效，见 CHANGELOG/ACCEPTANCE）。
+- 待办：DP-F/DP-G 解除后实现（skills-optional、声明集/自装识别）；`--feature` 覆盖持久化（当前按次生效，默认以 manifest 为准）；
+  M3 可分发（npm 包/官方化）。

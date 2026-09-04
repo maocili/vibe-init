@@ -51,6 +51,7 @@ dsh-rules 仓库（内容源 + 插件）
     notes-skeleton/**         项目笔记骨架（README 三件套、门规、manifest、四象限）
     standing-orders-block.md  项目根 AGENTS.md 的 note 纪律块（指针式）
     features/*.md             特性规则段（text-link、bilingual-docs…）
+    toolchain/**             docGates 工具链（spec.json 组：scaffold/base/text-link/doc-budgets/bilingual/extras/hooks）
     skills-optional/**        可选通用技能（init --skill 挑选取用）
   plugin/                     dsh-rules 插件（host 层，项目级安装器/管理器）
         │ 动作仅 init/upgrade/status/audit/hash/list-skills，且只对项目（不写全局面）
@@ -92,6 +93,10 @@ rules-pack/manifest.json（当前实现；features 语义按 REQUIREMENTS §3.2�
   bilingualDocsDiscipline（默认 false），两者解耦（REQUIREMENTS D3/D4/D9）；
 - docBudgets 默认 true = doc 分层/预算轻量段入根 AGENTS.md（features/doc-budgets.md，2026-09-03）；
 - 无任何 ~/ 目标行——全局面不物化（v1.0）。
+- M1b（2026-09-04）：manifest 顶层增 `"toolchain": { "target": ".dsh-rules/toolchain", "spec": "toolchain/spec.json" }`；
+  features 增 `docGates:true`、`docGatesExtras:false`。`toolchain/spec.json` 声明组：{ id, feature, src, verify[],
+  scripts{}, deps{} }，每组整树镜像到 toolchain 目标下；`package.json`（build/lint/verify-*/doc-sync/组 scripts/依赖并集）
+  由引擎按启用组确定性组装（managedUpdate 语义），doc-sync = 已启用 verify 名串联。
 
 ## 5. 命令面与物化语义（CLI 已实现，2026-09-03 冒烟通过）
 
@@ -113,6 +118,9 @@ rules-pack/manifest.json（当前实现；features 语义按 REQUIREMENTS §3.2�
 - marker 段：每段以 <!-- dsh-rules:<id>:start/end --> 包裹，按 id 原位替换；段块不带尾换行、段间空行
   由 upsert 统一排版 → 字节级幂等；同文件多段在一次运行内按序累积后落盘（互不覆盖）。
 - 冲突策略：copy 型文件（骨架/技能）已存在且不同 → conflict 绝不覆盖（除非 --force）；段型写入永不冲突
+- docGates 工具链（(d) 阶段）：伞 `docGates` 关 ⇒ 整目录不物化/移除；组按各自 feature 门控（scaffold/常设门禁/挂钩随伞）；
+  关闭组/伞对受管副本产出**移除**（字节等于包源 → 删；用户改动/漂移 → conflict 保留，`--force` 强制）；移除后向上裁剪空目录；
+  audit 识别受管 `.dsh-rules/toolchain/`（未知多余文件报 info；node_modules/锁文件/组装 package.json 豁免），`.template/` 旧残留启发不变
   （只动自己的段）；段外用户内容（产品规则）一律保留。
 - 骨架镜像：规划注释（[实现期]/待填充/占位 的整行 HTML 注释）与 legacy dsh-rules:* 标记行在物化前剥离，
   规划注释永不进入消费者；.gitkeep 只保目录。
@@ -156,13 +164,16 @@ rules-pack/manifest.json（当前实现；features 语义按 REQUIREMENTS §3.2�
 ## 9. 明确不做（防蔓延）
 
 - 不做全局规则安装、不写 ~/.dsh、不动用户级技能根（v1.0 D1/D2）；
-- 默认不物化双语纪律段（bilingualDocsDiscipline 默认关）；doc-budget 门禁不做完整运行时移植（docBudgets 只物化轻量语义）；
+- 默认不物化双语纪律段（bilingualDocsDiscipline 默认关）；doc-budget/doc-gate 门禁运行时已收编为受管 docGates 特性
+  （M1b，默认开；`docGates=false` 即移除），不做的是非伞内、非 opt-in 的容器/作者专用物（vitest 测试链、
+  lefthook 全量安装器、docs/ 语料正文整树）；
 - 不做规则内容的「新家」——rules-pack/ 是唯一出处；
 - 不管理项目内非本插件物化的内容（只识别与报告）。
 
 ## 10. 决策记录与待办
 
 - 已定案：命名（dsh-rules/rules-pack）；范围与目标（REQUIREMENTS v1.0 D1–D10，含全局面退役、features
-  默认值、指针式根块、双语纪律段独立 key）。
+  默认值、指针式根块、双语纪律段独立 key）；**M1b（2026-09-04，REQUIREMENTS D11/D12）**：doc-gate/双语/挂钩工具链
+  入 rules-pack，物化为 docGates 伞 + docGatesExtras + 每 feature 脚本组（方案甲），落地 `.dsh-rules/toolchain/`。
 - 待办（实现细节）：技能声明集合的记录与移除、自装识别口径（DP-F/DP-G）；defineTool/GUI 注册验证；
   真实挂载与 M2 验证（需用户确认）；M3 分发。

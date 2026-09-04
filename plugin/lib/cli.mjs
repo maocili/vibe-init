@@ -68,14 +68,14 @@ async function load(packDir) {
 }
 
 function rowLine(r) {
-  const sym = r.action === 'dir' ? 'dir    ' : r.action === 'create' ? 'create ' : r.action === 'update' ? 'update ' : r.action === 'skip' ? 'skip   ' : r.action === 'conflict' ? 'conflict' : r.action === 'missing' ? 'missing' : r.action
+  const sym = ({ dir: 'dir    ', create: 'create ', update: 'update ', remove: 'remove ', skip: 'skip   ', conflict: 'conflict', missing: 'missing' })[r.action] || r.action
   return sym + '  ' + r.label + (r.note ? '  (' + r.note + ')' : '')
 }
 
 async function reviewThenApply(label, plan, pack, opts) {
   const results = await evaluatePlan(plan, opts)
   const summary = summarize(results)
-  const dirty = results.filter((r) => r.action === 'create' || r.action === 'update' || r.action === 'conflict')
+  const dirty = results.filter((r) => r.action === 'create' || r.action === 'update' || r.action === 'remove' || r.action === 'conflict')
   // always preview what would change (dir/skip rows stay quiet)
   for (const r of dirty) {
     log('  ' + rowLine(r))
@@ -90,7 +90,7 @@ async function reviewThenApply(label, plan, pack, opts) {
   if (blocked.length) {
     for (const r of blocked) err((r.action === 'conflict' ? 'conflict (not overwritten): ' : 'missing: ') + r.label)
   }
-  const pending = results.filter((r) => r.action === 'create' || r.action === 'update')
+  const pending = results.filter((r) => r.action === 'create' || r.action === 'update' || r.action === 'remove')
   if (!pending.length) { log('[dsh-rules] ' + label + ': nothing to do (already up to date)'); return { results, summary, applied: [] } }
   const go = opts.yes ? true : await confirm(label + ' — apply ' + pending.length + ' change(s), keep ' + blocked.length + ' conflict(s) untouched?')
   if (!go) { log('[dsh-rules] ' + label + ': aborted by user — no files written'); return { results, summary, applied: [] } }

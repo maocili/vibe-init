@@ -17,7 +17,7 @@
 - **archived/** —— 已实现笔记的冻结历史快照。见 [archived/AGENTS.md](archived/AGENTS.md)。
 
 命名统一为 yyyy-mm-dd-topic-title.md —— 日期 = 主题首次提出之日（以 git 历史为准）。笔记间交叉引用
-一律用相对 Markdown 链接（[主题](../implemented/…/2026-…-….md)），不用裸叙述，从而可机械校验、
+一律用相对 Markdown 链接（`[主题](../implemented/…/2026-…-….md)`，仅示意语法），不用裸叙述，从而可机械校验、
 并能在目录间移动后保持有效。不建集中式索引：目录树本身就是清单。
 
 ## 何时写

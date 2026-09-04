@@ -1,5 +1,6 @@
-# i18n pair list for this notes tree (dsh-rules skeleton).
-# Every .md document may have a .zh.md counterpart; add new pairs as the project grows.
-pairs:
-  - source: README.md
-    target: README.zh.md
+# Bilingual-pair consistency record (dsh-rules toolchain verify-translation-pairing): the git
+# blob hash of each side as of the last confirmed-consistent state. Both languages carry equal
+# authority; after editing either side bring the other along and re-record with:
+#   pnpm -C .dsh-rules/toolchain run verify-translation-pairing --write <pair>
+README.md: 40487937f559a5d2dec9136d71b0f5144cab8427
+README.zh.md: 6336c1d465a052ed518d9ce2e253ced3bddf02d4

@@ -30,21 +30,22 @@
 - rules-pack: features defaults (textLinkManagement/bilingualPairing/docBudgets on,
   bilingualDocsDiscipline off); docs aligned (REQUIREMENTS v1.0 as scope authority,
   DESIGN rewritten to v1.0).
-
-## 2026-09-03 — live mount applied (user consent)
-- dsh-rules insert added to ~/.dsh/profiles/web/cordis.patch.yml; apply() verified loadable;
-  pending: profile restart + M2 live-session verification.
-
-### M2 verified (2026-09-03)
-- host restart log shows `[dsh-rules] mounted`; real project `/Users/xuxifeng/Work/dsh-rules-demo`
-  init idempotent + status/audit clean (no global, no pack-drift).
-
-## Pending (awaiting user decision)
-- docBudgets wording review;
-- docBudgets wording review; DP-F/DP-G (skill declaration/self-install detection); M3 distribution.
-## 2026-09-03 — traceability & consistency
+## 2026-09-03 — traceability, live mount, M2 verified
 
 ### docs: ACCEPTANCE matrix + consistency pass
 - ACCEPTANCE.md: REQUIREMENTS v1.0 D1-D10/R1-R10 traced to tests, commands, and code facts;
-  milestone status table (M0/M1 done; M2 needs user confirmation; M3 not started)
-- stale counts and status lines fixed across docs (17/17; docBudgets done; DESIGN todo tail)
+  milestone status (M0/M1 done); stale counts and status lines fixed across docs (17/17).
+
+### docs: live mount applied (user consent)
+- dsh-rules insert added to ~/.dsh/profiles/web/cordis.patch.yml; apply() verified loadable;
+- host restart log shows [dsh-rules] mounted (tmux dsh:0.0).
+
+### M2 verified (2026-09-03)
+- real project /Users/xuxifeng/Work/dsh-rules-demo: init idempotent (rerun nothing to do),
+  three default rule segments + skeleton materialized; status/audit clean (no global scope,
+  no pack-drift).
+
+## Pending (awaiting user decision)
+- docBudgets wording review;
+- DP-F/DP-G (skill declaration/self-install detection);
+- M3 distribution.

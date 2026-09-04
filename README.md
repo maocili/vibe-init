@@ -46,5 +46,6 @@ dsh-rules/
 - 规则内容：`rules-pack/` 已实写——骨架门规、双语三件套、指针式根块、textLinkManagement/
   bilingualDocsDiscipline/docBudgets 特性段，manifest sha256 已同步；`skills-optional/`（DP-F）暂空。
 - 变更历史见 [CHANGELOG.md](CHANGELOG.md)。
-- 待办（需决策/确认）：真实挂载与 M2 验证（写入 ~/.dsh 需用户确认）；DP-F/DP-G 解除后实现；
-  M3 可分发（npm 包/官方化）。
+- 挂载与 M2：**已完成**（2026-09-03）——cordis.patch.yml insert 生效（宿主日志 mounted），真实项目
+  /Users/xuxifeng/Work/dsh-rules-demo init/status/audit 验证通过（可在此目录开新会话体验）。
+- 待办（需决策/确认）：docBudgets 正文措辞评审；DP-F/DP-G 解除后实现；M3 可分发（npm 包/官方化）。

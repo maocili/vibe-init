@@ -69,7 +69,8 @@
 ## 挂载与开放问题
 
 1. **真实挂载（已执行，2026-09-03，用户同意）**：下列条目已并入 `~/.dsh/profiles/web/cordis.patch.yml`
-   （与 dsh-obsidian-bridge 同机制；`file:////` 四斜杠为宿主惯用形态），待重启 profile 生效：
+   （与 dsh-obsidian-bridge 同机制；`file:////` 四斜杠为宿主惯用形态）。**已生效**：宿主重启日志含
+   `[dsh-rules] mounted`（tmux `dsh:0.0`）；M2 在真实项目 `/Users/xuxifeng/Work/dsh-rules-demo` 验证通过。条目：
 
    ```yaml
    # dsh-rules: begin

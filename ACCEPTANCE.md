@@ -38,5 +38,5 @@
 |---|---|
 | M0 引擎 v1.0 对齐 | 已完成（提交 ee9dd7d…e4c241a） |
 | M1 内容提炼 | 已完成（骨架门规/双语三件套/指针根块/三特性段，sha256 同步）；skills-optional 待 DP-F |
-| M2 真实挂载与验证 | **待用户确认**：写入 ~/.dsh/profiles/web/cordis.patch.yml + 重启 profile |
+| M2 真实挂载与验证 | **已通过（2026-09-03）**：insert 已写入（用户同意）；宿主重启日志出现 mounted；真实项目 /Users/xuxifeng/Work/dsh-rules-demo init/status/audit 验证绿 |
 | M3 可分发 | 未启动（用户决策） |

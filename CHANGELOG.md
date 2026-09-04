@@ -35,8 +35,12 @@
 - dsh-rules insert added to ~/.dsh/profiles/web/cordis.patch.yml; apply() verified loadable;
   pending: profile restart + M2 live-session verification.
 
+### M2 verified (2026-09-03)
+- host restart log shows `[dsh-rules] mounted`; real project `/Users/xuxifeng/Work/dsh-rules-demo`
+  init idempotent + status/audit clean (no global, no pack-drift).
+
 ## Pending (awaiting user decision)
-- M2 verification after profile restart; docBudgets wording review;
+- docBudgets wording review;
 - docBudgets wording review; DP-F/DP-G (skill declaration/self-install detection); M3 distribution.
 ## 2026-09-03 — traceability & consistency
 

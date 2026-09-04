@@ -9,7 +9,7 @@ order in the project root's AGENTS.md points here.
 
 ## Layout and naming
 
-Every Agent Note lives under one of four lifecycle folders, and its lifecycle is also its status:
+Every Agent Note has two path-encoded axes: lifecycle and class. Its lifecycle is also its status:
 
 - **proposed/** — proposals not yet built (or only partly built).
 - **implemented/** — the decision shipped. The note is kept current with what actually shipped: when
@@ -20,10 +20,21 @@ Every Agent Note lives under one of four lifecycle folders, and its lifecycle is
 - **archived/** — frozen historical snapshots of implemented notes that no longer guide current work.
   See [archived/AGENTS.md](archived/AGENTS.md).
 
-Name every note `yyyy-mm-dd-topic-title.md` — the date is when the topic was first proposed (per git
-history). Cross-references between notes use relative markdown links (`[topic](../implemented/…/2026-…-….md)`),
-never bare prose, so they are mechanically checkable and survive moves between folders. Do not add a
-centralized index: the tree itself is the inventory.
+Classes are the nested folder under every lifecycle:
+
+| Class | Covers |
+| --- | --- |
+| `feature` | A user- or agent-visible capability. |
+| `bug-fix` | A defect correction or gap closed after an incident. |
+| `simplification` | Removal of code, behavior, or surface area without a new capability. |
+| `architecture` | A structural decision about shipped source and its ownership. |
+| `process` | Tooling, policy, or workflow around the code. |
+| `testing` | Test infrastructure or test strategy. |
+
+Name every note `lifecycle/class/yyyy-mm-dd-topic-title.md` — the date is when the topic was first
+proposed (per git history). Cross-references between notes use relative Markdown links, never bare
+prose, so they are mechanically checkable and survive moves between folders. Do not add a centralized
+index: the tree itself is the inventory.
 
 ## When to write one
 
@@ -70,9 +81,14 @@ one bold-led paragraph per alternative. A decision recorded without what it beat
 Archive an implemented note when its decision is complete and its rationale is unlikely to guide future
 work; keep it active while its alternatives, ownership boundary, negative guarantee, durable semantics,
 security rule, or reintroduction condition remains useful. Never archive a proposed note — reject an
-obsolete proposal instead. Archiving moves the complete note (and its sibling records) into archived/,
-adds the same `Archived: YYYY-MM-DD` line below Status: in every language file, and repairs or deletes
-inbound links. Sealed archived notes are permanently frozen.
+obsolete proposal instead. Keep a rejected note only while it prevents a plausible future mistake;
+otherwise delete its complete record.
+
+Archiving moves the complete English/Chinese/sidecar triplet from `implemented/<class>/` to
+`archived/<class>/`, adds the same `Archived: YYYY-MM-DD` line below `Status: implemented` in both
+languages, re-records the sidecar, and repairs or removes inbound links. The archive manifest then seals
+the artifact hashes append-only. Once sealed, an archived triplet is permanently frozen: do not edit,
+translate, reformat, move, delete, or repair outbound links from it.
 
 ## Chinese counterparts
 

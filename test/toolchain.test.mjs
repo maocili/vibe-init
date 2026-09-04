@@ -111,10 +111,12 @@ test('bilingualDocsDiscipline on materializes G4 tooling + corpus; off removes m
   assert.ok(existsSync(inHome(proj, 'scripts/translation-pairing.ts')))
   assert.ok(existsSync(inHome(proj, 'scripts/translation-pairing.manifest.json')))
   assert.ok(existsSync(inHome(proj, 'scripts/doc-typecheck.ts')))
+  assert.ok(existsSync(inHome(proj, 'scripts/verify-translation-prompt.ts')))
   assert.ok(existsSync(inHome(proj, 'docs/i18n/terminology.md')))
   assert.ok(existsSync(inHome(proj, 'docs/i18n/translation-rules.md')))
   const pkg = JSON.parse(readFileSync(inHome(proj, 'package.json'), 'utf8'))
   assert.ok(pkg.scripts['doc-sync'].includes('verify-translation-pairing'))
+  assert.ok(pkg.scripts['doc-sync'].includes('verify-translation-prompt'))
   assert.ok(pkg.scripts['gen-translation-brief'])
   assert.ok(pkg.devDependencies['js-yaml'])
   // turn it back off: managed copies are removed, package.json recomposed

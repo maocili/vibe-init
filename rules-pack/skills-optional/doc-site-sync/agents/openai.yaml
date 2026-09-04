@@ -1,0 +1,4 @@
+interface:
+  display_name: "Documentation Site Sync"
+  short_description: "Synchronize canonical docs with a configured site"
+  default_prompt: "Use $doc-site-sync for this documentation-site change."

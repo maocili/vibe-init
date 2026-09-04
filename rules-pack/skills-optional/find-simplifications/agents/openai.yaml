@@ -1,0 +1,4 @@
+interface:
+  display_name: "Find Simplifications"
+  short_description: "Find evidence-backed reductions in project complexity"
+  default_prompt: "Use $find-simplifications to survey this scope."

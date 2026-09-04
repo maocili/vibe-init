@@ -4,7 +4,7 @@
 
 - **何时写**：任何改变行为、架构、跨文件契约、流程/工具链、测试策略或格式（磁盘/网络/配置）的变更，
   必须在同一变更里新增或更新笔记；纯机械或局部编辑豁免。已有笔记拥有该决策时更新它即可，不另起重复。
-- **写在哪里**：按生命周期四象限目录（proposed/ implemented/ rejected/ archived/）与
+- **写在哪里**：按生命周期/分类目录（`proposed|implemented|rejected|archived` / `feature|bug-fix|simplification|architecture|process|testing`）与
   yyyy-mm-dd-topic-title.md 命名；完整规则见 .agents/notes/README.md。
 - **格式底线**：标题为 # Agent Note: <标题>，前三行含 Status: 行；正文以 ## Problem 开头，
   并必须含 ## Alternatives considered。

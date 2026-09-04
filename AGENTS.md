@@ -39,7 +39,7 @@ dsh-rules/                      # 仓库根 = 插件源码（原 plugin/ 展平�
 ├── dsh-rules.mjs               # Cordis 插件入口（挂载无副作用）
 ├── bin/dsh-rules.mjs           # CLI 入口（init/upgrade/status/audit/hash/list-skills）
 ├── lib/                        # engine / pack / cli / diff
-├── test/                       # 自动化测试（node:test；仓库根 pnpm test，26 条）
+├── test/                       # 自动化测试（node:test；仓库根 pnpm test，31 条）
 ├── package.json                # name dsh-rules；bin.dsh-rules；scripts.test
 ├── cordis.patch.sample.yml     # 挂载样例（路径指向仓库根 dsh-rules.mjs）
 ├── rules-pack/                 # 内置规则包 —— 唯一版本化内容源（manifest.json + sha256）
@@ -73,7 +73,7 @@ dsh-rules/                      # 仓库根 = 插件源码（原 plugin/ 展平�
 - 修改 `rules-pack/` 文件时保持 `manifest.json` 的 files 清单与 `sha256` 同步
   （`status`/`upgrade` 依赖内容寻址；刷新用 `node bin/dsh-rules.mjs hash --pack rules-pack` 或
   `$DSH_RULES_PACK`）；改动 `toolchain/**` 分组/依赖时同步 `spec.json`，并跑仓库根 `pnpm test`
-  （26 条含 docGates 物化/移除回归）。
+  （31 条含 docGates 物化/移除回归）。
 - 修改 `docs/` 或根 README 时留意跨目录相对链接（`docs/**` 内互链、指向根 `AGENTS.md`/`README.md`
   需 `../` 前缀）。
 - 本仓库 `AGENTS.md`、`README.md`、`docs/**`、`rules-pack/` 与插件源码均为容器级内容，不在任何

@@ -35,6 +35,7 @@ node /Users/xuxifeng/Work/dsh-rules/bin/dsh-rules.mjs upgrade --yes
 |---|---|
 | `<project>/AGENTS.md` | Agent Note、文本链接、文档预算三个受管规则段 |
 | `<project>/.agents/notes/` | 双语就绪的笔记骨架与四象限生命周期目录 |
+| `<project>/.agents/skills/` | 全部随包的项目级 skill 副本 |
 | `<project>/.dsh-rules/toolchain/` | 默认 docGates 脚本、配置和确定性组装的 `package.json` |
 
 默认开启 `textLinkManagement`、`bilingualPairing`、`docBudgets` 和 `docGates`；默认关闭
@@ -60,11 +61,11 @@ node /Users/xuxifeng/Work/dsh-rules/bin/dsh-rules.mjs upgrade \
 | `upgrade` | 以同一幂等引擎迁移到规则包当前版本 |
 | `status` | 查看逐项状态，不写盘 |
 | `audit` | `status` 加规则包完整性和旧残留检查，不写盘 |
-| `hash --pack rules-pack` | 在修改规则包后刷新 manifest 的 sha256 |
-| `list-skills` | 列出可选技能 |
+| `hash --pack rules-pack` | 在修改规则包后刷新规则行与技能资产的 manifest sha256 |
+| `list-skills` | 列出默认安装的项目技能 |
 
-`--skill <name>` 会复制已声明的可选技能到项目 `.agents/skills/`。`skills-optional/` 目前尚无
-可分发内容；技能声明、移除与自装识别仍是后续工作。
+`init` 与 `upgrade` 默认复制 manifest 声明的全部技能到项目 `.agents/skills/`；`--skill <name>` 仅为
+兼容旧调用保留。用户编辑过的技能会报告 conflict 而不会被覆盖。
 
 ## 作为 DSH 本地插件挂载
 
@@ -85,7 +86,7 @@ node /Users/xuxifeng/Work/dsh-rules/bin/dsh-rules.mjs upgrade \
 pnpm test
 ```
 
-`pnpm test` 运行 26 个 Node 测试。修改 `rules-pack/` 后必须刷新摘要：
+`pnpm test` 运行 31 个 Node 测试。修改 `rules-pack/` 后必须刷新摘要：
 
 ```bash
 node bin/dsh-rules.mjs hash --pack rules-pack

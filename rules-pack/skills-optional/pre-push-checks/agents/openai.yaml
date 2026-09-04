@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pre-Push Checks"
+  short_description: "Select and run relevant outgoing-change checks"
+  default_prompt: "Use $pre-push-checks before pushing this change."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Review"
+  short_description: "Review a change against its project contracts"
+  default_prompt: "Use $code-review to review this change."

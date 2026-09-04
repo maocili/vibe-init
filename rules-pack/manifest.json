@@ -5,25 +5,25 @@
       "id": "project-notes-readme",
       "target": ".agents/notes/README.md",
       "source": "notes-skeleton/README.md",
-      "sha256": "beb075cc53748226fa4c42e62fc3b7b0f61d9377eda57547f4427f87e271e567"
+      "sha256": "b08d0eb3338b31c7aadb145a548757527f4954151bfd8758bf0a80fe768e45cc"
     },
     {
       "id": "project-notes-readme-zh",
       "target": ".agents/notes/README.zh.md",
       "source": "notes-skeleton/README.zh.md",
-      "sha256": "9d57b7a9aa836c94b25dfb1fdbbb4e439afb47531dc416dcc12ec63f3f78a205"
+      "sha256": "78b75662895ee8703a619de7abceb35b6a85597b54f89a804f9d1b23c518f8c6"
     },
     {
       "id": "project-notes-i18n",
       "target": ".agents/notes/README.i18n.yaml",
       "source": "notes-skeleton/README.i18n.yaml",
-      "sha256": "8e0dba027da1fdc4468e345c0d36d20a2cf8d28029d20a2fc428735ab1c4eea4"
+      "sha256": "adbba40075bbdf143b2a9978d5d76f1d762886bb2991fa6dacf850bc596878a3"
     },
     {
       "id": "project-notes-agents",
       "target": ".agents/notes/AGENTS.md",
       "source": "notes-skeleton/AGENTS.md",
-      "sha256": "15846bb03d2b73348777b4ff950858310f29a8bb306f2535b8b5c7692d7a0c42"
+      "sha256": "089ac2087fafddc23483a103e1abdb8a37279e9ad442972dc423b54aef43138f"
     },
     {
       "id": "project-notes-manifest",
@@ -36,14 +36,14 @@
       "target": "AGENTS.md",
       "source": "standing-orders-block.md",
       "mode": "append-under-marker",
-      "sha256": "fc1cd7910ffbeb7706fe49aa3ad7ada04cad837c4d3d96d502f877eef4f898ac"
+      "sha256": "548d0d2669f1eae718f492895e9b0560b343b0c980bb066f60c5a12d899bed86"
     },
     {
       "id": "project-docs-agents",
       "target": "docs/AGENTS.md",
       "source": "docs/AGENTS.md",
       "feature": "docBudgets",
-      "sha256": "40ff28e4064d3f30de1c86446d7ba6b7be456e412cb899e6fa4851a2f8c5a39a"
+      "sha256": "9360a7c82f1d417971fbc6a040dc7bdd96ffc63d32698fc4c35287461f69c9f5"
     },
     {
       "id": "feature-text-link-management",
@@ -81,6 +81,179 @@
     "docBudgets": true,
     "docGates": true,
     "docGatesExtras": false,
-    "optionalSkills": []
-  }
+    "optionalSkills": [
+      "archive-agent-notes",
+      "code-review",
+      "doc-site-sync",
+      "documentation-standards",
+      "find-simplifications",
+      "merge-stacked-prs",
+      "pre-push-checks",
+      "prose-standard",
+      "record-browser-gif",
+      "translate-docs",
+      "trim-reasoning-leakage"
+    ]
+  },
+  "skills": [
+    {
+      "name": "archive-agent-notes",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "84789d16e2da681c0d0eebb934e4ec60db4a9a2634d41681059d12e9f813a7be"
+        },
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "c0208d56a1b41bb3d9e1a8992759a366a773302f40c8f485f8b6df3cb498865f"
+        }
+      ]
+    },
+    {
+      "name": "code-review",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "b8d666e1f5d4973573733e3924d54caa5f193cae430cb32867fd78d28617806b"
+        },
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "55e01a91ab2c386f36f3c7ad9cbff1015380ab088b99a8326749c55c6cbad63e"
+        }
+      ]
+    },
+    {
+      "name": "doc-site-sync",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "c54551c0c543b6ed239b814a9bd08a04cbc39d0c4202804675f51b0e48079959"
+        },
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "bcf7a562de7030d375dabd714596c2c362f4dc64bb9071047a4d202c2424af87"
+        }
+      ]
+    },
+    {
+      "name": "documentation-standards",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "0a83181fd0d6010a7f7254bbf37b43e3d1ff53196171562691c1c12fc2d0a1c0"
+        },
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "3e73f835fe8b935ffe15b9ce293e78c2da40a2a09ede909ae88faf49cfec3819"
+        }
+      ]
+    },
+    {
+      "name": "find-simplifications",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "42e96c0bc2e051c2accba5807a7f64f9e5f8388886ee4c569b61343ddf705061"
+        },
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "61e1ee2a5bdda8860debb552f8faf7f968079c9b3b83b41d9f356df20963c56a"
+        }
+      ]
+    },
+    {
+      "name": "merge-stacked-prs",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "4f411c856cc7808803a26a275e94a07d98b90b9db4bb3959876c449eadd9fe3e"
+        },
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "8e8680dd1970b9075a654e2284f626f9f89c62d7f231fd216b00d03f526895bb"
+        }
+      ]
+    },
+    {
+      "name": "pre-push-checks",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "b968688c9e60352661055a5e44bda13e19c7190c57dc71a387adf58e8e77ac95"
+        },
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "bfefded1a03bceaccafe47cf65b5eec2beaa825882f1a4324eecd011e083f9f3"
+        }
+      ]
+    },
+    {
+      "name": "prose-standard",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "9af6da189cb3e440f756404338b996e76e72f1b71774383a9d0a846956e9f2c4"
+        },
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "3ecd5fffa0f4db3b4528b14440352aed21b2a70b02d43f4c458515a48e549120"
+        },
+        {
+          "path": "references/examples.md",
+          "sha256": "a7b9a4f1595d673a6761aa87e4bb595b7910bc4839100c4899d1e67248c2aba3"
+        }
+      ]
+    },
+    {
+      "name": "record-browser-gif",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "1c82c0c5d293d3df0454f6b2c58b9e2ffdf2b14bed71edf7d6348df4ab65a306"
+        },
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "0f22d90fa78644989f186cc8fd78c858ef21e2cef7cba8d89e35a50696a55e5a"
+        },
+        {
+          "path": "scripts/encode_gif.py",
+          "sha256": "6a855308cdd6086d340493567117ebf9fdbcfbcd8cc5f6cd63b3ec9156c4565f"
+        }
+      ]
+    },
+    {
+      "name": "translate-docs",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "88f2edd426e4f211ee36d3ad6bd02826a761d1c9b1d03739eb246e44f09ef370"
+        },
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "247480f176e0bd5a7bab3906ee98e3f0b38ac0cb54d6de90eb3309191d9be456"
+        }
+      ]
+    },
+    {
+      "name": "trim-reasoning-leakage",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "0c83d874b9ee1f6f741de140a1f5178223d61e510d29e0a85b9152e2dd3d90dd"
+        },
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "1c972b656fb6473f03560730d696782961be66eba37d6b2d7b59dbc81f4f89bd"
+        },
+        {
+          "path": "references/examples.md",
+          "sha256": "b04966f8f0869faf61f18b42434ba72dfed6760c2aee5bfffa06f6a15923c5b4"
+        },
+        {
+          "path": "references/recall-batteries.md",
+          "sha256": "7e4cc5bfc8ce0f71e922e9a2f27ae34a0432a138e0f7c39a8ab5fcda7278f553"
+        }
+      ]
+    }
+  ]
 }

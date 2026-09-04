@@ -1,0 +1,7 @@
+interface:
+  display_name: "Translate Documentation"
+  short_description: "Run the explicit bilingual documentation workflow"
+  default_prompt: "Use $translate-docs for this bilingual documentation pair."
+
+policy:
+  allow_implicit_invocation: false

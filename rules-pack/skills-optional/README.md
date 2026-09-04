@@ -1,7 +1,8 @@
-# skills-optional — 可选通用技能（由用户挑选后安装到用户级技能根）
+# skills-optional — 项目级通用技能
 
-> 依据实现设计 Agent Note：只放真正通用的技能（SKILL.md 格式），**不**放与 DSH 内置重名的
-> `dsh-*` 改写版（那正是原模板污染源之一）。manifest `features.optionalSkills` 登记。
-> 默认不随 `init` 物化；经 `install-global` 显式挑选。
+本目录的每个子目录是一个完整的 `SKILL.md` 包。`init` 与 `upgrade` 默认将 manifest 中声明的全部技能
+复制到目标项目的 `.agents/skills/`；它们永不写入用户全局技能根。技能安装不等于自动执行：只有用户任务
+匹配且环境前置条件存在时才会使用。
 
-（占位：目录待填充 —— 实现期从 vibe-coding-templates/.agents/skills/ 中挑选通用项提炼）
+技能是受管副本：升级保持幂等，用户改过的技能报告 conflict 而不覆盖。`--skill <name>` 仍可用于兼容旧调用，
+但所有随包技能已经默认选择。

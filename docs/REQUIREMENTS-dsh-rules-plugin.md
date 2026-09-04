@@ -6,7 +6,7 @@
 > 本文只定义范围与可验收行为。
 
 `dsh-rules` 是项目级初始化器，不是全局安装器。它从本仓库的 `rules-pack/` 物化项目受管面：根
-`AGENTS.md` 规则段、`.agents/notes/` 骨架、可选技能副本和 `.dsh-rules/toolchain/`。它永不写入
+`AGENTS.md` 规则段、`.agents/notes/` 骨架、默认技能副本和 `.dsh-rules/toolchain/`。它永不写入
 `~/.dsh/AGENTS.md` 或用户技能根。
 
 ## 0. 决策基线
@@ -17,7 +17,7 @@
 | D2 | 每个项目显式初始化；挂载不改盘。 |
 | D3 | `textLinkManagement` 与 `bilingualPairing` 默认开启。 |
 | D4 | 双语骨架就绪不等于强制双语纪律。 |
-| D5 | 技能是项目级、依赖包式副本；不覆盖用户自装技能。 |
+| D5 | 所有随包技能默认以项目级、依赖包式副本安装；不覆盖用户自装或编辑过的技能。 |
 | D6/D7 | 本文档是范围权威；实现细节与取舍记录在 Agent Note。 |
 | D8 | 根规则块保持短小，以链接指向笔记骨架中的细则。 |
 | D9 | `bilingualDocsDiscipline` 独立于双语骨架，默认关闭。 |
@@ -36,9 +36,9 @@
 |---|---|
 | R1 | `init`/`upgrade` 只对一个项目物化受管面。 |
 | R2 | 所有命令都不改全局面。 |
-| R3 | 可选技能复制到项目 `.agents/skills/`；已选集合、移除和自装识别细则待 DP-F/DP-G。 |
+| R3 | manifest 声明的全部技能复制到项目 `.agents/skills/`；用户编辑产生冲突而不覆盖。 |
 | R4 | 只物化新鲜骨架、规则段、声明的技能和工具链；历史与作者专用物不进入项目。 |
-| R5 | 规则与技能正文的唯一版本化来源是 `rules-pack/`，以 manifest sha256 寻址。 |
+| R5 | 规则与技能正文的唯一版本化来源是 `rules-pack/`；规则行位于 `manifest.files`，技能资产位于 `manifest.skills`，两者都以 sha256 寻址。 |
 | R6 | 不覆盖笔记、段外内容或用户自装内容；冲突应报告而非静默覆盖。 |
 | R7 | 对同一规则包重复运行字节稳定，并报告无变更。 |
 | R8 | `status`/`audit` 只读报告受管状态、漂移和旧残留。 |
@@ -51,7 +51,7 @@
 |---|---|
 | `AGENTS.md` | Agent Note、文本链接和文档预算 marker 段 |
 | `.agents/notes/` | README 三件套、门规、manifest 与四象限目录 |
-| `.agents/skills/` | 仅在用户指定 `--skill` 后的可选技能副本 |
+| `.agents/skills/` | manifest 声明的全部项目级 skill 副本 |
 | `docs/AGENTS.md` | 文档分层、篇幅目标与预算门禁规范（由 `docBudgets` 管理） |
 | `.dsh-rules/toolchain/` | docGates scaffold、默认门禁、挂钩与组装的 `package.json` |
 

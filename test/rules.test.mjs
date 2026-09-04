@@ -25,7 +25,7 @@ function fixtureProject(name) {
 }
 
 function makePack() {
-  const dir = join(TMP, 'pack')
+  const dir = join(mkdtempSync(join(TMP, 'pack-')), 'pack')
   cpSync(REAL_PACK, dir, { recursive: true })
   return dir
 }
@@ -120,6 +120,36 @@ test('e2e init: no planning-marker leak, no user-content clobber, idempotent', a
   assert.ok(readFileSync(join(proj, '.agents', 'notes', 'AGENTS.md'), 'utf8').includes('user-edit'))
 })
 
+test('bilingualPairing controls note-pair artifacts and preserves user edits on removal', async () => {
+  const proj = fixtureProject('note-pairing')
+  writeFileSync(join(proj, 'AGENTS.md'), '## Product rules\n')
+  const pack = await loadPack(REAL_PACK)
+
+  await applyResults(await evaluatePlan(await planProject(pack, proj), {}))
+  assert.ok(readFileSync(join(proj, '.agents', 'notes', 'README.md'), 'utf8').includes('](README.zh.md)'))
+  const zh = join(proj, '.agents', 'notes', 'README.zh.md')
+  const sidecar = join(proj, '.agents', 'notes', 'README.i18n.yaml')
+  assert.ok(existsFile(zh))
+  assert.ok(existsFile(sidecar))
+
+  const disabledPlan = await planProject(pack, proj, { features: { bilingualPairing: false } })
+  const disabled = await evaluatePlan(disabledPlan, {})
+  assert.equal(disabled.find((r) => r.label === '.agents/notes/README.zh.md').action, 'remove')
+  assert.equal(disabled.find((r) => r.label === '.agents/notes/README.i18n.yaml').action, 'remove')
+  await applyResults(disabled)
+  assert.ok(!existsFile(zh))
+  assert.ok(!existsFile(sidecar))
+  const english = readFileSync(join(proj, '.agents', 'notes', 'README.md'), 'utf8')
+  assert.ok(!english.includes('](README.zh.md)'))
+  assert.ok(!english.includes('](README.i18n.yaml)'))
+
+  await applyResults(await evaluatePlan(await planProject(pack, proj), {}))
+  assert.ok(readFileSync(join(proj, '.agents', 'notes', 'README.md'), 'utf8').includes('](README.zh.md)'))
+  writeFileSync(zh, readFileSync(zh, 'utf8') + '\nuser translation\n')
+  const protectedRemoval = await evaluatePlan(await planProject(pack, proj, { features: { bilingualPairing: false } }), {})
+  assert.equal(protectedRemoval.find((r) => r.label === '.agents/notes/README.zh.md').action, 'conflict')
+})
+
 test('skills: copy into project, idempotent, user edit -> conflict not overwritten', async () => {
   const packDir = makePack()
   const skillDir = join(packDir, 'skills-optional', 'sample')
@@ -137,6 +167,38 @@ test('skills: copy into project, idempotent, user edit -> conflict not overwritt
   writeFileSync(join(proj, '.agents', 'skills', 'sample', 'SKILL.md'), '# user skill\n')
   const res = await evaluatePlan(await planProject(pack, proj, { skills: ['sample'] }), {})
   assert.equal(res.find((r) => r.id === 'skill:sample:SKILL.md').action, 'conflict')
+})
+
+test('default init installs every declared project skill', async () => {
+  const proj = fixtureProject('default-skills')
+  writeFileSync(join(proj, 'AGENTS.md'), 'x\n')
+  const pack = await loadPack(REAL_PACK)
+  const expected = pack.features.optionalSkills
+  assert.equal(expected.length, 11)
+  const results = await evaluatePlan(await planProject(pack, proj), {})
+  await applyResults(results)
+  for (const name of expected) {
+    assert.ok(existsFile(join(proj, '.agents', 'skills', name, 'SKILL.md')), name)
+    assert.ok(existsFile(join(proj, '.agents', 'skills', name, 'agents', 'openai.yaml')), name + ' metadata')
+  }
+  assert.ok(existsFile(join(proj, '.agents', 'skills', 'prose-standard', 'references', 'examples.md')))
+  assert.ok(existsFile(join(proj, '.agents', 'skills', 'record-browser-gif', 'scripts', 'encode_gif.py')))
+  assert.ok(existsFile(join(proj, '.agents', 'skills', 'trim-reasoning-leakage', 'references', 'examples.md')))
+  assert.ok(existsFile(join(proj, '.agents', 'skills', 'trim-reasoning-leakage', 'references', 'recall-batteries.md')))
+  const second = await evaluatePlan(await planProject(pack, proj), {})
+  for (const name of expected) {
+    assert.equal(second.find((r) => r.id === 'skill:' + name + ':SKILL.md').action, 'skip', name)
+  }
+})
+
+test('every shipped skill must be declared as a default installation', async () => {
+  const packDir = makePack()
+  const manifestPath = join(packDir, 'manifest.json')
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
+  manifest.features.optionalSkills.pop()
+  writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n')
+  const pack = await loadPack(packDir)
+  assert.ok(pack.problems.some(problem => problem.includes('is not default-installed')))
 })
 
 test('upgrade is isolated: only the version-changed segment updates, notes untouched', async () => {
@@ -191,6 +253,18 @@ test('hashPack refreshes sha256 after a pack source changes', async () => {
   assert.equal(pack.problems.length, 0)
   const row = pack.rows.find((r) => r.id === 'project-standing-orders-block')
   assert.equal(row.declaredSha256, row.actualSha256)
+})
+
+test('skill assets are content-addressed and hash refresh repairs their drift', async () => {
+  const packDir = makePack()
+  const skill = join(packDir, 'skills-optional', 'prose-standard', 'references', 'examples.md')
+  writeFileSync(skill, readFileSync(skill, 'utf8') + '\nnew calibration\n')
+  const drifted = await loadPack(packDir)
+  assert.ok(drifted.problems.some(problem => problem.includes('prose-standard/references/examples.md sha256 drift')))
+  const out = await hashPack(packDir)
+  assert.ok(out.changed >= 1)
+  const refreshed = await loadPack(packDir)
+  assert.equal(refreshed.problems.length, 0)
 })
 
 test('loadPack reports rows whose source file is missing', async () => {

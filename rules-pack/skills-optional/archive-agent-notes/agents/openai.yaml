@@ -1,0 +1,4 @@
+interface:
+  display_name: "Archive Agent Notes"
+  short_description: "Review, prune, and archive decision records"
+  default_prompt: "Use $archive-agent-notes for the specified Agent Note scope."

@@ -28,7 +28,7 @@
     { "id": "base", "feature": "docGates", "src": "base", "verify": ["verify-agent-note-classification", "verify-agent-note-format", "verify-archived-agent-notes", "verify-doc-refs"], "scripts": {}, "deps": {} },
     { "id": "text-link", "feature": "textLinkManagement", "src": "text-link", "verify": ["verify-md-links"], "scripts": {}, "deps": {} },
     { "id": "doc-budgets", "feature": "docBudgets", "src": "doc-budgets", "verify": ["verify-doc-budgets"], "scripts": {}, "deps": {} },
-    { "id": "bilingual", "feature": "bilingualDocsDiscipline", "src": "bilingual", "verify": ["doc-typecheck", "verify-translation-pairing"], "scripts": { "gen-translation-brief": "tsx scripts/gen-translation-brief.ts", "resolve-translation-pairing-conflicts": "tsx scripts/merge-translation-pairing.ts --resolve" }, "deps": { "@types/js-yaml": "^4.0.9", "js-yaml": "^4.2.0" } },
+    { "id": "bilingual", "feature": "bilingualDocsDiscipline", "src": "bilingual", "verify": ["doc-typecheck", "verify-translation-pairing", "verify-translation-prompt"], "scripts": { "gen-translation-brief": "tsx scripts/gen-translation-brief.ts", "resolve-translation-pairing-conflicts": "tsx scripts/merge-translation-pairing.ts --resolve" }, "deps": { "@types/js-yaml": "^4.0.9", "js-yaml": "^4.2.0" } },
     { "id": "extras", "feature": "docGatesExtras", "src": "extras", "verify": ["verify-md-wrap", "verify-mermaid", "verify-skill-invocation-metadata"], "scripts": {}, "deps": { "@types/jsdom": "^28.0.3", "@types/js-yaml": "^4.0.9", "jsdom": "29.1.1", "js-yaml": "^4.2.0", "mermaid": "11.16.0" } }
   ]
 }

@@ -58,6 +58,8 @@ test('init is idempotent via the CLI and status has no global scope', () => {
   assert.ok(root.includes('feature-doc-budgets'))
   assert.ok(!root.includes('feature-bilingual-docs'))
   assert.ok(existsSync(join(proj, '.agents', 'notes', 'README.md')))
+  assert.ok(existsSync(join(proj, '.agents', 'skills', 'archive-agent-notes', 'SKILL.md')))
+  assert.ok(existsSync(join(proj, '.agents', 'skills', 'trim-reasoning-leakage', 'SKILL.md')))
   const st = run(['status', '--project', proj, '--json'])
   assert.equal(st.code, 0)
   const json = JSON.parse(st.out)
@@ -66,6 +68,15 @@ test('init is idempotent via the CLI and status has no global scope', () => {
   assert.equal(aud.code, 0)
   const audJson = JSON.parse(aud.out)
   assert.deepEqual(audJson.notes.filter((n) => n.what === 'pack-drift'), [])
+})
+
+test('list-skills reports the default project skill set', () => {
+  const listed = run(['list-skills'])
+  assert.equal(listed.code, 0)
+  assert.ok(listed.out.includes('default project skills'))
+  assert.ok(listed.out.includes('archive-agent-notes'))
+  assert.ok(listed.out.includes('record-browser-gif'))
+  assert.ok(listed.out.includes('translate-docs'))
 })
 
 test('plugin apply() mounts with no side effects (R10)', () => {
@@ -83,7 +94,7 @@ test('hash runs against a pack copy only and reaches 0 drift', () => {
   assert.equal(h1.code, 0)
   const h2 = run(['hash', '--pack', packCopy])
   assert.equal(h2.code, 0)
-  assert.ok(h2.out.includes('0/10'))
+  assert.match(h2.out, /hash refreshed: 0\/\d+/)
   // real pack manifest untouched
   const real = readFileSync(join(REAL_PACK, 'manifest.json'), 'utf8')
   assert.ok(real.includes('"feature-doc-budgets"'))

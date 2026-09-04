@@ -8,10 +8,11 @@ The complete rules live in [README.md](README.md); this file is the gate a sessi
   alters behavior, architecture, a contract shared across files or packages, process or tooling,
   testing strategy, an on-disk/wire/config format, or another decision a maintainer may revisit.
   Purely mechanical or local edits are exempt.
-- A new note starts in proposed/ while unbuilt (or partly built) and moves to implemented/ once the
-  decision ships; implemented/ notes are kept current with what actually shipped (facts only — paths,
-  names, defaults — not the decision itself). rejected/ keeps only verdicts whose rationale prevents
-  a tempting mistake.
+- A new note starts in `proposed/<class>/` while unbuilt (or partly built) and moves to
+  `implemented/<class>/` once the decision ships. Classes are feature, bug-fix, simplification,
+  architecture, process, and testing. Implemented notes are kept current with what actually shipped
+  (facts only — paths, names, defaults — not the decision itself); rejected keeps only verdicts whose
+  rationale prevents a tempting mistake.
 - Every new note triggers a supersession check: search the active tree for older notes on the same
   decision or mechanism. Full supersession is consolidated into the owning note (every unique
   rationale, alternative, consequence, and verification preserved; inbound links repaired) and the old

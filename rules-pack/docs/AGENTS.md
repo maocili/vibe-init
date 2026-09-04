@@ -11,6 +11,15 @@ ordered outcome; references define the current lookup scope. Give every fact one
 from other documents. Keep implementation rationale and change stories in Agent Notes, not in stable
 contract pages. Use relative Markdown links and keep every target valid.
 
+## Current-state prose
+
+Describe the live mechanism rather than commits, pull requests, old implementations, or temporary
+migration narration. Keep incident chronology in postmortems and durable rationale in Agent Notes.
+Comments document non-obvious behavior, failure, timing, ownership, and safe use; they do not narrate
+control flow, tests, or review discussion. Change generated catalogs through their source or generator,
+not by editing a derivative. Do not repeat a fact in several homes when one link preserves the needed
+context.
+
 ## Wordcount budgets
 
 The [budget manifest](../.dsh-rules/toolchain/scripts/doc-budgets.manifest.json) sets mechanical

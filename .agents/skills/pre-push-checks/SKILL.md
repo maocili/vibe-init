@@ -5,7 +5,7 @@ description: Use before pushing, force-pushing, requesting review, or claiming c
 
 # Run Relevant Pre-Push Checks
 
-Run relevant local evidence once before a push, force-push, review request, or claim that checks pass. Read the project's hooks, CI policy, and declared commands; they define mandatory checks and platform coverage.
+Run relevant local evidence once before a push, force-push, review request, or claim that checks pass. Read the [root rules](../../../AGENTS.md), project's hooks, CI policy, and declared commands; they define mandatory checks and platform coverage.
 
 ## Inspect the outgoing change
 

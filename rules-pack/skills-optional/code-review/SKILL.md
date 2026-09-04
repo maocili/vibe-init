@@ -9,7 +9,7 @@ This is guidance, not a substitute for understanding the changed system. Verify 
 
 ## Read the owning contracts
 
-Read applicable root and subtree `AGENTS.md` files, public interfaces, configuration, generated-source policy, testing policy, and active decision records. For changed prose, apply `prose-standard`; for paired documentation, review both languages even when the pairing verifier is green.
+Read the [root rules](../../../AGENTS.md), applicable subtree `AGENTS.md` files, public interfaces, configuration, generated-source policy, testing policy, and [Agent Note rules](../../notes/README.md). For changed prose, apply [prose-standard](../prose-standard/SKILL.md); for paired documentation, review both languages even when the pairing verifier is green.
 
 ## Review required behavior
 

@@ -27,22 +27,22 @@
       "id": "feature-doc-budgets",
       "target": "AGENTS.md",
       "source": "features/doc-budgets.md",
-      "sourceSha256": "b15ec5b6425ffde64ee6e00253f4b2f86af93d9745fbd98fa3c916884ad7be80",
-      "installedSha256": "6b529ee603cbcdb6f4364f2377546e7ad1dc1f95cb2f0fe9e2dfc51f50d84542"
+      "sourceSha256": "3ee3434b8f587456d31626d15bb80027fa841dfc4299764a34bf9237a2d95558",
+      "installedSha256": "9deaaaf90db9463dd9df21f71d22c8ee9c22eb34a82a6adf0d9f1675531819e1"
     },
     {
       "id": "feature-text-link-management",
       "target": "AGENTS.md",
       "source": "features/text-link-management.md",
-      "sourceSha256": "14f72f62477d58b0fdbd4c8867c4c9b693a4faadd0aaeba9d6c5b4e15dae19f6",
-      "installedSha256": "29663c1ee38dd6742751aae78b02c736260eb73aaaf9931bf6685745571e9b1c"
+      "sourceSha256": "f798b9c72269673a0eb3d90634ebc96634295bb3c33b8450b38bc0417eccf7f2",
+      "installedSha256": "ce7872c54809352fe44de9849cdc1234e5c62ab5eb18b454c591e5dae496267f"
     },
     {
       "id": "project-standing-orders-block",
       "target": "AGENTS.md",
       "source": "standing-orders-block.md",
-      "sourceSha256": "548d0d2669f1eae718f492895e9b0560b343b0c980bb066f60c5a12d899bed86",
-      "installedSha256": "9c3e485226d46522bef604f75d67f3ee9ba040230c109994495b6e5e9ac7c5e3"
+      "sourceSha256": "8906001e1313a8186a78f2c7f5870724e60df0b0498c31e0015422347f24e6a0",
+      "installedSha256": "c6905ee48d184415540e797de09d16818d2b1a73c985338a3783ab02e1758504"
     }
   ],
   "files": [
@@ -50,8 +50,8 @@
       "path": ".agents/notes/AGENTS.md",
       "kind": "notes-explainer",
       "source": "notes-skeleton/AGENTS.md",
-      "sourceSha256": "089ac2087fafddc23483a103e1abdb8a37279e9ad442972dc423b54aef43138f",
-      "installedSha256": "089ac2087fafddc23483a103e1abdb8a37279e9ad442972dc423b54aef43138f"
+      "sourceSha256": "16dd0817cb3d245387be53d2e972ecb8be6e267c9c7769e7d7f13657d69a98bd",
+      "installedSha256": "16dd0817cb3d245387be53d2e972ecb8be6e267c9c7769e7d7f13657d69a98bd"
     },
     {
       "path": ".agents/notes/archived/AGENTS.md",
@@ -78,15 +78,15 @@
       "path": ".agents/notes/README.md",
       "kind": "notes-explainer",
       "source": "notes-skeleton/README.md",
-      "sourceSha256": "b08d0eb3338b31c7aadb145a548757527f4954151bfd8758bf0a80fe768e45cc",
-      "installedSha256": "b08d0eb3338b31c7aadb145a548757527f4954151bfd8758bf0a80fe768e45cc"
+      "sourceSha256": "99cff478e704b941017d6dbfd6fffd8d737a2171fb03ae7f462c64ba1a6409e5",
+      "installedSha256": "99cff478e704b941017d6dbfd6fffd8d737a2171fb03ae7f462c64ba1a6409e5"
     },
     {
       "path": ".agents/notes/README.zh.md",
       "kind": "notes-explainer",
       "source": "notes-skeleton/README.zh.md",
-      "sourceSha256": "78b75662895ee8703a619de7abceb35b6a85597b54f89a804f9d1b23c518f8c6",
-      "installedSha256": "78b75662895ee8703a619de7abceb35b6a85597b54f89a804f9d1b23c518f8c6"
+      "sourceSha256": "efb15aec5013850141361b64f21b7ea45c95ec042f28a7719b01d4a5630d2105",
+      "installedSha256": "efb15aec5013850141361b64f21b7ea45c95ec042f28a7719b01d4a5630d2105"
     },
     {
       "path": ".agents/skills/archive-agent-notes/agents/openai.yaml",
@@ -99,8 +99,8 @@
       "path": ".agents/skills/archive-agent-notes/SKILL.md",
       "kind": "skill",
       "source": "skills-optional/archive-agent-notes/SKILL.md",
-      "sourceSha256": "540575cdbb789bfe7d89a435e6c4dd75885b2292dc011952a00eecc0b5bd8508",
-      "installedSha256": "540575cdbb789bfe7d89a435e6c4dd75885b2292dc011952a00eecc0b5bd8508"
+      "sourceSha256": "7e8c2728f5c3b35ccb528a7ea4ab00868753b808523c54daea9cc2b8d2c9c845",
+      "installedSha256": "7e8c2728f5c3b35ccb528a7ea4ab00868753b808523c54daea9cc2b8d2c9c845"
     },
     {
       "path": ".agents/skills/code-review/agents/openai.yaml",
@@ -113,8 +113,8 @@
       "path": ".agents/skills/code-review/SKILL.md",
       "kind": "skill",
       "source": "skills-optional/code-review/SKILL.md",
-      "sourceSha256": "948136c1b02bf081aea2a2f83160514c7ffc69b39ef294290357c57de8647d5a",
-      "installedSha256": "948136c1b02bf081aea2a2f83160514c7ffc69b39ef294290357c57de8647d5a"
+      "sourceSha256": "5250f3b720083ec3535a47dbbdb44a8afb3f00e372b6d0bb70acbdac0a225a31",
+      "installedSha256": "5250f3b720083ec3535a47dbbdb44a8afb3f00e372b6d0bb70acbdac0a225a31"
     },
     {
       "path": ".agents/skills/doc-site-sync/agents/openai.yaml",
@@ -127,8 +127,8 @@
       "path": ".agents/skills/doc-site-sync/SKILL.md",
       "kind": "skill",
       "source": "skills-optional/doc-site-sync/SKILL.md",
-      "sourceSha256": "08ff6021b2847389197de9d7e0f95749f1101a2c412ba308491ac8df8a1c088d",
-      "installedSha256": "08ff6021b2847389197de9d7e0f95749f1101a2c412ba308491ac8df8a1c088d"
+      "sourceSha256": "1c9ce4e8eedc5f1dad497a1be119a7db02b2d323450ba7781f8ef7f296557b6f",
+      "installedSha256": "1c9ce4e8eedc5f1dad497a1be119a7db02b2d323450ba7781f8ef7f296557b6f"
     },
     {
       "path": ".agents/skills/documentation-standards/agents/openai.yaml",
@@ -141,8 +141,8 @@
       "path": ".agents/skills/documentation-standards/SKILL.md",
       "kind": "skill",
       "source": "skills-optional/documentation-standards/SKILL.md",
-      "sourceSha256": "923b43d3397cf9d38e41a2e2f9b0a6afed53f781a6adffc4b5d8e5f77b552b22",
-      "installedSha256": "923b43d3397cf9d38e41a2e2f9b0a6afed53f781a6adffc4b5d8e5f77b552b22"
+      "sourceSha256": "780b7e7add516c8627a8cd5e680229ef77b92d2b031aa7c983d4f59b80bc659e",
+      "installedSha256": "780b7e7add516c8627a8cd5e680229ef77b92d2b031aa7c983d4f59b80bc659e"
     },
     {
       "path": ".agents/skills/find-simplifications/agents/openai.yaml",
@@ -155,8 +155,8 @@
       "path": ".agents/skills/find-simplifications/SKILL.md",
       "kind": "skill",
       "source": "skills-optional/find-simplifications/SKILL.md",
-      "sourceSha256": "759fa3cbaf9a28c5328bbdd097836b37cb053c7b8d27321c751b4a39615e040f",
-      "installedSha256": "759fa3cbaf9a28c5328bbdd097836b37cb053c7b8d27321c751b4a39615e040f"
+      "sourceSha256": "82850f391cf5624dcf7a7114f280f5978ce92e7df9a0bed2c229ce4250ce7795",
+      "installedSha256": "82850f391cf5624dcf7a7114f280f5978ce92e7df9a0bed2c229ce4250ce7795"
     },
     {
       "path": ".agents/skills/merge-stacked-prs/agents/openai.yaml",
@@ -169,8 +169,8 @@
       "path": ".agents/skills/merge-stacked-prs/SKILL.md",
       "kind": "skill",
       "source": "skills-optional/merge-stacked-prs/SKILL.md",
-      "sourceSha256": "ed9c218aec55de451654c47fb148de3033f921639ea99494d193e29a2653d6d0",
-      "installedSha256": "ed9c218aec55de451654c47fb148de3033f921639ea99494d193e29a2653d6d0"
+      "sourceSha256": "240c317ca36d31758367757640221f97e743eed07b283831af1645710b90b251",
+      "installedSha256": "240c317ca36d31758367757640221f97e743eed07b283831af1645710b90b251"
     },
     {
       "path": ".agents/skills/pre-push-checks/agents/openai.yaml",
@@ -183,8 +183,8 @@
       "path": ".agents/skills/pre-push-checks/SKILL.md",
       "kind": "skill",
       "source": "skills-optional/pre-push-checks/SKILL.md",
-      "sourceSha256": "86c5475c3622ae5ec3c55fda5786a363b959036df9eecd59a82b38aef4a7152e",
-      "installedSha256": "86c5475c3622ae5ec3c55fda5786a363b959036df9eecd59a82b38aef4a7152e"
+      "sourceSha256": "c0e5015469be8266be4650202cfb5634c64c7e26a516595647083b4f2f24b685",
+      "installedSha256": "c0e5015469be8266be4650202cfb5634c64c7e26a516595647083b4f2f24b685"
     },
     {
       "path": ".agents/skills/prose-standard/agents/openai.yaml",
@@ -204,8 +204,8 @@
       "path": ".agents/skills/prose-standard/SKILL.md",
       "kind": "skill",
       "source": "skills-optional/prose-standard/SKILL.md",
-      "sourceSha256": "df9be75ecaa856ee51633ffc7ac5dc88d57d6c93cc160a06275ccc2a53214b18",
-      "installedSha256": "df9be75ecaa856ee51633ffc7ac5dc88d57d6c93cc160a06275ccc2a53214b18"
+      "sourceSha256": "2842f2168d70a8ac825683a46aff201b784b05234d1694b86a323153d4ed051b",
+      "installedSha256": "2842f2168d70a8ac825683a46aff201b784b05234d1694b86a323153d4ed051b"
     },
     {
       "path": ".agents/skills/record-browser-gif/agents/openai.yaml",
@@ -225,8 +225,8 @@
       "path": ".agents/skills/record-browser-gif/SKILL.md",
       "kind": "skill",
       "source": "skills-optional/record-browser-gif/SKILL.md",
-      "sourceSha256": "df366b65d36d4297dbfc3791a71e759d2402a8debce646fb708e5501099d8946",
-      "installedSha256": "df366b65d36d4297dbfc3791a71e759d2402a8debce646fb708e5501099d8946"
+      "sourceSha256": "c1a4eee5d74ac91b84e372ed2dfc7d0b01e2e93926be3986de7e173341be774d",
+      "installedSha256": "c1a4eee5d74ac91b84e372ed2dfc7d0b01e2e93926be3986de7e173341be774d"
     },
     {
       "path": ".agents/skills/translate-docs/agents/openai.yaml",
@@ -239,8 +239,8 @@
       "path": ".agents/skills/translate-docs/SKILL.md",
       "kind": "skill",
       "source": "skills-optional/translate-docs/SKILL.md",
-      "sourceSha256": "75d347a1aa68572efc0e7e00e631adcfcbcb2cecc64212dd746f4311b31de5c1",
-      "installedSha256": "75d347a1aa68572efc0e7e00e631adcfcbcb2cecc64212dd746f4311b31de5c1"
+      "sourceSha256": "30202d821eb87cbf8143d66133f5c8eccccb22a2ac6e0fd6b78d656fd80d9528",
+      "installedSha256": "30202d821eb87cbf8143d66133f5c8eccccb22a2ac6e0fd6b78d656fd80d9528"
     },
     {
       "path": ".agents/skills/trim-reasoning-leakage/agents/openai.yaml",
@@ -267,8 +267,8 @@
       "path": ".agents/skills/trim-reasoning-leakage/SKILL.md",
       "kind": "skill",
       "source": "skills-optional/trim-reasoning-leakage/SKILL.md",
-      "sourceSha256": "787f5df972423119133906391119837ae2f2abf65503ac88fd8e9bb2ee905131",
-      "installedSha256": "787f5df972423119133906391119837ae2f2abf65503ac88fd8e9bb2ee905131"
+      "sourceSha256": "6532c6040dd20a242d432047e1e152f7c0850a3ebc86d30068739631e82e5565",
+      "installedSha256": "6532c6040dd20a242d432047e1e152f7c0850a3ebc86d30068739631e82e5565"
     },
     {
       "path": ".dsh-rules/toolchain/package.json",

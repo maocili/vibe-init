@@ -2,7 +2,7 @@
 
 Agent Notes are durable decision and proposal records (RFCs written by agents): they carry the
 rationale, the alternatives rejected, and the required verification that code and prose cannot.
-The complete rules live in [README.md](README.md); this file is the gate a session sees first.
+The complete rules live in [README.md](README.md); the [project root AGENTS.md](../../AGENTS.md) points here; this file is the gate a session sees first.
 
 - A non-trivial change MUST add or update an Agent Note in the same change. Non-trivial means it
   alters behavior, architecture, a contract shared across files or packages, process or tooling,

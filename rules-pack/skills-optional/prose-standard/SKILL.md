@@ -9,7 +9,7 @@ Write enough to preserve the contract, then remove reasoning transcripts, repeti
 
 ## Establish scope and ownership
 
-Identify the requested prose surfaces and their owners before editing. Respect project-declared exclusions such as generated output, vendored code, fixtures, snapshots, and sealed archives. Change the source or generator before derivatives. Use the documentation standard for placement, budgets, and pairs; use `trim-reasoning-leakage` when the task is specifically to remove session or review narration.
+Identify the requested prose surfaces and their owners before editing. Respect project-declared exclusions such as generated output, vendored code, fixtures, snapshots, and sealed archives. Change the source or generator before derivatives. Use [documentation-standards](../documentation-standards/SKILL.md) for placement, budgets, and pairs; use [trim-reasoning-leakage](../trim-reasoning-leakage/SKILL.md) when the task is specifically to remove session or review narration.
 
 ## Preserve the complete proposition
 
@@ -24,4 +24,4 @@ Before deleting or condensing prose, enumerate the actor, action, conditions, ti
 
 ## Edit and validate
 
-Read the edited prose in context and compare it against the owning code, configuration, or behavior. Keep one home per fact and link to it instead of duplicating rationale. Run the narrow applicable checks, documentation gates, `git diff --check`, and behavior evidence for visible strings. Report exclusions and only checks actually run.
+Read the edited prose in context and compare it against the owning code, configuration, or behavior. Keep one home per fact and link to it instead of duplicating rationale. Use [Agent Note rules](../../notes/README.md) for durable decisions. Run the narrow applicable checks, documentation gates, `git diff --check`, and behavior evidence for visible strings. Report exclusions and only checks actually run.

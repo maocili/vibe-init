@@ -5,7 +5,7 @@ description: Use when writing, moving, reviewing, or auditing documentation in a
 
 # Apply Documentation Standards
 
-Read `docs/AGENTS.md`, root rules, the owning source, and relevant Agent Notes before editing. Apply project-specific policies where they exist; this skill supplies the editorial workflow, not a replacement documentation hierarchy.
+Read the [root rules](../../../AGENTS.md), the [Agent Note rules](../../notes/README.md), `docs/AGENTS.md` when present, the owning source, and relevant Agent Notes before editing. Apply project-specific policies where they exist; this skill supplies the editorial workflow, not a replacement documentation hierarchy.
 
 ## Review structure before prose
 

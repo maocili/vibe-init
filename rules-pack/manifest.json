@@ -5,13 +5,13 @@
       "id": "project-notes-readme",
       "target": ".agents/notes/README.md",
       "source": "notes-skeleton/README.md",
-      "sha256": "b08d0eb3338b31c7aadb145a548757527f4954151bfd8758bf0a80fe768e45cc"
+      "sha256": "99cff478e704b941017d6dbfd6fffd8d737a2171fb03ae7f462c64ba1a6409e5"
     },
     {
       "id": "project-notes-readme-zh",
       "target": ".agents/notes/README.zh.md",
       "source": "notes-skeleton/README.zh.md",
-      "sha256": "78b75662895ee8703a619de7abceb35b6a85597b54f89a804f9d1b23c518f8c6"
+      "sha256": "efb15aec5013850141361b64f21b7ea45c95ec042f28a7719b01d4a5630d2105"
     },
     {
       "id": "project-notes-i18n",
@@ -23,7 +23,7 @@
       "id": "project-notes-agents",
       "target": ".agents/notes/AGENTS.md",
       "source": "notes-skeleton/AGENTS.md",
-      "sha256": "089ac2087fafddc23483a103e1abdb8a37279e9ad442972dc423b54aef43138f"
+      "sha256": "16dd0817cb3d245387be53d2e972ecb8be6e267c9c7769e7d7f13657d69a98bd"
     },
     {
       "id": "project-notes-manifest",
@@ -36,7 +36,7 @@
       "target": "AGENTS.md",
       "source": "standing-orders-block.md",
       "mode": "append-under-marker",
-      "sha256": "22b81e85fbe9a33de27f4633f541d0d5ae4910ad2c1ea70c2d7558e9aec537b9"
+      "sha256": "d29e712ecf041b99a97c66ae4a82394557b06963604450354e8fc387030458dc"
     },
     {
       "id": "project-docs-agents",
@@ -51,7 +51,7 @@
       "source": "features/text-link-management.md",
       "mode": "append-under-marker",
       "feature": "textLinkManagement",
-      "sha256": "14f72f62477d58b0fdbd4c8867c4c9b693a4faadd0aaeba9d6c5b4e15dae19f6"
+      "sha256": "f798b9c72269673a0eb3d90634ebc96634295bb3c33b8450b38bc0417eccf7f2"
     },
     {
       "id": "feature-bilingual-docs",
@@ -67,7 +67,7 @@
       "source": "features/doc-budgets.md",
       "mode": "append-under-marker",
       "feature": "docBudgets",
-      "sha256": "b15ec5b6425ffde64ee6e00253f4b2f86af93d9745fbd98fa3c916884ad7be80"
+      "sha256": "3ee3434b8f587456d31626d15bb80027fa841dfc4299764a34bf9237a2d95558"
     }
   ],
   "toolchain": {
@@ -101,7 +101,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "540575cdbb789bfe7d89a435e6c4dd75885b2292dc011952a00eecc0b5bd8508"
+          "sha256": "7e8c2728f5c3b35ccb528a7ea4ab00868753b808523c54daea9cc2b8d2c9c845"
         },
         {
           "path": "agents/openai.yaml",
@@ -114,7 +114,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "948136c1b02bf081aea2a2f83160514c7ffc69b39ef294290357c57de8647d5a"
+          "sha256": "5250f3b720083ec3535a47dbbdb44a8afb3f00e372b6d0bb70acbdac0a225a31"
         },
         {
           "path": "agents/openai.yaml",
@@ -127,7 +127,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "08ff6021b2847389197de9d7e0f95749f1101a2c412ba308491ac8df8a1c088d"
+          "sha256": "1c9ce4e8eedc5f1dad497a1be119a7db02b2d323450ba7781f8ef7f296557b6f"
         },
         {
           "path": "agents/openai.yaml",
@@ -140,7 +140,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "923b43d3397cf9d38e41a2e2f9b0a6afed53f781a6adffc4b5d8e5f77b552b22"
+          "sha256": "780b7e7add516c8627a8cd5e680229ef77b92d2b031aa7c983d4f59b80bc659e"
         },
         {
           "path": "agents/openai.yaml",
@@ -153,7 +153,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "759fa3cbaf9a28c5328bbdd097836b37cb053c7b8d27321c751b4a39615e040f"
+          "sha256": "82850f391cf5624dcf7a7114f280f5978ce92e7df9a0bed2c229ce4250ce7795"
         },
         {
           "path": "agents/openai.yaml",
@@ -166,7 +166,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "ed9c218aec55de451654c47fb148de3033f921639ea99494d193e29a2653d6d0"
+          "sha256": "240c317ca36d31758367757640221f97e743eed07b283831af1645710b90b251"
         },
         {
           "path": "agents/openai.yaml",
@@ -179,7 +179,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "86c5475c3622ae5ec3c55fda5786a363b959036df9eecd59a82b38aef4a7152e"
+          "sha256": "c0e5015469be8266be4650202cfb5634c64c7e26a516595647083b4f2f24b685"
         },
         {
           "path": "agents/openai.yaml",
@@ -192,7 +192,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "df9be75ecaa856ee51633ffc7ac5dc88d57d6c93cc160a06275ccc2a53214b18"
+          "sha256": "2842f2168d70a8ac825683a46aff201b784b05234d1694b86a323153d4ed051b"
         },
         {
           "path": "agents/openai.yaml",
@@ -209,7 +209,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "df366b65d36d4297dbfc3791a71e759d2402a8debce646fb708e5501099d8946"
+          "sha256": "c1a4eee5d74ac91b84e372ed2dfc7d0b01e2e93926be3986de7e173341be774d"
         },
         {
           "path": "agents/openai.yaml",
@@ -226,7 +226,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "75d347a1aa68572efc0e7e00e631adcfcbcb2cecc64212dd746f4311b31de5c1"
+          "sha256": "30202d821eb87cbf8143d66133f5c8eccccb22a2ac6e0fd6b78d656fd80d9528"
         },
         {
           "path": "agents/openai.yaml",
@@ -239,7 +239,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "787f5df972423119133906391119837ae2f2abf65503ac88fd8e9bb2ee905131"
+          "sha256": "6532c6040dd20a242d432047e1e152f7c0850a3ebc86d30068739631e82e5565"
         },
         {
           "path": "agents/openai.yaml",

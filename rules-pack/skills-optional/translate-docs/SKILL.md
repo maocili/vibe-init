@@ -7,7 +7,7 @@ user-invocable: true
 
 # Translate Documentation Pairs
 
-Use only by explicit invocation and only when the project enables bilingual document discipline. Read its pairing policy, terminology, style guidance, and verification commands before translation.
+Use only by explicit invocation and only when the project enables bilingual document discipline. Read its pairing policy, terminology, style guidance, and verification commands before translation. Apply [documentation-standards](../documentation-standards/SKILL.md) and [prose-standard](../prose-standard/SKILL.md) to both sides.
 
 ## Choose the update path
 

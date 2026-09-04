@@ -9,7 +9,7 @@ Reduce the active decision corpus without erasing records that still guide work.
 
 ## Read the project contracts
 
-Read `.agents/notes/README.md`, lifecycle instructions, and the applicable root or subtree `AGENTS.md` files. Establish current relevance from code, configuration, active documentation, newer Agent Notes, and inbound links. Use the project's archive verifier and documentation gate when they exist; do not invent an archive format for a project that has none.
+Read [Agent Note rules](../../notes/README.md), lifecycle instructions, and the applicable root or subtree `AGENTS.md` files. The [root rules](../../../AGENTS.md) define repository-wide policy. Establish current relevance from code, configuration, active documentation, newer Agent Notes, and inbound links. Use the project's archive verifier and documentation gate when they exist; do not invent an archive format for a project that has none.
 
 ## Check supersession first
 

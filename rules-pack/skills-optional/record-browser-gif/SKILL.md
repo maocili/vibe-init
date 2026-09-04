@@ -15,7 +15,7 @@ Use the requested revision and record its identifier before starting the applica
 
 Plan a small storyboard that demonstrates the requested user flow, including loading, action, result, and any relevant failure or recovery state. Wait for observable UI conditions rather than a fixed delay. Keep one viewport, readable text, stable browser chrome, and lexically sortable frame names. Capture only the frames needed to establish the behavior.
 
-Use the bundled `scripts/encode_gif.py` to encode lexically ordered PNG frames. It requires `python3`, `ffmpeg`, and `ffprobe`, checks frame dimensions and final duration, and emits a JSON summary. For example:
+Use the bundled [`scripts/encode_gif.py`](scripts/encode_gif.py) to encode lexically ordered PNG frames. It requires `python3`, `ffmpeg`, and `ffprobe`, checks frame dimensions and final duration, and emits a JSON summary. For example:
 
 ```sh
 export GIF_SKILL_DIR=/absolute/path/to/.agents/skills/record-browser-gif

@@ -88,14 +88,14 @@ dsh-rules/                      # 仓库根 = 插件源码（原 plugin/ 展平�
 - **何时写**：任何改变行为、架构、跨文件契约、流程/工具链、测试策略或格式（磁盘/网络/配置）的变更，
   必须在同一变更里新增或更新笔记；纯机械或局部编辑豁免。已有笔记拥有该决策时更新它即可，不另起重复。
 - **写在哪里**：按生命周期/分类目录（`proposed|implemented|rejected|archived` / `feature|bug-fix|simplification|architecture|process|testing`）与
-  yyyy-mm-dd-topic-title.md 命名；完整规则见 .agents/notes/README.md。
+  yyyy-mm-dd-topic-title.md 命名；完整规则见 [Agent Note 规则](.agents/notes/README.md)。
 - **格式底线**：标题为 # Agent Note: <标题>，前三行含 Status: 行；正文以 ## Problem 开头，
   并必须含 ## Alternatives considered。
 - **一致性**：新笔记先做 supersession 检查并与相关旧笔记交叉链接；implemented/ 笔记随实现保持现行
   （只更新事实）；archived/ 是冻结历史，不可改动、不可当作现行依据。
 
 EN: standing order — record non-trivial decisions as Agent Notes under .agents/notes/
-(four-quadrant lifecycle, dated naming, required header/format). Full rules: .agents/notes/README.md.
+(four-quadrant lifecycle, dated naming, required header/format). Full rules: [Agent Note rules](.agents/notes/README.md).
 <!-- dsh-rules:project-standing-orders-block:end -->
 
 <!-- dsh-rules:feature-text-link-management:start -->
@@ -103,15 +103,17 @@ EN: standing order — record non-trivial decisions as Agent Notes under .agents
 
 - 文档、规则与笔记之间的引用一律用**相对 Markdown 链接**（如 `[格式约定](../docs/format.md)`——仅示意语法，目标须真实存在），
   不用裸标题文字、章节编号或无法校验的指向。
+- Agent Note 的目录、格式与生命周期见 [Agent Note 规则](.agents/notes/README.md)。
 - 链接目标必须真实存在、大小写与相对路径正确；新增、改名、移动或删除目标文件时，在**同一变更**里
   更新所有入链，保持无断链。
 - 悬空链接只允许出现在显式标注处（示意图、说明性锚点）；其余一律视为待修复缺陷。
 - 机械校验由 dsh-rules 的 docGates 工具链执行（verify-md-links，默认安装）：
   `pnpm -C .dsh-rules/toolchain run doc-sync` 会枚举全项目 .md 链接并核对目标与锚点存在性。
 
-EN: cross-references between docs/rules/notes use relative markdown links; targets must exist and
-every rename/move/delete updates all inbound links in the same change. The docGates toolchain
-(verify-md-links, installed by default) enforces this mechanically via `pnpm -C .dsh-rules/toolchain run doc-sync`.
+EN: cross-references between docs/rules/notes use relative Markdown links; targets must exist and
+every rename/move/delete updates all inbound links in the same change. The [Agent Note rules](.agents/notes/README.md)
+cover the note tree and format. The docGates toolchain (verify-md-links, installed by default)
+enforces this mechanically via `pnpm -C .dsh-rules/toolchain run doc-sync`.
 <!-- dsh-rules:feature-text-link-management:end -->
 
 <!-- dsh-rules:feature-doc-budgets:start -->
@@ -119,6 +121,7 @@ every rename/move/delete updates all inbound links in the same change. The docGa
 
 - **分层两档为主**：tutorial（教程：按序导向一个结果，每步只引入所需概念）与 reference（参考：定义查询
   范围与当前行为，无教学序列）。**one home per fact**——每个事实只在它的档位详述，其它位置用链接指向。
+- 文档归属与写作规范见 [docs/AGENTS.md](docs/AGENTS.md)。
 - **篇幅预算是护栏而非削减目标**：长期维护文档设字数软上限；超限先重组、下移内容或链接到所属档位，
   而不是新增重复文档；确需提额时在变更里说明理由。编辑目标为根 `AGENTS.md` ≤1600 词、普通子树
   `AGENTS.md` ≤600 词、`docs/AGENTS.md` ≤1250 词，并保留至少 5% 余量。
@@ -128,11 +131,11 @@ every rename/move/delete updates all inbound links in the same change. The docGa
   `.dsh-rules/toolchain/scripts/doc-budgets.manifest.json`）。门禁变红时先迁移、再压缩，只有确有空间需求时才提额。
 
 EN: doc tiers (tutorial/reference, one home per fact) plus wordcount budgets as guardrails;
-classification precedes writing. Editorial targets are root AGENTS.md ≤1600 words, ordinary subtree
-AGENTS.md ≤600 words, and docs/AGENTS.md ≤1250 words with at least 5% headroom. Budget ceilings are
-enforced mechanically by the docGates toolchain (verify-doc-budgets, installed by default; budget
-list lives in `.dsh-rules/toolchain/scripts/doc-budgets.manifest.json`); relocate, then condense,
-before raising a ceiling.
+classification precedes writing. The [documentation standard](docs/AGENTS.md) owns placement and
+writing rules. Editorial targets are root AGENTS.md ≤1600 words, ordinary subtree AGENTS.md ≤600 words,
+and docs/AGENTS.md ≤1250 words with at least 5% headroom. Budget ceilings are enforced mechanically
+by the docGates toolchain (verify-doc-budgets, installed by default; budget list lives in
+`.dsh-rules/toolchain/scripts/doc-budgets.manifest.json`); relocate, then condense, before raising a ceiling.
 <!-- dsh-rules:feature-doc-budgets:end -->
 
 <!-- dsh-rules:feature-bilingual-docs:start -->

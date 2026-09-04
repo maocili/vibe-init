@@ -9,7 +9,7 @@ Reasoning leakage is prose whose vantage is the authoring session rather than th
 
 ## Apply one test
 
-Ask whether a reader at the current revision can resolve every citation and verify every claim without a private plan, chat, review thread, or uncommitted draft. If not, restate the enduring fact from the repository's perspective. Delete a passage only when it carries no durable proposition.
+Ask whether a reader at the current revision can resolve every citation and verify every claim without a private plan, chat, review thread, or uncommitted draft. Use the [Agent Note rules](../../notes/README.md) when a durable rationale owns the citation. If not, restate the enduring fact from the repository's perspective. Delete a passage only when it carries no durable proposition.
 
 ## Classify the leakage
 
@@ -19,4 +19,4 @@ Keep committed issue references, measured bounds, suppression reasons, present-t
 
 ## Audit and verify
 
-Scope the review explicitly and use `references/recall-batteries.md` as search probes, not as the definition. Read dense prose without a search pattern, then fix the owning source before generated derivatives and update paired documents together. Before removing text, check `references/examples.md` for overcorrection traps. Run the gates for every touched surface and confirm remaining repository citations resolve at the current revision.
+Scope the review explicitly and use [references/recall-batteries.md](references/recall-batteries.md) as search probes, not as the definition. Read dense prose without a search pattern, then fix the owning source before generated derivatives and update paired documents together. Before removing text, check [references/examples.md](references/examples.md) for overcorrection traps. Run the gates for every touched surface and confirm remaining repository citations resolve at the current revision.

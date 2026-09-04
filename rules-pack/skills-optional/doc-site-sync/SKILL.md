@@ -9,7 +9,7 @@ Use this workflow only after locating the project's site configuration, source-t
 
 ## Read the owning contracts
 
-Read the documentation standard, the site configuration, the publication manifest or mapping, and the current generated-output policy before editing. Canonical documentation remains in its owning source tree; projected output is disposable and never edited by hand.
+Read the [documentation-standards workflow](../documentation-standards/SKILL.md), the site configuration, the publication manifest or mapping, and the current generated-output policy before editing. Canonical documentation remains in its owning source tree; projected output is disposable and never edited by hand.
 
 ## Classify the change
 

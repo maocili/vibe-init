@@ -5,7 +5,7 @@ English | [中文](README.zh.md)
 One kind of design document lives in this directory. An **Agent Note** records a decision or
 proposal that affects this codebase — the *why* and what we gave up, the parts code and prose cannot
 carry. This README defines where notes live, when to write one, and the in-file format. The standing
-order in the project root's AGENTS.md points here.
+order in the [project root's AGENTS.md](../../AGENTS.md) points here.
 
 ## Layout and naming
 

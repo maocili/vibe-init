@@ -22,7 +22,7 @@ stack safeguards. Their instructions discover the target project's contracts, si
 validation commands, and optional capabilities instead of referring to Harness packages, CI, or product
 architecture. Existing metadata, supporting examples, recall batteries, and the deterministic GIF
 encoder remain managed assets. The explicit-only translation skill is also the name used by the bundled
-bilingual toolchain documentation and briefing comments.
+bilingual toolchain documentation and briefing comments. Portable cross-references are retained in the root marker, note skeleton, and packaged workflows; they point only to project-local managed files or sibling skills installed with them.
 
 ## Alternatives considered
 

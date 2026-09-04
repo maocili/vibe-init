@@ -5,7 +5,7 @@ description: Use when landing dependent GitHub pull requests that use GitHub's o
 
 # Merge a GitHub Pull Request Stack
 
-Use only when GitHub's official stack capability is available. Read the project merge policy, use a clean dedicated worktree, and fetch live pull-request metadata and head commits before changing remote state.
+Use only when GitHub's official stack capability is available. Read the [root rules](../../../AGENTS.md) and project merge policy, use a clean dedicated worktree, and fetch live pull-request metadata and head commits before changing remote state.
 
 ## Require native stack support
 

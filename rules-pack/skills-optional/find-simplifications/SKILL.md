@@ -5,7 +5,7 @@ description: Use when finding evidence-backed simplification candidates or writi
 
 # Find Simplifications
 
-Read owning architecture, tests, public documentation, and active Agent Notes before treating complexity as accidental. A simplification removes owned code, behavior, state, or surface area; moving it behind a wrapper is not enough.
+Read owning architecture, tests, public documentation, and [Agent Notes](../../notes/README.md) before treating complexity as accidental. A simplification removes owned code, behavior, state, or surface area; moving it behind a wrapper is not enough.
 
 ## Find strong candidates
 
@@ -19,4 +19,4 @@ For each candidate, identify the current consumer, durable-format obligation, ac
 
 ## Record and validate
 
-Write substantial, accepted candidates as `proposed/simplification/` Agent Notes; link partial supersessions and use `archive-agent-notes` for retention judgment. Use a TODO only for local, low-risk work with a clear owner. For work taken from another branch, compare it against its verified independent base, then validate its contribution as part of the combined change. Run the narrowest checks that demonstrate removed behavior is absent and retained behavior still works.
+Write substantial, accepted candidates as `proposed/simplification/` Agent Notes; link partial supersessions and use [archive-agent-notes](../archive-agent-notes/SKILL.md) for retention judgment. Use a TODO only for local, low-risk work with a clear owner. For work taken from another branch, compare it against its verified independent base, then validate its contribution as part of the combined change. Run the narrowest checks that demonstrate removed behavior is absent and retained behavior still works.

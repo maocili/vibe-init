@@ -202,6 +202,27 @@ test('default init installs every declared project skill', async () => {
   }
 })
 
+test('materialized agent content keeps portable internal links', async () => {
+  const proj = fixtureProject('portable-links')
+  writeFileSync(join(proj, 'AGENTS.md'), 'x\n')
+  const pack = await loadPack(REAL_PACK)
+  await applyResults(await evaluatePlan(await planProject(pack, proj), {}))
+
+  const root = readFileSync(join(proj, 'AGENTS.md'), 'utf8')
+  assert.ok(root.includes('[Agent Note 规则](.agents/notes/README.md)'))
+  assert.ok(root.includes('[Agent Note rules](.agents/notes/README.md)'))
+
+  const notes = readFileSync(join(proj, '.agents', 'notes', 'README.md'), 'utf8')
+  assert.ok(notes.includes("[project root's AGENTS.md](../../AGENTS.md)"))
+  const notesAgents = readFileSync(join(proj, '.agents', 'notes', 'AGENTS.md'), 'utf8')
+  assert.ok(notesAgents.includes('[project root AGENTS.md](../../AGENTS.md)'))
+
+  for (const skill of pack.skills) {
+    const text = readFileSync(join(proj, '.agents', 'skills', skill.name, 'SKILL.md'), 'utf8')
+    assert.match(text, /\]\(/, skill.name)
+  }
+})
+
 test('shipped skill workflows are generic and bilingual guidance names the installed skill', async () => {
   const pack = await loadPack(REAL_PACK)
   for (const skill of pack.skills) {

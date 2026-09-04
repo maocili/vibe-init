@@ -10,6 +10,7 @@
 | [ACCEPTANCE](ACCEPTANCE.md) | 每项需求和决策对应的代码、测试或实测证据 |
 | [实现设计 Agent Note](../.agents/notes/implemented/architecture/2026-09-04-dsh-rules-implementation-design.md) | 物化引擎、规则包和工具链的实现取舍 |
 | [实现历史 Agent Note](../.agents/notes/implemented/process/2026-09-04-dsh-rules-implementation-history.md) | 决策级里程碑；细粒度历史以 Git 为准 |
+| [Upgrade 所有权迁移 Agent Note](../.agents/notes/implemented/process/2026-09-04-upgrade-ownership-migration.md) | state、覆盖与遗留清理边界 |
 
 旧链接仍可访问：[DESIGN 指针页](DESIGN-dsh-rules-plugin.md)、[CHANGELOG 指针页](CHANGELOG.md)。
 

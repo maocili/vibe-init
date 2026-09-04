@@ -11,7 +11,10 @@ const BIN = join(ROOT, 'bin', 'dsh-rules.mjs')
 let TMP
 
 function run(args, opts = {}) {
-  const r = spawnSync(process.execPath, [BIN, ...args], { encoding: 'utf8', ...opts })
+  const r = spawnSync(process.execPath, [BIN, ...args], {
+    encoding: 'utf8', ...opts,
+    env: { ...process.env, DSH_RULES_SKIP_TOOLCHAIN_INSTALL: '1', ...(opts.env || {}) }
+  })
   return { code: r.status, out: r.stdout || '', err: r.stderr || '' }
 }
 

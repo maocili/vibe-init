@@ -14,9 +14,9 @@
 > bilingual-ready notes skeleton under `.agents/notes/`, and declared skill copies under
 > `.agents/skills/` managed like dependency packages. It never touches the user-global plane
 > (`~/.dsh/AGENTS.md`, user skill roots). Scope authority: `REQUIREMENTS-dsh-rules-plugin.md` v1.0
-> (+ M1b decisions D11/D12); rule-pack content (skeleton gates, bilingual
+> (+ M1b decisions D11–D13); rule-pack content (skeleton gates, bilingual
 > trio, pointer block, feature sections, docGates toolchain under `toolchain/`) is distilled from
-> `../vibe-coding-templates/` and sha256-synced; `skills-optional/` awaits DP-F.
+> `../vibe-coding-templates/` and sha256-synced; `skills-optional/` is the declared default project skill set.
 
 ## 入口文档
 
@@ -24,10 +24,11 @@
 - [`docs/README.md`](docs/README.md) — 项目文档索引与总览（2026-09-04 目录调整由仓库根移入 docs/）。
 - [`docs/REQUIREMENTS-dsh-rules-plugin.md`](docs/REQUIREMENTS-dsh-rules-plugin.md) — 需求与目标
   （**定案 v1.0**；据用户决策：**项目级初始化器、不碰全局面**；作为唯一范围口径；
-  决策基线 D1–D12 见文档 §0）。
+  决策基线 D1–D13 见文档 §0）。
 - [`docs/ACCEPTANCE.md`](docs/ACCEPTANCE.md) — 验收追溯矩阵。
 - [实现设计 Agent Note](.agents/notes/implemented/architecture/2026-09-04-dsh-rules-implementation-design.md)、
-  [实现历史 Agent Note](.agents/notes/implemented/process/2026-09-04-dsh-rules-implementation-history.md) — 实现设计与决策级历史。
+  [实现历史 Agent Note](.agents/notes/implemented/process/2026-09-04-dsh-rules-implementation-history.md)、
+  [Upgrade 所有权迁移 Note](.agents/notes/implemented/process/2026-09-04-upgrade-ownership-migration.md) — 实现设计与决策级历史。
 - [`rules-pack/README.md`](rules-pack/README.md) — 内置规则包内容映射与门禁说明。
 
 ## 目录结构（2026-09-04 调整后）
@@ -39,13 +40,13 @@ dsh-rules/                      # 仓库根 = 插件源码（原 plugin/ 展平�
 ├── dsh-rules.mjs               # Cordis 插件入口（挂载无副作用）
 ├── bin/dsh-rules.mjs           # CLI 入口（init/upgrade/status/audit/hash/list-skills）
 ├── lib/                        # engine / pack / cli / diff
-├── test/                       # 自动化测试（node:test；仓库根 pnpm test，31 条）
+├── test/                       # 自动化测试（node:test；仓库根 pnpm test，41 条）
 ├── package.json                # name dsh-rules；bin.dsh-rules；scripts.test
 ├── cordis.patch.sample.yml     # 挂载样例（路径指向仓库根 dsh-rules.mjs）
 ├── rules-pack/                 # 内置规则包 —— 唯一版本化内容源（manifest.json + sha256）
 │   ├── notes-skeleton/         #   → 项目 .agents/notes/ 骨架（双语三件套+四象限）
 │   ├── standing-orders-block.md#   → 项目根 AGENTS.md 的 marker 段（指针式）
-│   ├── skills-optional/        #   → 项目 .agents/skills/（依赖包式副本；DP-F 待提炼）
+│   ├── skills-optional/        #   → 项目 .agents/skills/（依赖包式副本；全部声明技能默认安装）
 │   ├── features/               #   特性规则段（textLinkManagement/bilingualDocsDiscipline 等）
 │   └── toolchain/              #   docGates 工具链（spec.json 组 → 项目 .dsh-rules/toolchain）
 └── docs/                       # 项目文档（原仓库根文档移入本目录）
@@ -60,9 +61,9 @@ dsh-rules/                      # 仓库根 = 插件源码（原 plugin/ 展平�
 - 内容源与插件同仓：`rules-pack/` 的 `manifest.json` 声明文件清单与 `sha256`（含 features 开关与
   toolchain 声明）；子目录映射物化目标见 [`rules-pack/README.md`](rules-pack/README.md)。`global/`
   （→ ~/.dsh）已按 v1.0 退役删除。
-- 不再有 `.template/` 与 `.agents/` 子树（2026-09-04 目录调整删除）：其语料/工具链已在 M1b 归入
-  `rules-pack/toolchain/`（docGates），仓库自身开发记录不再随仓维护；`skills-optional/` 内容待从
-  外部仓库 `../vibe-coding-templates/` 提炼（DP-F）。
+- 不再有 `.template/` 或随插件分发的消费者 `.agents/` 内容子树（2026-09-04 目录调整删除）：其语料/工具链
+  已在 M1b 归入 `rules-pack/toolchain/`（docGates）；仓库自身 `.agents/notes/` 仅保留开发记录，
+  `skills-optional/` 内容已提炼为全部默认项目技能。
 
 ## 会话规则
 
@@ -73,7 +74,7 @@ dsh-rules/                      # 仓库根 = 插件源码（原 plugin/ 展平�
 - 修改 `rules-pack/` 文件时保持 `manifest.json` 的 files 清单与 `sha256` 同步
   （`status`/`upgrade` 依赖内容寻址；刷新用 `node bin/dsh-rules.mjs hash --pack rules-pack` 或
   `$DSH_RULES_PACK`）；改动 `toolchain/**` 分组/依赖时同步 `spec.json`，并跑仓库根 `pnpm test`
-  （31 条含 docGates 物化/移除回归）。
+  （41 条含 docGates 物化/移除与 upgrade 所有权迁移回归）。
 - 修改 `docs/` 或根 README 时留意跨目录相对链接（`docs/**` 内互链、指向根 `AGENTS.md`/`README.md`
   需 `../` 前缀）。
 - 本仓库 `AGENTS.md`、`README.md`、`docs/**`、`rules-pack/` 与插件源码均为容器级内容，不在任何

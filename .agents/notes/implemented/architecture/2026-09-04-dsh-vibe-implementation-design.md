@@ -21,11 +21,11 @@ The Cordis entry point only validates the pack and reports that the plugin is mo
 commands perform project-local writes. The project boundary is permanent: no command installs or
 updates the user-global `~/.dsh/` plane.
 
-The distributable form is the public npm package `@maocili/dsh-vibe`. Its manifest declares
+The distributable form is a Git-tagged package named `@maocili/dsh-vibe`. Its manifest declares
 `dsh.bundle.patch` pointing to the package-local `cordis.patch.yml`; that patch inserts the same package
-as the Cordis plugin when a DSH profile installs the bundle. The npm `files` allowlist carries only the
-runtime, CLI, patch, and `packages/`; an absolute `file://` entry remains a checkout-development
-fallback.
+as the Cordis plugin when a DSH profile installs the bundle. The `files` allowlist carries only the runtime,
+CLI, patch, and `packages/`; `pnpm pack` validates the tarball and no install lifecycle script mutates projects
+or profiles.
 
 The former design document is now a pointer; this note is the home for implementation decisions and
 their rationale. Stable scope and behavior remain in

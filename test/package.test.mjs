@@ -11,6 +11,7 @@ let TMP
 let tarball
 let tarballFiles
 let consumer
+let globalBin
 
 function run(command, args, options = {}) {
   const result = spawnSync(command, args, {
@@ -30,17 +31,34 @@ before(() => {
   TMP = mkdtempSync(join(ROOT, '.package-test-'))
   const destination = join(TMP, 'tarball')
   mkdirSync(destination)
-  const packed = run('npm', ['pack', '--json', '--pack-destination', destination])
+  const packed = run('pnpm', ['pack', '--json', '--pack-destination', destination])
   assert.equal(packed.code, 0, packed.err)
-  const metadata = JSON.parse(packed.out)[0]
+  const metadata = JSON.parse(packed.out)
   tarball = join(destination, basename(metadata.filename))
   tarballFiles = new Set(metadata.files.map((file) => file.path))
 
   consumer = join(TMP, 'consumer')
   mkdirSync(consumer)
   writeFileSync(join(consumer, 'package.json'), JSON.stringify({ name: 'dsh-vibe-consumer', private: true }, null, 2) + '\n')
-  const installed = run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund', tarball], { cwd: consumer })
+  const installed = run('pnpm', ['install', '--ignore-scripts', tarball], { cwd: consumer })
   assert.equal(installed.code, 0, installed.err)
+
+  const pnpmHome = join(TMP, 'pnpm-home')
+  const globalDir = join(TMP, 'global')
+  const globalEnv = {
+    PNPM_HOME: pnpmHome,
+    PATH: join(pnpmHome, 'bin') + ':' + process.env.PATH
+  }
+  const globallyInstalled = run('pnpm', ['install', '--global', '--global-dir', globalDir, tarball], { cwd: consumer, env: globalEnv })
+  assert.equal(globallyInstalled.code, 0, globallyInstalled.err)
+  globalBin = join(pnpmHome, 'bin', 'dsh-vibe')
+  assert.equal(existsSync(globalBin), true)
+  const help = run(globalBin, ['help'], { cwd: consumer, env: globalEnv })
+  assert.equal(help.code, 0, help.err)
+  assert.match(help.out, /^dsh-vibe <command>/)
+  assert.equal(existsSync(join(consumer, 'AGENTS.md')), false)
+  assert.equal(existsSync(join(consumer, '.agents')), false)
+  assert.equal(existsSync(join(consumer, '.dsh-vibe')), false)
 })
 
 after(() => {
@@ -78,18 +96,18 @@ test('installed Cordis entry and CLI use the package-local rules pack', () => {
   mkdirSync(join(project, '.git'), { recursive: true })
   writeFileSync(join(project, 'AGENTS.md'), '## Package consumer\n')
   const env = { DSH_VIBE_SKIP_TOOLCHAIN_INSTALL: '1' }
-  const first = run(join(packageDir, 'bin', 'dsh-vibe.mjs'), ['init', '--project', project, '--yes'], { cwd: consumer, env })
+  const first = run(globalBin, ['init', '--project', project, '--yes'], { cwd: consumer, env })
   assert.equal(first.code, 0, first.err)
   assert.match(first.out, /applied/)
   assert.equal(existsSync(join(project, '.agents', 'notes', 'README.md')), true)
   assert.equal(existsSync(join(project, '.agents', 'skills', 'code-review', 'SKILL.md')), true)
   assert.equal(existsSync(join(project, '.dsh-vibe', 'toolchain', 'package.json')), true)
 
-  const second = run(join(packageDir, 'bin', 'dsh-vibe.mjs'), ['init', '--project', project, '--yes'], { cwd: consumer, env })
+  const second = run(globalBin, ['init', '--project', project, '--yes'], { cwd: consumer, env })
   assert.equal(second.code, 0, second.err)
   assert.match(second.out, /nothing to do/)
 
-  const status = run(join(packageDir, 'bin', 'dsh-vibe.mjs'), ['status', '--project', project, '--json'], { cwd: consumer, env })
+  const status = run(globalBin, ['status', '--project', project, '--json'], { cwd: consumer, env })
   assert.equal(status.code, 0, status.err)
   const statusJson = JSON.parse(status.out)
   assert.equal(statusJson.project.root, project)

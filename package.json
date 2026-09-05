@@ -20,7 +20,11 @@
     "packages/",
     "cordis.patch.yml"
   ],
-  "scripts": { "test": "node --test" },
+  "scripts": {
+    "test": "node --test",
+    "package:check": "pnpm test && pnpm pack --dry-run",
+    "package:build": "pnpm run package:check && pnpm pack --pack-destination artifacts"
+  },
   "exports": {
     ".": "./dsh-vibe.mjs",
     "./lib/*": "./lib/*.mjs",

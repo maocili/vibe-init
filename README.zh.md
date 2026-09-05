@@ -11,31 +11,27 @@
 
 ## 快速开始
 
+先从版本化 Git 仓库全局安装 CLI：
+
+```bash
+pnpm install --global github:maocili/dsh-vibe#v0.2.0
+```
+
 在目标项目中先预览，再明确执行：
 
 ```bash
-pnpm dlx @maocili/dsh-vibe init --dry-run
-pnpm dlx @maocili/dsh-vibe init --yes
+dsh-vibe init --dry-run
+dsh-vibe init --yes
 ```
-
-如果要把它作为项目依赖安装，而不是用 `pnpm dlx` 临时运行：
-
-```bash
-pnpm add @maocili/dsh-vibe
-pnpm exec dsh-vibe init --dry-run
-pnpm exec dsh-vibe init --yes
-```
-
-`pnpm add` 会把包写入 `package.json`；`pnpm install` 只安装已经声明的依赖。`pnpm dlx` 直接运行已发布的 CLI，不会添加项目依赖。
 
 之后可用：
 
 ```bash
 # 检查受管内容、规则包摘要与旧容器残留（只读）
-pnpm dlx @maocili/dsh-vibe audit
+dsh-vibe audit
 
 # 将规则包的新版内容迁移到项目（先加 --dry-run 更稳妥）
-pnpm dlx @maocili/dsh-vibe upgrade --yes
+dsh-vibe upgrade --yes
 ```
 
 默认入口是当前目录所属的 Git 项目；也可指定 `--project <dir>`。写入命令在非交互环境必须带
@@ -55,11 +51,11 @@ pnpm dlx @maocili/dsh-vibe upgrade --yes
 
 ```bash
 # 为本次迁移启用双语纪律及其门禁
-pnpm dlx @maocili/dsh-vibe upgrade \
+dsh-vibe upgrade \
   --feature bilingualDocsDiscipline=true --yes
 
 # 移除由插件管理的 docGates 工具链
-pnpm dlx @maocili/dsh-vibe upgrade \
+dsh-vibe upgrade \
   --feature docGates=false --yes
 ```
 
@@ -88,10 +84,10 @@ pnpm dlx @maocili/dsh-vibe upgrade \
 
 ## 安装到 DSH profile
 
-公共包以 DSH bundle 形式发布。在 profile 中安装后，宿主会依据包的 `dsh.bundle.patch` 声明自动加入插件层：
+Git 包也以 DSH bundle 形式发布。在 profile 中安装后，宿主会依据包的 `dsh.bundle.patch` 声明自动加入插件层：
 
 ```bash
-dsh plugin --profile web add @maocili/dsh-vibe
+dsh plugin --profile web add github:maocili/dsh-vibe#v0.2.0
 ```
 
 重启 profile 后，日志出现 `[dsh-vibe] mounted` 即表示加载成功。挂载本身没有写盘副作用；仍须运行上面的 CLI 命令来初始化项目。
@@ -106,7 +102,7 @@ dsh plugin --profile web add @maocili/dsh-vibe
       name: file:////Users/xuxifeng/Work/dsh-vibe/dsh-vibe.mjs
 ```
 
-这是 checkout 专用的回退路径，不是发布包的安装方式。
+这是 checkout 专用的回退路径，不是 Git 包的安装方式。
 
 ## 开发与文档
 
@@ -114,7 +110,7 @@ dsh plugin --profile web add @maocili/dsh-vibe
 pnpm test
 ```
 
-`pnpm test` 运行 48 个 Node 测试。修改 `packages/` 后必须刷新摘要：
+`pnpm test` 运行 48 个 Node 测试。`pnpm run package:check` 会验证测试和打包清单；`pnpm run package:build` 会把发布 tarball 写入 `artifacts/`。修改 `packages/` 后必须刷新摘要：
 
 ```bash
 node bin/dsh-vibe.mjs hash --pack packages

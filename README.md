@@ -8,31 +8,27 @@ It manages marker-wrapped rule segments in the project's root `AGENTS.md`, the `
 
 ## Quick start
 
+Install the CLI globally from the versioned Git repository:
+
+```bash
+pnpm install --global github:maocili/dsh-vibe#v0.2.0
+```
+
 In the target project, preview the changes first, then explicitly apply them:
 
 ```bash
-pnpm dlx @maocili/dsh-vibe init --dry-run
-pnpm dlx @maocili/dsh-vibe init --yes
+dsh-vibe init --dry-run
+dsh-vibe init --yes
 ```
-
-To install the package as a project dependency instead of using `pnpm dlx`:
-
-```bash
-pnpm add @maocili/dsh-vibe
-pnpm exec dsh-vibe init --dry-run
-pnpm exec dsh-vibe init --yes
-```
-
-`pnpm add` records the package in `package.json`; `pnpm install` installs packages already declared there. `pnpm dlx` runs the published CLI without adding a project dependency.
 
 Afterward, you can use:
 
 ```bash
 # 检查受管内容、规则包摘要与旧容器残留（只读）
-pnpm dlx @maocili/dsh-vibe audit
+dsh-vibe audit
 
 # 将规则包的新版内容迁移到项目（先加 --dry-run 更稳妥）
-pnpm dlx @maocili/dsh-vibe upgrade --yes
+dsh-vibe upgrade --yes
 ```
 
 The default entry point is the Git project containing the current directory. You can also specify `--project <dir>`. In non-interactive environments, write commands must include `--yes` or `--dry-run`.
@@ -50,11 +46,11 @@ The default entry point is the Git project containing the current directory. You
 
 ```bash
 # 为本次迁移启用双语纪律及其门禁
-pnpm dlx @maocili/dsh-vibe upgrade \
+dsh-vibe upgrade \
   --feature bilingualDocsDiscipline=true --yes
 
 # 移除由插件管理的 docGates 工具链
-pnpm dlx @maocili/dsh-vibe upgrade \
+dsh-vibe upgrade \
   --feature docGates=false --yes
 ```
 
@@ -77,10 +73,10 @@ Each project stores the pack version, feature configuration, markers, and source
 
 ## Install into a DSH profile
 
-The public package is published as a DSH bundle. After it is installed in a profile, the host adds the plugin layer automatically from the package's `dsh.bundle.patch` declaration:
+The Git package is also published as a DSH bundle. After it is installed in a profile, the host adds the plugin layer automatically from the package's `dsh.bundle.patch` declaration:
 
 ```bash
-dsh plugin --profile web add @maocili/dsh-vibe
+dsh plugin --profile web add github:maocili/dsh-vibe#v0.2.0
 ```
 
 After restarting the profile, `[dsh-vibe] mounted` in the log indicates a successful load. Mounting itself has no disk-writing side effect; you still need to run the CLI commands above to initialize a project.
@@ -95,7 +91,7 @@ For local development or when the host package is not installed, merge the entry
       name: file:////Users/xuxifeng/Work/dsh-vibe/dsh-vibe.mjs
 ```
 
-This is a checkout-only fallback path, not the installation method for the published package.
+This is a checkout-only fallback path, not the installation method for the Git package.
 
 ## Development and docs
 
@@ -103,7 +99,7 @@ This is a checkout-only fallback path, not the installation method for the publi
 pnpm test
 ```
 
-`pnpm test` runs 48 Node tests. After modifying `packages/`, refresh its manifest summary:
+`pnpm test` runs 48 Node tests. `pnpm run package:check` validates tests and pack contents; `pnpm run package:build` writes a release tarball under `artifacts/`. After modifying `packages/`, refresh its manifest summary:
 
 ```bash
 node bin/dsh-vibe.mjs hash --pack packages

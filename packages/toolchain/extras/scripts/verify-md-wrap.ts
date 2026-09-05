@@ -12,8 +12,8 @@ import type { Nodes } from 'mdast'
 import { parseMarkdown, visitMarkdown } from './markdown.ts'
 import { agentCorpusRoot, isArchivedAgentNotePath, uniqueRepoFiles } from './repo-files.ts'
 
-// dsh-rules distilled: gates scan the project root (the dir holding `.agents`), not
-// the script's own parent — consumers run them from `.dsh-rules/toolchain`.
+// dsh-vibe distilled: gates scan the project root (the dir holding `.agents`), not
+// the script's own parent — consumers run them from `.dsh-vibe/toolchain`.
 const root = agentCorpusRoot()
 const agentsRoot = relative(root, resolve(root, '.agents'))
 

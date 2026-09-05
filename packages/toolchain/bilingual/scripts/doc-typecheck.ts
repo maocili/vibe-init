@@ -14,8 +14,8 @@ import { markdownFences } from './markdown.ts'
 import { partitionPairedMarkdownDerivatives } from './paired-markdown-derivatives.ts'
 import { agentCorpusRoot, isArchivedAgentNotePath } from './repo-files.ts'
 
-// dsh-rules distilled: gates scan the project root (the dir holding `.agents`), not
-// the script's own parent — consumers run them from `.dsh-rules/toolchain`.
+// dsh-vibe distilled: gates scan the project root (the dir holding `.agents`), not
+// the script's own parent — consumers run them from `.dsh-vibe/toolchain`.
 const root = agentCorpusRoot()
 const agentsRoot = relative(root, resolve(root, '.agents'))
 const home = resolve(import.meta.dirname, '..')

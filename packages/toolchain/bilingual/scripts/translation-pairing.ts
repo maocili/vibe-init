@@ -177,7 +177,7 @@ function isTranslationSourceExcluded(file: string): boolean {
 }
 
 /** Whether one discovered Markdown or sidecar path belongs to the bilingual source corpus. */
-// dsh-rules distilled: scope covers project docs/README/contributing only. Agent Notes under
+// dsh-vibe distilled: scope covers project docs/README/contributing only. Agent Notes under
 // .agents/notes keep their own (lighter, optional-bilingual) discipline in this pack, and the
 // deepseek-harness-specific python/ corpus is out of scope for consumers.
 export function isTranslationScopeFile(file: string): boolean {

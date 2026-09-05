@@ -1,4 +1,4 @@
-// dsh-rules engine/pack regression tests (node:test).
+// dsh-vibe engine/pack regression tests (node:test).
 // Fixtures live under the repository root and are removed after the run.
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
@@ -41,12 +41,12 @@ async function initAndRecord(pack, proj, opts = {}) {
   return { plan, results, state }
 }
 
-const planning = 'x\n<!-- 待填充 [实现期] header -->\ny\n<!-- dsh-rules:legacy -->\nz\n'
+const planning = 'x\n<!-- 待填充 [实现期] header -->\ny\n<!-- dsh-vibe:legacy -->\nz\n'
 
 test('cleanSource strips planning/legacy marker comments, keeps body', async () => {
   const out = cleanSource(planning)
   assert.ok(!out.includes('[实现期]'))
-  assert.ok(!out.includes('dsh-rules:legacy'))
+  assert.ok(!out.includes('dsh-vibe:legacy'))
   assert.ok(out.includes('x\n'))
   assert.ok(out.includes('y\n'))
   assert.ok(out.includes('z'))
@@ -56,7 +56,7 @@ test('segment upsert/remove is idempotent and preserves outside text', () => {
   const head = '## Product\n'
   let text = head
   text = upsertSegmentText(text, 'seg-a', 'body A')
-  assert.ok(text.includes('<!-- dsh-rules:seg-a:start -->'))
+  assert.ok(text.includes('<!-- dsh-vibe:seg-a:start -->'))
   const again = upsertSegmentText(text, 'seg-a', 'body A')
   assert.equal(again, text)
   const removed = removeSegmentText(text, 'seg-a')
@@ -309,12 +309,12 @@ test('upgrade ownership matrix: managed files overwrite while user assets stay b
   await initAndRecord(pack1, proj)
 
   const managedSkill = join(proj, '.agents', 'skills', 'archive-agent-notes', 'SKILL.md')
-  const managedTool = join(proj, '.dsh-rules', 'toolchain', 'scripts', 'verify-md-links.ts')
+  const managedTool = join(proj, '.dsh-vibe', 'toolchain', 'scripts', 'verify-md-links.ts')
   const generatedDoc = join(proj, 'docs', 'AGENTS.md')
   const noteBody = join(proj, '.agents', 'notes', 'implemented', 'architecture', '2024-user-note.md')
   const noteManifest = join(proj, '.agents', 'notes', 'manifest.json')
   const businessDoc = join(proj, 'docs', 'business.md')
-  const userTool = join(proj, '.dsh-rules', 'toolchain', 'user-script.ts')
+  const userTool = join(proj, '.dsh-vibe', 'toolchain', 'user-script.ts')
   const userSkill = join(proj, '.agents', 'skills', 'archive-agent-notes', 'user-reference.md')
   writeFileSync(managedSkill, readFileSync(managedSkill, 'utf8') + '\nuser edit that upgrade must replace\n')
   writeFileSync(managedTool, readFileSync(managedTool, 'utf8') + '\nuser edit that upgrade must replace\n')
@@ -344,7 +344,7 @@ test('upgrade ownership matrix: managed files overwrite while user assets stay b
   assert.equal(results.find((r) => r.id === 'toolchain:text-link:scripts/verify-md-links.ts').action, 'update')
   assert.equal(results.find((r) => r.label === 'docs/AGENTS.md').action, 'update')
   assert.equal(results.find((r) => r.id === 'project-standing-orders-block').action, 'update')
-  assert.equal(results.find((r) => r.label === '.dsh-rules/toolchain/user-script.ts'), undefined)
+  assert.equal(results.find((r) => r.label === '.dsh-vibe/toolchain/user-script.ts'), undefined)
   assert.equal(results.find((r) => r.label === '.agents/skills/archive-agent-notes/user-reference.md'), undefined)
   assert.equal(results.find((r) => r.label === '.agents/notes/implemented/architecture/2024-user-note.md'), undefined)
   assert.equal(results.find((r) => r.label === '.agents/notes/manifest.json'), undefined)
@@ -395,12 +395,12 @@ test('upgrade removes only unmodified state-owned stale files and preserves modi
 test('upgrade legacy migration reports ambiguous files, never deletes them, and creates state', async () => {
   const proj = fixtureProject('upgrade-legacy')
   writeFileSync(join(proj, 'AGENTS.md'), '## Product\n')
-  mkdirSync(join(proj, '.dsh-rules', 'toolchain'), { recursive: true })
-  writeFileSync(join(proj, '.dsh-rules', 'toolchain', 'legacy-user.ts'), 'user tool\n')
-  const legacyDeclared = join(proj, '.dsh-rules', 'toolchain', 'docs', 'i18n', 'README.md')
-  mkdirSync(join(proj, '.dsh-rules', 'toolchain', 'docs', 'i18n'), { recursive: true })
+  mkdirSync(join(proj, '.dsh-vibe', 'toolchain'), { recursive: true })
+  writeFileSync(join(proj, '.dsh-vibe', 'toolchain', 'legacy-user.ts'), 'user tool\n')
+  const legacyDeclared = join(proj, '.dsh-vibe', 'toolchain', 'docs', 'i18n', 'README.md')
+  mkdirSync(join(proj, '.dsh-vibe', 'toolchain', 'docs', 'i18n'), { recursive: true })
   writeFileSync(legacyDeclared, readFileSync(join(REAL_PACK, 'toolchain', 'bilingual', 'docs', 'i18n', 'README.md'), 'utf8'))
-  const legacyDeclaredChanged = join(proj, '.dsh-rules', 'toolchain', 'docs', 'i18n', 'README.zh.md')
+  const legacyDeclaredChanged = join(proj, '.dsh-vibe', 'toolchain', 'docs', 'i18n', 'README.zh.md')
   writeFileSync(legacyDeclaredChanged, readFileSync(join(REAL_PACK, 'toolchain', 'bilingual', 'docs', 'i18n', 'README.zh.md'), 'utf8') + '\nuser translation\n')
   mkdirSync(join(proj, '.agents', 'skills', 'archive-agent-notes'), { recursive: true })
   writeFileSync(join(proj, '.agents', 'skills', 'archive-agent-notes', 'legacy-user.md'), 'user skill\n')
@@ -410,15 +410,15 @@ test('upgrade legacy migration reports ambiguous files, never deletes them, and 
   const plan = await planProject(pack, proj, { mode: 'upgrade' })
   const results = await evaluatePlan(plan, {})
   assert.equal(plan.stateInfo.state, null)
-  assert.equal(results.find((r) => r.label === '.dsh-rules/toolchain/legacy-user.ts').action, 'conflict')
-  assert.equal(results.find((r) => r.label === '.dsh-rules/toolchain/docs/i18n/README.md').action, 'remove')
-  assert.equal(results.find((r) => r.label === '.dsh-rules/toolchain/docs/i18n/README.zh.md').action, 'conflict')
+  assert.equal(results.find((r) => r.label === '.dsh-vibe/toolchain/legacy-user.ts').action, 'conflict')
+  assert.equal(results.find((r) => r.label === '.dsh-vibe/toolchain/docs/i18n/README.md').action, 'remove')
+  assert.equal(results.find((r) => r.label === '.dsh-vibe/toolchain/docs/i18n/README.zh.md').action, 'conflict')
   assert.equal(results.find((r) => r.label === '.agents/skills/archive-agent-notes/legacy-user.md').action, 'conflict')
   assert.equal(results.find((r) => r.label === '.agents/notes/implemented/architecture/2024-history.md'), undefined)
   await applyResults(results)
   await writeProjectState(proj, nextProjectState(plan, results, pack.version, plan.effectiveFeatures))
-  assert.ok(existsFile(join(proj, '.dsh-rules/state.json')))
-  assert.ok(existsFile(join(proj, '.dsh-rules/toolchain/legacy-user.ts')))
+  assert.ok(existsFile(join(proj, '.dsh-vibe/state.json')))
+  assert.ok(existsFile(join(proj, '.dsh-vibe/toolchain/legacy-user.ts')))
   assert.ok(!existsFile(legacyDeclared))
   assert.ok(existsFile(legacyDeclaredChanged))
   assert.ok(existsFile(join(proj, '.agents/skills/archive-agent-notes/legacy-user.md')))
@@ -427,8 +427,8 @@ test('upgrade legacy migration reports ambiguous files, never deletes them, and 
 test('upgrade rejects malformed or duplicated marker segments as conflicts', async () => {
   const proj = fixtureProject('upgrade-marker-conflict')
   const pack = await loadPack(REAL_PACK)
-  const marker = '<!-- dsh-rules:project-standing-orders-block:start -->\n'
-  writeFileSync(join(proj, 'AGENTS.md'), marker + marker + '<!-- dsh-rules:project-standing-orders-block:end -->\n')
+  const marker = '<!-- dsh-vibe:project-standing-orders-block:start -->\n'
+  writeFileSync(join(proj, 'AGENTS.md'), marker + marker + '<!-- dsh-vibe:project-standing-orders-block:end -->\n')
   const results = await evaluatePlan(await planProject(pack, proj, { mode: 'upgrade' }), {})
   assert.equal(results.find((r) => r.id === 'project-standing-orders-block').action, 'conflict')
 })

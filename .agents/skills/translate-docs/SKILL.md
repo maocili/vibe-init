@@ -17,8 +17,8 @@ this Skill automatically.
 ## Read the pairing contract
 
 Read the project's pairing policy, terminology source, style guidance, generated-document policy, and
-verification commands before translating. In a dsh-rules project these may be under
-`.dsh-rules/toolchain/docs/i18n/`; use the paths and commands that actually exist. Both language files
+verification commands before translating. In a dsh-vibe project these may be under
+`.dsh-vibe/toolchain/docs/i18n/`; use the paths and commands that actually exist. Both language files
 carry equal authority: the authored side supplies the source for the update, and the counterpart must
 preserve its meaning without adding behavior or warnings. Enumerate missing, out-of-sync, renamed, and
 sealed pairs before selecting the write set.
@@ -85,7 +85,7 @@ full-content hashes.
 Record consistency only after semantic review. Use the project's scoped pairing command and name the
 exact pair being confirmed; do not re-record the entire corpus as a side effect of one update. Run the
 scoped pair check for each pair, then leave corpus-wide documentation gates to the change, PR, or CI
-level. In a dsh-rules project, use the enabled commands under `.dsh-rules/toolchain/package.json` rather
+level. In a dsh-vibe project, use the enabled commands under `.dsh-vibe/toolchain/package.json` rather
 than guessing commands from another repository. Terminology decisions from review update the shared
 terminology source, not only the individual document.
 

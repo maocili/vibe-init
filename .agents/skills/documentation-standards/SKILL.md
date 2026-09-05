@@ -1,6 +1,6 @@
 ---
 name: documentation-standards
-description: Use when writing, moving, reviewing, or auditing documentation in a project initialized by dsh-rules; choose its owning tier, answer placement or tutorial-progression questions, repair budget failures, remove prose slop, and satisfy declared gates.
+description: Use when writing, moving, reviewing, or auditing documentation in a project initialized by dsh-vibe; choose its owning tier, answer placement or tutorial-progression questions, repair budget failures, remove prose slop, and satisfy declared gates.
 ---
 
 # Apply Documentation Standards
@@ -80,19 +80,19 @@ verify a fact, report the missing evidence and stop rather than inventing docume
 
 When a budget gate is red, first relocate descendant-owned detail, then condense the material that still
 belongs in the document, and raise a ceiling only when the content needs the space and the change records
-why. A word-count limit is a guardrail, not a reduction target. In a dsh-rules project, inspect the
-declared budget with `pnpm -C .dsh-rules/toolchain run verify-doc-budgets --list` when that command is
+why. A word-count limit is a guardrail, not a reduction target. In a dsh-vibe project, inspect the
+declared budget with `pnpm -C .dsh-vibe/toolchain run verify-doc-budgets --list` when that command is
 available.
 
 ## Validate and report
 
 This workflow is guidance, not an unconditional command checklist. Run the narrowest applicable
 documentation, link, pairing, generated-artifact, configured lint or static, and task-specific checks.
-For a dsh-rules project
+For a dsh-vibe project
 this normally includes:
 
 ```sh
-pnpm -C .dsh-rules/toolchain run doc-sync
+pnpm -C .dsh-vibe/toolchain run doc-sync
 git diff --check
 ```
 

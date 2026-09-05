@@ -1,4 +1,4 @@
-## Agent Note 纪律（dsh-rules 管理）
+## Agent Note 纪律（dsh-vibe 管理）
 
 本项目把非平凡变更的决策与提案记录为 Agent Note（位于 .agents/notes/），这是会话级常设要求：
 

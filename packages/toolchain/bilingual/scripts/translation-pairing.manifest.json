@@ -1,6 +1,6 @@
 {
   "excluded": [
     "docs/AGENTS.md",
-    ".dsh-rules/toolchain/README.md"
+    ".dsh-vibe/toolchain/README.md"
   ]
 }

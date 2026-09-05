@@ -1,6 +1,6 @@
 ---
 name: find-simplifications
-description: Use when finding evidence-backed simplification candidates, writing or coalescing a simplification Agent Note, auditing a proposed removal of code, behavior, state, dependency, or compatibility surface, or folding simplification candidates from another PR or branch in a project initialized by dsh-rules; inline TODO/FIXME/XXX work is also in scope.
+description: Use when finding evidence-backed simplification candidates, writing or coalescing a simplification Agent Note, auditing a proposed removal of code, behavior, state, dependency, or compatibility surface, or folding simplification candidates from another PR or branch in a project initialized by dsh-vibe; inline TODO/FIXME/XXX work is also in scope.
 ---
 
 # Find Simplifications

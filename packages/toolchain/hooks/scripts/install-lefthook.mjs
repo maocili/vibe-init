@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// dsh-rules consumer lefthook installer (distilled from vibe-coding-templates/.template).
-// Runs as the toolchain package.json postinstall (pnpm install inside .dsh-rules/toolchain).
-// Writes a dsh-rules-owned pre-commit hook config at the git root and installs git hooks.
+// dsh-vibe consumer lefthook installer (distilled from vibe-coding-templates/.template).
+// Runs as the toolchain package.json postinstall (pnpm install inside .dsh-vibe/toolchain).
+// Writes a dsh-vibe-owned pre-commit hook config at the git root and installs git hooks.
 // Never overwrites a foreign lefthook.yml: reports the conflict and exits cleanly.
 
 import { execFileSync } from 'node:child_process'
@@ -10,7 +10,7 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const HOME = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const MARKER = '# dsh-rules managed (install-lefthook.mjs)'
+const MARKER = '# dsh-vibe managed (install-lefthook.mjs)'
 const CONFIG = [
   MARKER,
   '# Remove this line (and the git hooks lefthook installs) to uninstall.',
@@ -18,7 +18,7 @@ const CONFIG = [
   '  parallel: true',
   '  commands:',
   '    doc-gates:',
-  '      root: .dsh-rules/toolchain',
+  '      root: .dsh-vibe/toolchain',
   '      run: pnpm run doc-sync',
   '      skip:',
   '        - merge',
@@ -40,7 +40,7 @@ try {
   if (existsSync(configPath)) {
     const existing = readFileSync(configPath, 'utf8')
     if (!existing.includes(MARKER)) {
-      console.error(`[install-lefthook] ${configPath} exists without the dsh-rules marker — not overwriting. Merge the pre-commit block below yourself or delete the file and re-run pnpm install:`)
+      console.error(`[install-lefthook] ${configPath} exists without the dsh-vibe marker — not overwriting. Merge the pre-commit block below yourself or delete the file and re-run pnpm install:`)
       console.error(CONFIG)
       process.exit(0)
     }
@@ -54,7 +54,7 @@ try {
     process.exit(0)
   }
   execFileSync(bin, ['install'], { cwd: root, stdio: 'inherit' })
-  console.error('[install-lefthook] lefthook hooks installed (pre-commit runs the dsh-rules doc gates).')
+  console.error('[install-lefthook] lefthook hooks installed (pre-commit runs the dsh-vibe doc gates).')
 } catch (error) {
   console.error(`[install-lefthook] ${error instanceof Error ? error.message : String(error)}`)
   process.exit(1)

@@ -1,4 +1,4 @@
-# Agent Note: dsh-rules implementation design
+# Agent Note: dsh-vibe implementation design
 
 Status: implemented
 
@@ -21,7 +21,7 @@ The Cordis entry point only validates the pack and reports that the plugin is mo
 commands perform project-local writes. The project boundary is permanent: no command installs or
 updates the user-global `~/.dsh/` plane.
 
-The distributable form is the public npm package `@xuxf/dsh-rules`. Its manifest declares
+The distributable form is the public npm package `@maocili/dsh-vibe`. Its manifest declares
 `dsh.bundle.patch` pointing to the package-local `cordis.patch.yml`; that patch inserts the same package
 as the Cordis plugin when a DSH profile installs the bundle. The npm `files` allowlist carries only the
 runtime, CLI, patch, and `packages/`; an absolute `file://` entry remains a checkout-development
@@ -29,7 +29,7 @@ fallback.
 
 The former design document is now a pointer; this note is the home for implementation decisions and
 their rationale. Stable scope and behavior remain in
-[`REQUIREMENTS`](../../../../docs/REQUIREMENTS-dsh-rules-plugin.md), and evidence remains in
+[`REQUIREMENTS`](../../../../docs/REQUIREMENTS-dsh-vibe-plugin.md), and evidence remains in
 [`ACCEPTANCE`](../../../../docs/ACCEPTANCE.md).
 
 ## Alternatives considered

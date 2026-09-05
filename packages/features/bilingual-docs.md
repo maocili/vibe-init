@@ -1,4 +1,4 @@
-## 双语文档纪律（dsh-rules feature: bilingualDocsDiscipline，默认关）
+## 双语文档纪律（dsh-vibe feature: bilingualDocsDiscipline，默认关）
 
 - 启用双语后，主文档（.md）与中文配对（.zh.md）**逐节对应**；Agent Note 的头 token
   （# Agent Note: 与 Status: 行）保持英文原样。

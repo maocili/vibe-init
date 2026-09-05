@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "packVersion": "0.1.0-draft",
+  "packVersion": "0.2.0",
   "features": {
     "textLinkManagement": true,
     "bilingualPairing": true,
@@ -27,22 +27,22 @@
       "id": "feature-doc-budgets",
       "target": "AGENTS.md",
       "source": "features/doc-budgets.md",
-      "sourceSha256": "3ee3434b8f587456d31626d15bb80027fa841dfc4299764a34bf9237a2d95558",
-      "installedSha256": "9deaaaf90db9463dd9df21f71d22c8ee9c22eb34a82a6adf0d9f1675531819e1"
+      "sourceSha256": "ee92a01090074707375014c642a76435c263e8e97d87e702c7ea127e4eeba83e",
+      "installedSha256": "60d04617b751c4422b5a4d805b103a82852575595f6f2b66474048aa7acf578e"
     },
     {
       "id": "feature-text-link-management",
       "target": "AGENTS.md",
       "source": "features/text-link-management.md",
-      "sourceSha256": "f798b9c72269673a0eb3d90634ebc96634295bb3c33b8450b38bc0417eccf7f2",
-      "installedSha256": "ce7872c54809352fe44de9849cdc1234e5c62ab5eb18b454c591e5dae496267f"
+      "sourceSha256": "1b43846b3a21fbf30576fbfb08365d41d8415301f269493e478d460f12e6c4ca",
+      "installedSha256": "7d96232bb7190acfd194e55d711ccdb9a8eff6f4511745e3c44da537d3561f28"
     },
     {
       "id": "project-standing-orders-block",
       "target": "AGENTS.md",
       "source": "standing-orders-block.md",
-      "sourceSha256": "d29e712ecf041b99a97c66ae4a82394557b06963604450354e8fc387030458dc",
-      "installedSha256": "28b66f9374bfb57a4ec1daf0549d3216414435b854e0f57453c736b12205de56"
+      "sourceSha256": "36b3b7583fcec0c724a965134da30d4850f8ca72dbc75bf44461f1e5f4ada45e",
+      "installedSha256": "19c02884f9a15b9f025a26696e89af881b0285e89a4dde8a2dc7decc91c5ee71"
     }
   ],
   "files": [
@@ -99,8 +99,8 @@
       "path": ".agents/skills/archive-agent-notes/SKILL.md",
       "kind": "skill",
       "source": "skills/archive-agent-notes/SKILL.md",
-      "sourceSha256": "3f8178f1ce055d5269dc1bcbbcc8c42bf89bfbf957d1c161b7fbed13fc9e8250",
-      "installedSha256": "3f8178f1ce055d5269dc1bcbbcc8c42bf89bfbf957d1c161b7fbed13fc9e8250"
+      "sourceSha256": "c9e191efe0d9d8a5bb07b68859660f31b741cd6166b8e50b79d0decfc25523a4",
+      "installedSha256": "c9e191efe0d9d8a5bb07b68859660f31b741cd6166b8e50b79d0decfc25523a4"
     },
     {
       "path": ".agents/skills/code-review/agents/openai.yaml",
@@ -113,8 +113,8 @@
       "path": ".agents/skills/code-review/SKILL.md",
       "kind": "skill",
       "source": "skills/code-review/SKILL.md",
-      "sourceSha256": "baf17400422d0d165b480fb23710a6316889fdc50e90820679518635def84a41",
-      "installedSha256": "baf17400422d0d165b480fb23710a6316889fdc50e90820679518635def84a41"
+      "sourceSha256": "6934bc14f4643c664a88c62036fbfb911293a06f06ff1d0f63ba20c920caf6fb",
+      "installedSha256": "6934bc14f4643c664a88c62036fbfb911293a06f06ff1d0f63ba20c920caf6fb"
     },
     {
       "path": ".agents/skills/doc-site-sync/agents/openai.yaml",
@@ -141,8 +141,8 @@
       "path": ".agents/skills/documentation-standards/SKILL.md",
       "kind": "skill",
       "source": "skills/documentation-standards/SKILL.md",
-      "sourceSha256": "a170d5e4c932f67e8ba50965561baac90381133b00d06c04a78afaf91a0547a3",
-      "installedSha256": "a170d5e4c932f67e8ba50965561baac90381133b00d06c04a78afaf91a0547a3"
+      "sourceSha256": "eb25a9add49f0b54059fc0c28277f5a303e5e8a7fce48421d60569cf72f654e7",
+      "installedSha256": "eb25a9add49f0b54059fc0c28277f5a303e5e8a7fce48421d60569cf72f654e7"
     },
     {
       "path": ".agents/skills/find-simplifications/agents/openai.yaml",
@@ -155,8 +155,8 @@
       "path": ".agents/skills/find-simplifications/SKILL.md",
       "kind": "skill",
       "source": "skills/find-simplifications/SKILL.md",
-      "sourceSha256": "8282e5f654ebc791cb601ed9331d56b3ed738367aaf490b0c2f8f5862a41a88e",
-      "installedSha256": "8282e5f654ebc791cb601ed9331d56b3ed738367aaf490b0c2f8f5862a41a88e"
+      "sourceSha256": "79c2bc0fa90d940a0f34c031b243b0ae0fd00fc3cb9c297fae753087302679f3",
+      "installedSha256": "79c2bc0fa90d940a0f34c031b243b0ae0fd00fc3cb9c297fae753087302679f3"
     },
     {
       "path": ".agents/skills/merge-stacked-prs/agents/openai.yaml",
@@ -204,8 +204,8 @@
       "path": ".agents/skills/prose-standard/SKILL.md",
       "kind": "skill",
       "source": "skills/prose-standard/SKILL.md",
-      "sourceSha256": "98b4390f25cabbaaad7bbc373fcf7e5c4293efd54bf6ad1989e3ea030f7ee731",
-      "installedSha256": "98b4390f25cabbaaad7bbc373fcf7e5c4293efd54bf6ad1989e3ea030f7ee731"
+      "sourceSha256": "df83c81e7781961d79bbc879e0e2d53783257fdfed3f3100f4b66e9335d7020a",
+      "installedSha256": "df83c81e7781961d79bbc879e0e2d53783257fdfed3f3100f4b66e9335d7020a"
     },
     {
       "path": ".agents/skills/record-browser-gif/agents/openai.yaml",
@@ -239,8 +239,8 @@
       "path": ".agents/skills/translate-docs/SKILL.md",
       "kind": "skill",
       "source": "skills/translate-docs/SKILL.md",
-      "sourceSha256": "12c77f1086777bcfca00fb407b51e0745e3099bcaff5ca06f01d58c25a51d1f2",
-      "installedSha256": "12c77f1086777bcfca00fb407b51e0745e3099bcaff5ca06f01d58c25a51d1f2"
+      "sourceSha256": "6da763d23924e4357fea1a41f1a275d2e498e1400118927609e8491df1920a8f",
+      "installedSha256": "6da763d23924e4357fea1a41f1a275d2e498e1400118927609e8491df1920a8f"
     },
     {
       "path": ".agents/skills/trim-reasoning-leakage/agents/openai.yaml",
@@ -271,126 +271,126 @@
       "installedSha256": "34a8ac0f123970e7a0e398beb8abddc659fac9dbed33a4eeb03e75979977aef1"
     },
     {
-      "path": ".dsh-rules/toolchain/package.json",
+      "path": ".dsh-vibe/toolchain/package.json",
       "kind": "toolchain",
       "source": "toolchain/spec.json",
-      "sourceSha256": "e8f3e0961b8d7bc615f3fbe709e1bbb3c378c8af6b260222a0f1f497a4c26f7a",
-      "installedSha256": "152c1154e9172bf10904c767765c27341ccea647191a1be8b1f792e1104b7f50"
+      "sourceSha256": "efc469facdc3734ba9cecdd57a410a2dee30c74d188ca91538ea65332635f0ca",
+      "installedSha256": "a3e6f387697210bc76c69972f7b0fb61a4881ca41cc41cd1e0761af653d44b18"
     },
     {
-      "path": ".dsh-rules/toolchain/pnpm-workspace.yaml",
+      "path": ".dsh-vibe/toolchain/pnpm-workspace.yaml",
       "kind": "toolchain",
       "source": "toolchain/scaffold/pnpm-workspace.yaml",
       "sourceSha256": "f546d68f4ae7043ca00dbd5db9c710cc8cb958307c9f7124c647fff2deab9db5",
       "installedSha256": "f546d68f4ae7043ca00dbd5db9c710cc8cb958307c9f7124c647fff2deab9db5"
     },
     {
-      "path": ".dsh-rules/toolchain/README.md",
+      "path": ".dsh-vibe/toolchain/README.md",
       "kind": "toolchain",
       "source": "toolchain/scaffold/README.md",
-      "sourceSha256": "cd7c8c8d61f6021ca8f8c39b6dc11518d0fa15152180f2be6bdcb13c66ea6987",
-      "installedSha256": "cd7c8c8d61f6021ca8f8c39b6dc11518d0fa15152180f2be6bdcb13c66ea6987"
+      "sourceSha256": "49b94c1275a8fb62ec1d081462f2b63559bca752a74d3fb8316dfe3d1756f679",
+      "installedSha256": "49b94c1275a8fb62ec1d081462f2b63559bca752a74d3fb8316dfe3d1756f679"
     },
     {
-      "path": ".dsh-rules/toolchain/scripts/agent-note-tree.ts",
+      "path": ".dsh-vibe/toolchain/scripts/agent-note-tree.ts",
       "kind": "toolchain",
       "source": "toolchain/base/scripts/agent-note-tree.ts",
       "sourceSha256": "87dff6a8fa5c50a471b82a333947aca0e37e4c92de1d7825747a7c33e66861d3",
       "installedSha256": "87dff6a8fa5c50a471b82a333947aca0e37e4c92de1d7825747a7c33e66861d3"
     },
     {
-      "path": ".dsh-rules/toolchain/scripts/AGENTS.md",
+      "path": ".dsh-vibe/toolchain/scripts/AGENTS.md",
       "kind": "toolchain",
       "source": "toolchain/scaffold/scripts/AGENTS.md",
       "sourceSha256": "151bc4d3a961005ebf6377e8cc4c078a0e6fabc86bc0f209d1d868c5feb3c992",
       "installedSha256": "151bc4d3a961005ebf6377e8cc4c078a0e6fabc86bc0f209d1d868c5feb3c992"
     },
     {
-      "path": ".dsh-rules/toolchain/scripts/archived-agent-notes.ts",
+      "path": ".dsh-vibe/toolchain/scripts/archived-agent-notes.ts",
       "kind": "toolchain",
       "source": "toolchain/base/scripts/archived-agent-notes.ts",
       "sourceSha256": "27979a3522cb2cbf9358b180d9e9695a37590e392c3e55d7af2499597eb7773b",
       "installedSha256": "27979a3522cb2cbf9358b180d9e9695a37590e392c3e55d7af2499597eb7773b"
     },
     {
-      "path": ".dsh-rules/toolchain/scripts/doc-budgets.manifest.json",
+      "path": ".dsh-vibe/toolchain/scripts/doc-budgets.manifest.json",
       "kind": "toolchain",
       "source": "toolchain/doc-budgets/scripts/doc-budgets.manifest.json",
       "sourceSha256": "b9337c7abcc481f41c66a9f804edfb72615118971f1288dd7e79871396345cf3",
       "installedSha256": "b9337c7abcc481f41c66a9f804edfb72615118971f1288dd7e79871396345cf3"
     },
     {
-      "path": ".dsh-rules/toolchain/scripts/install-lefthook.mjs",
+      "path": ".dsh-vibe/toolchain/scripts/install-lefthook.mjs",
       "kind": "toolchain",
       "source": "toolchain/hooks/scripts/install-lefthook.mjs",
-      "sourceSha256": "52924b6c25276341276725c6e537c483b01ace8c53494489ccc7aa3e400a8b39",
-      "installedSha256": "52924b6c25276341276725c6e537c483b01ace8c53494489ccc7aa3e400a8b39"
+      "sourceSha256": "93b29db77640fa241a46a8ff62bcab706d968d25502a56a05359b657757cbf6a",
+      "installedSha256": "93b29db77640fa241a46a8ff62bcab706d968d25502a56a05359b657757cbf6a"
     },
     {
-      "path": ".dsh-rules/toolchain/scripts/markdown.ts",
+      "path": ".dsh-vibe/toolchain/scripts/markdown.ts",
       "kind": "toolchain",
       "source": "toolchain/base/scripts/markdown.ts",
       "sourceSha256": "5cb12a5d8f2aefa51a84c9e753d13b7725a20cb7445168da0718d032fa4e9acd",
       "installedSha256": "5cb12a5d8f2aefa51a84c9e753d13b7725a20cb7445168da0718d032fa4e9acd"
     },
     {
-      "path": ".dsh-rules/toolchain/scripts/repo-files.ts",
+      "path": ".dsh-vibe/toolchain/scripts/repo-files.ts",
       "kind": "toolchain",
       "source": "toolchain/base/scripts/repo-files.ts",
       "sourceSha256": "eb1e2983e42ba3524c3bab0529f43d216a604462fcb919912d06c3f6221aedf9",
       "installedSha256": "eb1e2983e42ba3524c3bab0529f43d216a604462fcb919912d06c3f6221aedf9"
     },
     {
-      "path": ".dsh-rules/toolchain/scripts/verify-agent-note-classification.ts",
+      "path": ".dsh-vibe/toolchain/scripts/verify-agent-note-classification.ts",
       "kind": "toolchain",
       "source": "toolchain/base/scripts/verify-agent-note-classification.ts",
       "sourceSha256": "828a39ae61536d5986a421e07e20e7e51d81ad4fd8358c0339dae39dbe256903",
       "installedSha256": "828a39ae61536d5986a421e07e20e7e51d81ad4fd8358c0339dae39dbe256903"
     },
     {
-      "path": ".dsh-rules/toolchain/scripts/verify-agent-note-format.ts",
+      "path": ".dsh-vibe/toolchain/scripts/verify-agent-note-format.ts",
       "kind": "toolchain",
       "source": "toolchain/base/scripts/verify-agent-note-format.ts",
       "sourceSha256": "055a2db5d15d7dfd59bb6b2b09795348c59e707f3d33bcb31cf5afb4a8d586fa",
       "installedSha256": "055a2db5d15d7dfd59bb6b2b09795348c59e707f3d33bcb31cf5afb4a8d586fa"
     },
     {
-      "path": ".dsh-rules/toolchain/scripts/verify-archived-agent-notes.ts",
+      "path": ".dsh-vibe/toolchain/scripts/verify-archived-agent-notes.ts",
       "kind": "toolchain",
       "source": "toolchain/base/scripts/verify-archived-agent-notes.ts",
       "sourceSha256": "822fed10087b0625ff1dd1d66b20231ba6114e0ef2eda03cffe9b253bd676dbd",
       "installedSha256": "822fed10087b0625ff1dd1d66b20231ba6114e0ef2eda03cffe9b253bd676dbd"
     },
     {
-      "path": ".dsh-rules/toolchain/scripts/verify-doc-budgets.ts",
+      "path": ".dsh-vibe/toolchain/scripts/verify-doc-budgets.ts",
       "kind": "toolchain",
       "source": "toolchain/doc-budgets/scripts/verify-doc-budgets.ts",
-      "sourceSha256": "726f873e55785e3db06d530a3628710d56793f8abe9d2185da4399997da6f7a2",
-      "installedSha256": "726f873e55785e3db06d530a3628710d56793f8abe9d2185da4399997da6f7a2"
+      "sourceSha256": "1ae1eb56f715bbfcc4e6824c64de0a63e9403b6a50c0cf054bccd12ad9da1db6",
+      "installedSha256": "1ae1eb56f715bbfcc4e6824c64de0a63e9403b6a50c0cf054bccd12ad9da1db6"
     },
     {
-      "path": ".dsh-rules/toolchain/scripts/verify-doc-refs.ts",
+      "path": ".dsh-vibe/toolchain/scripts/verify-doc-refs.ts",
       "kind": "toolchain",
       "source": "toolchain/base/scripts/verify-doc-refs.ts",
-      "sourceSha256": "a58f2bbd514e8c3aee756a91b77381f57b4bcdaf954dd76f40b84e8265754648",
-      "installedSha256": "a58f2bbd514e8c3aee756a91b77381f57b4bcdaf954dd76f40b84e8265754648"
+      "sourceSha256": "8849e7ead07eabd40c6af01adc9d747ade28013ca95d86378a442b3aef8c744e",
+      "installedSha256": "8849e7ead07eabd40c6af01adc9d747ade28013ca95d86378a442b3aef8c744e"
     },
     {
-      "path": ".dsh-rules/toolchain/scripts/verify-md-links.ts",
+      "path": ".dsh-vibe/toolchain/scripts/verify-md-links.ts",
       "kind": "toolchain",
       "source": "toolchain/text-link/scripts/verify-md-links.ts",
-      "sourceSha256": "053e7f061efa34578de017f80a24359cda0b57693dfed4e3fc0cbe1b0c7730db",
-      "installedSha256": "053e7f061efa34578de017f80a24359cda0b57693dfed4e3fc0cbe1b0c7730db"
+      "sourceSha256": "d18d3b8e4554161f2f0dfa35ab7c8a5ca3ab397973189cb6b864488b8a629548",
+      "installedSha256": "d18d3b8e4554161f2f0dfa35ab7c8a5ca3ab397973189cb6b864488b8a629548"
     },
     {
-      "path": ".dsh-rules/toolchain/tsconfig.host.json",
+      "path": ".dsh-vibe/toolchain/tsconfig.host.json",
       "kind": "toolchain",
       "source": "toolchain/scaffold/tsconfig.host.json",
       "sourceSha256": "f412237a39e69a8b7c1530da066da49aa87886262ece2f69e86784b9ae00ba5d",
       "installedSha256": "f412237a39e69a8b7c1530da066da49aa87886262ece2f69e86784b9ae00ba5d"
     },
     {
-      "path": ".dsh-rules/toolchain/tsconfig.json",
+      "path": ".dsh-vibe/toolchain/tsconfig.json",
       "kind": "toolchain",
       "source": "toolchain/scaffold/tsconfig.json",
       "sourceSha256": "786e86bb88feb304e0f88b5a2814e8e037930887addb647b57d035e22f6853bd",
@@ -400,8 +400,8 @@
       "path": "docs/AGENTS.md",
       "kind": "generated-doc",
       "source": "docs/AGENTS.md",
-      "sourceSha256": "9360a7c82f1d417971fbc6a040dc7bdd96ffc63d32698fc4c35287461f69c9f5",
-      "installedSha256": "9360a7c82f1d417971fbc6a040dc7bdd96ffc63d32698fc4c35287461f69c9f5"
+      "sourceSha256": "9feec5c489088409d5aa8eb3902a770229460cddbc442941c76b3246f5c6d54c",
+      "installedSha256": "9feec5c489088409d5aa8eb3902a770229460cddbc442941c76b3246f5c6d54c"
     }
   ]
 }

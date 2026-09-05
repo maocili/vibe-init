@@ -1,6 +1,11 @@
 {
-  "name": "@xuxf/dsh-rules",
-  "version": "0.1.0",
+  "name": "@maocili/dsh-vibe",
+  "version": "0.2.0",
+  "packageManager": "pnpm@11.22.0",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/maocili/dsh-vibe.git"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -9,7 +14,7 @@
   "type": "module",
   "engines": { "node": ">=18" },
   "files": [
-    "dsh-rules.mjs",
+    "dsh-vibe.mjs",
     "bin/",
     "lib/",
     "packages/",
@@ -17,11 +22,11 @@
   ],
   "scripts": { "test": "node --test" },
   "exports": {
-    ".": "./dsh-rules.mjs",
+    ".": "./dsh-vibe.mjs",
     "./lib/*": "./lib/*.mjs",
     "./cordis.patch.yml": "./cordis.patch.yml"
   },
-  "bin": { "dsh-rules": "./bin/dsh-rules.mjs" },
+  "bin": { "dsh-vibe": "./bin/dsh-vibe.mjs" },
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"

@@ -11,7 +11,7 @@ import { resolve } from 'node:path'
 import { agentCorpusRoot } from './repo-files.ts'
 
 const home = resolve(import.meta.dirname, '..')
-// dsh-rules distilled: budgeted paths are project-root relative (the dir holding `.agents`).
+// dsh-vibe distilled: budgeted paths are project-root relative (the dir holding `.agents`).
 const root = agentCorpusRoot()
 
 const MANIFEST_PATH = resolve(home, 'scripts/doc-budgets.manifest.json')

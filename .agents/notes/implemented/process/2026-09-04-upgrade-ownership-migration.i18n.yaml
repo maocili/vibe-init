@@ -1,6 +1,6 @@
-# Bilingual-pair consistency record (dsh-rules toolchain verify-translation-pairing): the git
+# Bilingual-pair consistency record (dsh-vibe toolchain verify-translation-pairing): the git
 # blob hash of each side as of the last confirmed-consistent state. Both languages carry equal
 # authority; after editing either side bring the other along and re-record with:
-#   pnpm -C .dsh-rules/toolchain run verify-translation-pairing --write <pair>
-2026-09-04-upgrade-ownership-migration.md: 37433ac29e9afb2b28959c01bedb9a3003905071
-2026-09-04-upgrade-ownership-migration.zh.md: 3a196e05ea2fffe4b38402e60be92ed8e7153501
+#   pnpm -C .dsh-vibe/toolchain run verify-translation-pairing --write <pair>
+2026-09-04-upgrade-ownership-migration.md: d4ec9be5154533fba9d9a5501ad72bf5233fef10
+2026-09-04-upgrade-ownership-migration.zh.md: 83e245a9121cb94fb45b635ca160d09752283b8f

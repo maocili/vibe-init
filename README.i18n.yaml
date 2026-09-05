@@ -1,4 +1,4 @@
 # Bilingual-pair consistency record for the root README: the git blob hash of each side as of the last confirmed-consistent state.
 # After editing either side, update the other side and re-record both hashes with git hash-object.
-README.md: f9b0e1908e1185aa53a48ac1e8ee02fc7e54d4df
-README.zh.md: 494518bb2f465d99525331ff887815d10d2a53ed
+README.md: 7755ca854115726a05596032af766bc37a47f2cb
+README.zh.md: 49f6a901a9bb7333357ce1be7ab3848aeb9ade6a

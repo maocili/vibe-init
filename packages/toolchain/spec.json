@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "target": ".dsh-rules/toolchain",
+  "target": ".dsh-vibe/toolchain",
   "feature": "docGates",
   "packageJson": {
-    "name": "dsh-rules-toolchain",
+    "name": "dsh-vibe-toolchain",
     "private": true,
     "type": "module",
     "engines": { "node": ">=20" },

@@ -662,6 +662,37 @@ test('loadPack rejects mismatched and unsafe toolchain targets', async () => {
   }
 })
 
+test('loadPack excludes unsafe row paths and accepts nested targets', async () => {
+  const packDir = makePack()
+  const manifestPath = join(packDir, 'manifest.json')
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
+  manifest.files.push(
+    { id: 'unsafe-source', source: '../outside.txt', target: 'nested/source.txt' },
+    { id: 'unsafe-target', source: 'standing-orders-block.md', target: '../../escape.txt' },
+    { id: 'nested-valid', source: 'standing-orders-block.md', target: 'nested/valid.txt' }
+  )
+  writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n')
+  const pack = await loadPack(packDir)
+  assert.equal(pack.rows.some((row) => row.id === 'unsafe-source'), false)
+  assert.equal(pack.rows.some((row) => row.id === 'unsafe-target'), false)
+  assert.equal(pack.rows.find((row) => row.id === 'nested-valid').target, 'nested/valid.txt')
+  assert.ok(pack.problems.some((problem) => problem.includes('unsafe-source') && problem.includes('source')))
+  assert.ok(pack.problems.some((problem) => problem.includes('unsafe-target') && problem.includes('target')))
+})
+
+test('engine rejects synthetic pack targets outside the project root', async () => {
+  const project = fixtureProject('synthetic-escape')
+  const outside = join(dirname(project), 'escape.txt')
+  const pack = {
+    dir: join(TMP, 'synthetic-pack'), version: 'test', features: {}, skills: [],
+    rows: [{ id: 'escape', rel: 'source.md', sourceAbs: join(TMP, 'source.md'), target: '../escape.txt', mode: 'copy', feature: null, actualSha256: '' }],
+    toolchain: null, problems: [], manifest: {}
+  }
+  writeFileSync(pack.rows[0].sourceAbs, 'secret\n')
+  await assert.rejects(() => planProject(pack, project, { mode: 'init' }), /unsafe pack project target|escapes project root/)
+  assert.equal(existsFile(outside), false)
+})
+
 test('resolveProjectRoot stops at the nearest .git', async () => {
   const inner = fixtureProject('nested')
   const outer = join(inner, 'sub')

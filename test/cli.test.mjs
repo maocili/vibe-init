@@ -205,6 +205,45 @@ test('hash runs against a pack copy only and reaches 0 drift', () => {
   assert.ok(real.includes('"feature-doc-budgets"'))
 })
 
+test('unsafe copied packs block init without touching project or outside sentinels', () => {
+  const cases = [
+    ['target-parent', (manifest) => { manifest.files[0].target = '../../escape.txt' }],
+    ['target-absolute', (manifest) => { manifest.files[0].target = '/tmp/escape.txt' }],
+    ['source-parent', (manifest) => { manifest.files[0].source = '../outside-secret.txt' }],
+    ['spec-parent', (manifest) => { manifest.toolchain.spec = '../outside-spec.json' }]
+  ]
+  for (const [name, mutate] of cases) {
+    const proj = newProject('unsafe-' + name)
+    const packCopy = join(TMP, 'pack-' + name)
+    cpSync(REAL_PACK, packCopy, { recursive: true })
+    const manifestPath = join(packCopy, 'manifest.json')
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
+    mutate(manifest)
+    writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n')
+    const outside = join(TMP, 'escape.txt')
+    writeFileSync(outside, 'sentinel-secret\n')
+    const before = readFileSync(join(proj, 'AGENTS.md'), 'utf8')
+    const result = run(['init', '--project', proj, '--pack', packCopy, '--yes'])
+    assert.equal(result.code, 1, name)
+    assert.equal(readFileSync(join(proj, 'AGENTS.md'), 'utf8'), before, name)
+    assert.equal(existsSync(join(proj, '.vibe-init')), false, name)
+    assert.equal(readFileSync(outside, 'utf8'), 'sentinel-secret\n', name)
+  }
+})
+
+test('valid nested manifest target is materialized under the project root', () => {
+  const proj = newProject('nested-target')
+  const packCopy = join(TMP, 'pack-nested-target')
+  cpSync(REAL_PACK, packCopy, { recursive: true })
+  const manifestPath = join(packCopy, 'manifest.json')
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
+  manifest.files[0].target = 'nested/AGENTS.md'
+  writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n')
+  const result = run(['init', '--project', proj, '--pack', packCopy, '--yes'])
+  assert.equal(result.code, 0)
+  assert.equal(existsSync(join(proj, 'nested', 'AGENTS.md')), true)
+})
+
 test('toolchain target mismatch is a pack problem that blocks upgrade', () => {
   const proj = newProject('cli-pack-target-mismatch')
   const packCopy = join(TMP, 'pack-target-mismatch')

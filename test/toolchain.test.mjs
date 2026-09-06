@@ -211,6 +211,30 @@ test('docGatesExtras opt-in materializes md-wrap/mermaid gates with their deps',
   assert.ok(pkg.devDependencies.jsdom)
 })
 
+test('init reports a foreign toolchain package.json as a conflict, never overwrites', async () => {
+  const proj = fixtureProject('init-foreign-pkg')
+  mkdirSync(join(proj, '.vibe-init', 'toolchain'), { recursive: true })
+  const foreign = JSON.stringify({ name: 'user-owned-toolchain' }, null, 2) + '\n'
+  writeFileSync(join(proj, '.vibe-init', 'toolchain', 'package.json'), foreign)
+  const pack = await loadPack(REAL_PACK)
+  const plan = await planProject(pack, proj)
+  const results = await evaluatePlan(plan, {})
+  assert.equal(results.find((r) => r.id === 'toolchain:package.json').action, 'conflict')
+  await applyResults(results)
+  assert.equal(readFileSync(join(proj, '.vibe-init', 'toolchain', 'package.json'), 'utf8'), foreign)
+})
+
+test('init refreshes its own derived toolchain package.json for feature-composition changes', async () => {
+  const proj = fixtureProject('init-derived-pkg')
+  await applyInit(proj) // defaults first
+  // turn the discipline on: derived package.json is managed, other files materialize
+  await applyInit(proj, { bilingualDocsDiscipline: true })
+  const pkg = JSON.parse(readFileSync(inHome(proj, 'package.json'), 'utf8'))
+  assert.equal(pkg.name, 'vibe-init-toolchain')
+  assert.ok(pkg.scripts['doc-sync'].includes('verify-translation-pairing'))
+  assert.ok(existsSync(inHome(proj, 'scripts/verify-translation-pairing.ts')))
+})
+
 test('composed package.json is deterministic for the same enabled set', async () => {
   const pack = await loadPack(REAL_PACK)
   const ids = new Set(pack.toolchain.groups.filter((g) => pack.features[g.feature] !== false || !g.feature).map((g) => g.id))

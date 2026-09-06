@@ -2,5 +2,5 @@
 # side as of the last confirmed-consistent state. Both languages carry equal authority;
 # after editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write .agents/notes/implemented/architecture/2026-09-04-vibe-init-implementation-design.md
-2026-09-04-vibe-init-implementation-design.md: a5f0cac0b014894d37ddef031f6f5851eead161d
-2026-09-04-vibe-init-implementation-design.zh.md: 69e38c6c927239b67e195fdb30fdef944587133b
+2026-09-04-vibe-init-implementation-design.md: c0f03938b55f9a240ddc42b869f7b6a064fbc4ba
+2026-09-04-vibe-init-implementation-design.zh.md: d4da2c8990426a5ba99827a994de4743a5f4495d

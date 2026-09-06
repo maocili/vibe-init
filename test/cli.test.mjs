@@ -213,24 +213,36 @@ test('schema 1 in the new state path blocks upgrade without writes', () => {
   assert.equal(readFileSync(statePath, 'utf8'), schema1)
 })
 
-test('failed toolchain install leaves state uncommitted after files are updated', () => {
+test('failed toolchain install leaves state uncommitted and a retry still installs', () => {
   const proj = newProject('cli-install-failure')
   const init = run(['init', '--project', proj, '--yes'])
   assert.equal(init.code, 0)
   const statePath = join(proj, '.vibe-init', 'state.json')
   const before = readFileSync(statePath, 'utf8')
-  const fakeBinDir = join(TMP, 'failing-pnpm-bin')
+  const pkgPath = join(proj, '.vibe-init', 'toolchain', 'package.json')
+  const pkgBefore = readFileSync(pkgPath, 'utf8')
+  const callsPath = join(TMP, 'pnpm-calls-' + proj.split('-').pop())
+  const fakeBinDir = join(TMP, 'counting-pnpm-bin')
   mkdirSync(fakeBinDir, { recursive: true })
   const fakeBin = join(fakeBinDir, 'pnpm')
-  writeFileSync(fakeBin, '#!/bin/sh\necho simulated install failure >&2\nexit 42\n')
+  writeFileSync(fakeBin, '#!/bin/sh\ncount=$(cat ' + callsPath + ' 2>/dev/null || echo 0)\necho $((count + 1)) > ' + callsPath + '\necho simulated install failure >&2\nexit 42\n')
   chmodSync(fakeBin, 0o755)
-  const result = run(['upgrade', '--project', proj, '--feature', 'docGatesExtras=true', '--yes'], {
-    env: { VIBE_INIT_SKIP_TOOLCHAIN_INSTALL: '0', PATH: fakeBinDir + ':' + process.env.PATH }
-  })
+  const env = { VIBE_INIT_SKIP_TOOLCHAIN_INSTALL: '0', PATH: fakeBinDir + ':' + process.env.PATH }
+
+  const result = run(['upgrade', '--project', proj, '--feature', 'docGatesExtras=true', '--yes'], { env })
   assert.equal(result.code, 1)
   assert.ok(result.err.includes('toolchain dependency install failed'))
   assert.equal(readFileSync(statePath, 'utf8'), before)
-  assert.ok(JSON.parse(readFileSync(join(proj, '.vibe-init', 'toolchain', 'package.json'), 'utf8')).scripts['verify-mermaid'])
+  // rollback: the composed package.json returns to its pre-upgrade bytes so the next
+  // identical upgrade still detects the change and retries the install
+  assert.equal(readFileSync(pkgPath, 'utf8'), pkgBefore)
+
+  const retry = run(['upgrade', '--project', proj, '--feature', 'docGatesExtras=true', '--yes'], { env })
+  assert.equal(retry.code, 1)
+  assert.equal(readFileSync(statePath, 'utf8'), before)
+  assert.equal(readFileSync(pkgPath, 'utf8'), pkgBefore)
+  const calls = readFileSync(callsPath, 'utf8').trim()
+  assert.equal(calls, '2', 'the retried upgrade must invoke pnpm again')
 })
 
 test('hash runs against a pack copy only and reaches 0 drift', () => {

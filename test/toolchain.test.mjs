@@ -4,6 +4,7 @@
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
 import { cpSync, mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync, existsSync, readdirSync } from 'node:fs'
+import { spawnSync } from 'node:child_process'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { loadPack } from '../lib/pack.mjs'
@@ -99,6 +100,20 @@ test('init is idempotent for the toolchain (second run does nothing)', async () 
   const dirty = results.filter((r) => r.action === 'create' || r.action === 'update' || r.action === 'remove')
   assert.deepEqual(dirty.map((r) => r.action), [])
   assert.equal(readFileSync(inHome(proj, 'package.json'), 'utf8'), before)
+})
+
+test('materialized bilingual prompt gate reads its toolchain-owned corpus', async () => {
+  const proj = fixtureProject('bilingual-prompt-gate')
+  const { results } = await applyInit(proj, { bilingualDocsDiscipline: true })
+  await applyResults(results)
+  const script = inHome(proj, 'scripts/verify-translation-prompt.ts')
+  const result = spawnSync(process.execPath, [join(ROOT, '.vibe-init', 'toolchain', 'node_modules', 'tsx', 'dist', 'cli.mjs'), script], {
+    cwd: proj,
+    encoding: 'utf8',
+    env: { ...process.env, VIBE_INIT_SKIP_TOOLCHAIN_INSTALL: '1' },
+  })
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /both directions render/)
 })
 
 test('bilingualDocsDiscipline on materializes G4 tooling + corpus; off removes managed copies', async () => {

@@ -30,7 +30,7 @@ The rename is a complete hard cut. The implementation neither recognizes nor pro
 
 ### Retained design
 
-The deterministic `plan` → `evaluate` → `apply` separation remains the implementation boundary. A dry run and every read-only report evaluate the same plan used by writes. `packages/` remains the sole versioned source for rules, note skeletons, skills, features, and toolchain content; runtime code does not duplicate that content.
+The deterministic `plan` → `evaluate` → `apply` separation remains the implementation boundary. A dry run and every read-only report evaluate the same plan used by writes. `packages/` remains the sole versioned source for rules, note skeletons, skills, features, and toolchain content; runtime code does not duplicate that content. The materialized toolchain's bilingual prompt corpus and pairing manifest are toolchain-owned and resolve from `.vibe-init/toolchain/`; project documents continue to resolve from the project root.
 
 Conflict protection also remains. Initialization does not overwrite foreign content, and updates use new state records and content hashes to distinguish tool-owned content from user edits. Malformed or duplicate new marker blocks and modified managed files block their affected writes rather than being overwritten. These protections apply only to the new namespace and do not inspect old assets.
 

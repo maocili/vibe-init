@@ -1,15 +1,14 @@
 /** Verify that the project-local bilingual prompt template renders in both directions. */
 
 import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
-import { agentCorpusRoot } from './repo-files.ts'
+import { join, resolve } from 'node:path'
 import {
   documentedTranslationPromptPlaceholders,
   renderTranslationPrompt,
   TRANSLATION_PROMPT_PLACEHOLDERS,
 } from './translation-prompt.ts'
 
-const root = agentCorpusRoot()
+const root = resolve(import.meta.dirname, '..')
 
 function read(path: string): string {
   return readFileSync(join(root, path), 'utf8')

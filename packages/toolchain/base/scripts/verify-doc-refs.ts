@@ -17,7 +17,7 @@ const PATTERNS = ['packages/**/*.ts', 'examples/**/*.ts']
 
 /** Paths excluded from the scan: built output and vendored upstream source. */
 const isExcluded = (p: string): boolean =>
-  p.includes('/lib/') || p.endsWith('.d.ts') || p.startsWith('vendor/')
+  p.startsWith('packages/toolchain/') || p.includes('/lib/') || p.endsWith('.d.ts') || p.startsWith('vendor/')
 
 /** Root-relative Markdown path token, excluding trailing prose. */
 const DOC_REF = /(?:\bdocs|\.agents\/notes)\/[A-Za-z0-9._/-]+\.md/g

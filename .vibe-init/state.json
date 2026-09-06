@@ -289,8 +289,8 @@
       "path": ".vibe-init/toolchain/README.md",
       "kind": "toolchain",
       "source": "toolchain/scaffold/README.md",
-      "sourceSha256": "2643037807cb89b9edf622aca9b524d41992115c900c74d3406ab3ebed5c7eab",
-      "installedSha256": "2643037807cb89b9edf622aca9b524d41992115c900c74d3406ab3ebed5c7eab"
+      "sourceSha256": "6caa8654bb4c725cfe472549bf778df26088644002c65bc1d42fe434b0914635",
+      "installedSha256": "6caa8654bb4c725cfe472549bf778df26088644002c65bc1d42fe434b0914635"
     },
     {
       "path": ".vibe-init/toolchain/scripts/agent-note-tree.ts",
@@ -373,8 +373,8 @@
       "path": ".vibe-init/toolchain/scripts/verify-doc-refs.ts",
       "kind": "toolchain",
       "source": "toolchain/base/scripts/verify-doc-refs.ts",
-      "sourceSha256": "189e7d7f9df23c83e74df5853235dc740a089fd95f5d5d3c266f517c3f97b7af",
-      "installedSha256": "189e7d7f9df23c83e74df5853235dc740a089fd95f5d5d3c266f517c3f97b7af"
+      "sourceSha256": "f9f46769420bd229899a4654974d6504b1255d73fb99de876b69de721f0bc613",
+      "installedSha256": "f9f46769420bd229899a4654974d6504b1255d73fb99de876b69de721f0bc613"
     },
     {
       "path": ".vibe-init/toolchain/scripts/verify-md-links.ts",

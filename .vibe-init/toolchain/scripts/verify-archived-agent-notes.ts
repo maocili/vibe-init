@@ -91,7 +91,7 @@ if (existsSync(manifestPath)) {
 }
 
 // CI supplies its trusted pre-change commit; local writes compare with committed HEAD.
-const baselineRef = process.env.DSH_ARCHIVE_BASE_REF ?? 'HEAD'
+const baselineRef = process.env.VIBE_INIT_ARCHIVE_BASE_REF ?? 'HEAD'
 try {
   const baseline = readBaselineManifest(baselineRef)
   errors.push(...validateArchiveManifestExtension(baseline, manifest))
@@ -100,7 +100,7 @@ try {
     // Fresh checkout: no commits yet, or no Git repository at all. Nothing is
     // sealed in Git to compare against, so the empty sealed set is the correct
     // baseline; the template's own first `doc-sync` run happens before the
-    // initial commit. An explicitly set DSH_ARCHIVE_BASE_REF stays fail-loud.
+    // initial commit. An explicitly set VIBE_INIT_ARCHIVE_BASE_REF stays fail-loud.
     console.log('verify-archived-agent-notes: no HEAD baseline (fresh checkout); treating the sealed set as empty.')
   } else {
     errors.push(`archived/manifest.json: cannot read baseline ${JSON.stringify(baselineRef)}: ${error instanceof Error ? error.message : String(error)}`)

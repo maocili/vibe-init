@@ -1,26 +1,26 @@
-# dsh-vibe toolchain（门禁与双语工具链）
+# vibe-init toolchain（门禁与双语工具链）
 
-本目录是 dsh-vibe 为每个项目物化的**受管工具链**（manifest `toolchain` → `docGates` 特性，缺省随 `init`/旧项目 `upgrade` 安装），
+本目录是 vibe-init 为每个项目物化的**受管工具链**（manifest `toolchain` → `docGates` 特性，缺省随 `init`/旧项目 `upgrade` 安装），
 语料从 `../vibe-coding-templates/.template` 提炼（迁移记录见实现历史 Agent Note / ACCEPTANCE）。它是插件受管副本：
 `status` 逐文件报 ok/drift/conflict，`upgrade` 按版本迁移，**请勿直接改这里**——本地改动会在下次 `status`/`upgrade` 报 conflict。
 
 ## 前置
 
-- Node >= 20 与 pnpm；项目含 `.agents/notes/`（`dsh-vibe init` 已生成）。
+- Node >= 20 与 pnpm；项目含 `.agents/notes/`（`vibe-init init` 已生成）。
 - 门禁以**项目根**为扫描根（含 `.agents` 的目录），作用于项目 README/AGENTS.md/`docs/**`/`.agents/notes|skills`。
 
 ## 用法
 
 ```sh
 cd <project>
-pnpm -C .dsh-vibe/toolchain install   # 会触发 postinstall：安装 pre-commit 挂钩（见下）
-pnpm -C .dsh-vibe/toolchain run doc-sync
+pnpm -C .vibe-init/toolchain install   # 会触发 postinstall：安装 pre-commit 挂钩（见下）
+pnpm -C .vibe-init/toolchain run doc-sync
 ```
 
 - `doc-sync` = 按已启用门禁组串联 `verify-*`（组由 manifest features 决定，见 `spec.json`）。
-- 特性开关：`dsh-vibe init --feature bilingualDocsDiscipline=true`（装双语门禁+工具链+语料）、
+- 特性开关：`vibe-init init --feature bilingualDocsDiscipline=true`（装双语门禁+工具链+语料）、
   `--feature docGatesExtras=true`（mermaid/技能元数据重门禁）、`--feature docGates=false`（移除整个工具链目录）。
-- pre-commit 挂钩：`install-lefthook.mjs`（postinstall 触发）在 git 根写入 `lefthook.yml`（含 dsh-vibe 标记）并执行 `lefthook install`；
+- pre-commit 挂钩：`install-lefthook.mjs`（postinstall 触发）在 git 根写入 `lefthook.yml`（含 vibe-init 标记）并执行 `lefthook install`；
   项目已有 `lefthook.yml` 且不含本工具标记时**报冲突不覆盖**；删除 `lefthook.yml` 与 .git/hooks 对应项即可卸载。
 
 ## 门禁组 → 脚本

@@ -1,4 +1,4 @@
-# Agent Note: dsh-vibe 实现历史
+# Agent Note: vibe-init 实现历史
 
 Status: implemented
 
@@ -18,7 +18,7 @@ CHANGELOG 变成第二套架构事实来源。
 - **2026-09-04 — 仓库与文档收敛：** 插件源码移到仓库根，项目文档集中到 `docs/`，根 README 成为使用者入口。
   随后将设计和历史移入 Agent Notes，使 docs 只保留稳定契约和证据页面。
 
-M3（2026-09-05）将 `@maocili/dsh-vibe` 确定为 Git tag 包，加入 DSH bundle patch、包内运行时内容、pnpm pack 校验、隔离全局安装覆盖，且安装无副作用。剩余待办为 DP-G（自装技能识别）。
+M3（2026-09-05）将 `@maocili/vibe-init` 确定为 Git tag 包，加入 DSH bundle patch、包内运行时内容、pnpm pack 校验、隔离全局安装覆盖，且安装无副作用。剩余待办为 DP-G（自装技能识别）。
 
 ## Alternatives considered
 

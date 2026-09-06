@@ -13,8 +13,8 @@ import type { Nodes } from 'mdast'
 import { markdownHeadingLines, parseMarkdown, visitMarkdown } from './markdown.ts'
 import { agentCorpusRoot, isArchivedAgentNotePath, uniqueRepoFiles } from './repo-files.ts'
 
-// dsh-vibe distilled: gates scan the project root (the dir holding `.agents`), not
-// the script's own parent — consumers run them from `.dsh-vibe/toolchain`.
+// vibe-init distilled: gates scan the project root (the dir holding `.agents`), not
+// the script's own parent — consumers run them from `.vibe-init/toolchain`.
 const root = agentCorpusRoot()
 const agentsRoot = relative(root, resolve(root, '.agents'))
 
@@ -91,10 +91,7 @@ function fragmentPart(url: string): string | null {
 /**
  * GitHub's heading-slug algorithm (lowercase; drop everything but letters,
  * numbers, underscores, spaces, hyphens; spaces become hyphens). Underscores
- * survive (`## Showcase: web_fetch` → `#showcase-web_fetch`), unlike
- * `gen-cordis-catalog`'s region-anchor slugs — the generator's headings are
- * always reachable through its explicit `<a id>` anchors, so the two need not
- * share one rule.
+ * survive (`## Showcase: web_fetch` → `#showcase-web_fetch`).
  * @param heading - the RENDERED heading text (Markdown syntax already gone).
  * @returns the anchor GitHub assigns the first occurrence of the heading.
  */

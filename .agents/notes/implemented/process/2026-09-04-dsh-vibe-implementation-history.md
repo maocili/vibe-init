@@ -1,4 +1,4 @@
-# Agent Note: dsh-vibe implementation history
+# Agent Note: vibe-init implementation history
 
 Status: implemented
 
@@ -22,7 +22,7 @@ The decision history is maintained here as a concise timeline; fine-grained chan
   docs were consolidated under `docs/`, and the public README became the user entry point. Design and
   history were then moved into Agent Notes so the docs tree keeps stable contract and evidence pages.
 
-M3 (2026-09-05) made `@maocili/dsh-vibe` a Git-tagged package with a DSH bundle patch,
+M3 (2026-09-05) made `@maocili/vibe-init` a Git-tagged package with a DSH bundle patch,
 package-local runtime content, pnpm pack checks, isolated global-install coverage, and no install side effects. Open work remains DP-G
 (self-installed skill detection).
 

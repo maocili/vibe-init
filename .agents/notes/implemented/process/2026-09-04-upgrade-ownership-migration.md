@@ -11,7 +11,7 @@ had no durable record of which pack version had been applied.
 
 ## Decision
 
-`upgrade` now plans an ownership-aware migration using project-local `.dsh-vibe/state.json`. Marker
+`upgrade` now plans an ownership-aware migration using project-local `.vibe-init/state.json`. Marker
 segments, generated documentation, declared toolchain files, declared skill files, and note skeleton
 explainers are managed and may be refreshed from the current rule pack. Dated Agent Notes, note
 manifests, business documentation, and unknown files remain project-owned. Stale managed files are

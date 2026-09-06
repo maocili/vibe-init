@@ -1,12 +1,12 @@
-# dsh-vibe：需求与范围
+# vibe-init：需求与范围
 
 > 状态：**定案 v1.0**（2026-09-03，M1b 决策补充于 2026-09-04）。本文档定义范围和可验收行为；如与
 > 实现设计与架构取舍记录在
-> [Agent Note：dsh-vibe 实现设计](../.agents/notes/implemented/architecture/2026-09-04-dsh-vibe-implementation-design.md)；
+> [Agent Note：vibe-init 实现设计](../.agents/notes/implemented/architecture/2026-09-04-vibe-init-implementation-design.md)；
 > 本文只定义范围与可验收行为。
 
-`dsh-vibe` 是项目级初始化器，不是全局安装器。它从本仓库的 `packages/` 物化项目受管面：根
-`AGENTS.md` 规则段、`.agents/notes/` 骨架、默认技能副本和 `.dsh-vibe/toolchain/`。它永不写入
+`vibe-init` 是项目级初始化器，不是全局安装器。它从本仓库的 `packages/` 物化项目受管面：根
+`AGENTS.md` 规则段、`.agents/notes/` 骨架、默认技能副本和 `.vibe-init/toolchain/`。它永不写入
 `~/.dsh/AGENTS.md` 或用户技能根。
 
 ## 0. 决策基线
@@ -23,8 +23,8 @@
 | D9 | `bilingualDocsDiscipline` 独立于双语骨架，默认关闭。 |
 | D10 | `docBudgets` 默认开启。 |
 | D11 | `docGates` 是默认开启的工具链伞；`docGatesExtras` 默认关闭；各纪律特性各有脚本组。 |
-| D12 | 工具链落在项目 `.dsh-vibe/toolchain/`；双语组随双语纪律开启；挂钩随伞安装；作者测试链不随包。 |
-| D13 | `upgrade` 依据项目 `.dsh-vibe/state.json` 做所有权迁移；规则/生成文档/声明的工具链与技能可覆盖同步，Agent Note 正文、业务文档和未知文件不可覆盖；状态仅在文件迁移与依赖安装均成功后原子提交。 |
+| D12 | 工具链落在项目 `.vibe-init/toolchain/`；双语组随双语纪律开启；挂钩随伞安装；作者测试链不随包。 |
+| D13 | `upgrade` 依据项目 `.vibe-init/state.json` 做所有权迁移；规则/生成文档/声明的工具链与技能可覆盖同步，Agent Note 正文、业务文档和未知文件不可覆盖；状态仅在文件迁移与依赖安装均成功后原子提交。 |
 
 ## 1. 目标
 
@@ -46,7 +46,7 @@
 | R9 | `upgrade` 按所有权分类更新受管内容；关闭特性或清单移除只删除状态确认且仍等于上次安装哈希的旧副本，用户修改或无法确认归属的路径保留并报告冲突。 |
 | R10 | 插件加载无副作用；物化始终由显式命令触发。 |
 | R11 | `upgrade` 必须先生成 dry-run 分类预览；非交互写入必须显式 `--yes`，无确认不写盘。 |
-| R12 | 项目级 `state.json` 记录 schema、packVersion、feature 配置、marker 和受管文件源/安装哈希；工具链 package 或依赖集合变化时执行 `pnpm -C .dsh-vibe/toolchain install`，失败返回非零且不提交新状态。 |
+| R12 | 项目级 `state.json` 记录 schema、packVersion、feature 配置、marker 和受管文件源/安装哈希；工具链 package 或依赖集合变化时执行 `pnpm -C .vibe-init/toolchain install`，失败返回非零且不提交新状态。 |
 
 ## 3. 物化范围与默认值
 
@@ -56,7 +56,7 @@
 | `.agents/notes/` | README 三件套、门规、manifest 与四象限目录 |
 | `.agents/skills/` | manifest 声明的全部项目级 skill 副本 |
 | `docs/AGENTS.md` | 文档分层、篇幅目标与预算门禁规范（由 `docBudgets` 管理） |
-| `.dsh-vibe/toolchain/` | docGates scaffold、默认门禁、挂钩与组装的 `package.json` |
+| `.vibe-init/toolchain/` | docGates scaffold、默认门禁、挂钩与组装的 `package.json` |
 
 | Feature | 默认 | 作用 |
 |---|---:|---|
@@ -77,7 +77,7 @@
 |---|---|
 | 根 `AGENTS.md` marker 段 | 只更新 marker 内部正文；段外不变；缺失可补建，重复/损坏报告冲突 |
 | `docs/AGENTS.md` | 插件生成文档，规则包变化时覆盖 |
-| `.dsh-vibe/toolchain/**` 声明文件 | 覆盖同步；未声明的用户新增文件保留 |
+| `.vibe-init/toolchain/**` 声明文件 | 覆盖同步；未声明的用户新增文件保留 |
 | `.agents/skills/<name>/` 声明文件 | 覆盖同步；技能目录中的用户新增文件保留 |
 | `.agents/notes/` README/AGENTS 说明文件 | 可随规则包更新 |
 | `.agents/notes/` 日期命名 Note、`manifest.json` 与用户文件 | 永不创建、更新或删除 |
@@ -91,4 +91,4 @@
 插件可以计划、物化、升级、移除受管副本并报告状态；用户拥有业务代码、笔记正文、根文件段外内容和
 自装技能。所有写入先显示差异并取得确认（或以 `--yes` 明确执行），不新增自动备份目录，回滚依赖 Git。
 
-DP-G（自装技能识别口径）仍待决定。M3 采用 Git tag 分发 `@maocili/dsh-vibe`：包声明 DSH `dsh.bundle.patch`，可由 profile 的插件管理命令安装，bundle patch 再激活同包的 Cordis plugin；CLI 的主要安装方式是从 Git tag 全局安装。随包技能清单（DP-F）已由 `packages/manifest.json` 固化并默认安装。
+DP-G（自装技能识别口径）仍待决定。M3 采用 Git tag 分发 `@maocili/vibe-init`：包声明 DSH `dsh.bundle.patch`，可由 profile 的插件管理命令安装，bundle patch 再激活同包的 Cordis plugin；CLI 的主要安装方式是从 Git tag 全局安装。随包技能清单（DP-F）已由 `packages/manifest.json` 固化并默认安装。

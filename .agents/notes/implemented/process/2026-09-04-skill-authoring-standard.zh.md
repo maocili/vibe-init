@@ -90,4 +90,4 @@ description: Diagnose API failures in this repository, identify the owning packa
 ## 后果
 
 今后的 Skill 使用小而稳定的 frontmatter 作为路由表面，使用可执行且有边界的正文作为工作流。评审可以将匹配质量与流程完整性分开检查，失败报告也可以指向明确的缺失前置条件或验证结果。
-随包工作流变更在完成前都要与参考模板比对；Harness 专属事实必须泛化或省略。新增 Skill 或修改调用策略仍属于流程变更：同步更新相关 Skill 元数据和 sidecar，运行适用门禁，并将产品专属运行时契约保留在其所属源码或决策记录中，避免在本笔记重复。
+随包工作流变更在完成前都要与参考模板比对；Harness 专属事实必须泛化或省略。随包的 `archive-agent-notes` 工作流展示了多模式拆分方式：入口文件只保留共用依据和路由，supersession、留存校准与封存机制则放在仅由匹配操作加载的参考资料中。新增 Skill 或修改调用策略仍属于流程变更：同步更新相关 Skill 元数据和 sidecar，运行适用门禁，并将产品专属运行时契约保留在其所属源码或决策记录中，避免在本笔记重复。

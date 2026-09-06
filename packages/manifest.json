@@ -101,11 +101,23 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "5e5e96596325357284240d10161b11645df54f72d2762effa60be8dad8505c78"
+          "sha256": "9349ba5d67ae061f6ccd1d39f69f7f2d22c561c00e136aa9304ca9f54c2add83"
         },
         {
           "path": "agents/openai.yaml",
           "sha256": "c0208d56a1b41bb3d9e1a8992759a366a773302f40c8f485f8b6df3cb498865f"
+        },
+        {
+          "path": "references/archive-operations.md",
+          "sha256": "17814ee8763ae6233e07b6f7e41d9180d2ec4649bdf59e8653aff5e62b9f05de"
+        },
+        {
+          "path": "references/retention-audit.md",
+          "sha256": "a0e4bd01cc292f05d92d5ea1cd5dfe88073cbbed07f93354fe6f1cc4f029b17b"
+        },
+        {
+          "path": "references/supersession.md",
+          "sha256": "54dca5e8be8db1d50a7635a3bec319b03a3a7ffb08a887989bf18655407ed344"
         }
       ]
     },

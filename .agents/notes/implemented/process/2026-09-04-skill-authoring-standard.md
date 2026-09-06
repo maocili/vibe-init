@@ -120,6 +120,9 @@ Future Skills use frontmatter as a small, stable routing surface and the body as
 bounded workflow. Reviews can check matching quality separately from procedural completeness, and
 failure reports can point to a named missing prerequisite or verification result. Packaged workflow
 changes are compared against their reference templates before completion; Harness-only facts are
-generalized or omitted. Adding a new Skill or changing its invocation policy remains a process change:
+generalized or omitted. The packaged `archive-agent-notes` workflow demonstrates the multi-mode split:
+its entrypoint retains shared authority and routing, while supersession, retention calibration, and
+sealing mechanics live in references loaded only for the matching operation. Adding a new Skill or
+changing its invocation policy remains a process change:
 update the relevant Skill metadata and sidecar, run the applicable gates, and keep any product-specific
 runtime contract in its owning source or decision record rather than duplicating it here.

@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.3.0",
   "files": [
     {
       "id": "project-notes-readme",
@@ -71,7 +71,7 @@
     }
   ],
   "toolchain": {
-    "target": ".dsh-vibe/toolchain",
+    "target": ".vibe-init/toolchain",
     "spec": "toolchain/spec.json"
   },
   "features": {

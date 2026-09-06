@@ -1,4 +1,4 @@
-// dsh-vibe engine/pack regression tests (node:test).
+// vibe-init engine/pack regression tests (node:test).
 // Fixtures live under the repository root and are removed after the run.
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
@@ -41,22 +41,27 @@ async function initAndRecord(pack, proj, opts = {}) {
   return { plan, results, state }
 }
 
-const planning = 'x\n<!-- 待填充 [实现期] header -->\ny\n<!-- dsh-vibe:legacy -->\nz\n'
+const planning = 'x\n<!-- 待填充 [实现期] header -->\ny\n<!-- vibe-init:managed -->\nz\n'
 
-test('cleanSource strips planning/legacy marker comments, keeps body', async () => {
+test('cleanSource strips planning and current marker comments, keeps body', async () => {
   const out = cleanSource(planning)
   assert.ok(!out.includes('[实现期]'))
-  assert.ok(!out.includes('dsh-vibe:legacy'))
+  assert.ok(!out.includes('vibe-init:managed'))
   assert.ok(out.includes('x\n'))
   assert.ok(out.includes('y\n'))
   assert.ok(out.includes('z'))
+})
+
+test('cleanSource treats old marker comments as ordinary text', () => {
+  const oldMarker = '<!-- dsh-vibe:historical:start -->\nold body\n<!-- dsh-vibe:historical:end -->\n'
+  assert.equal(cleanSource(oldMarker), oldMarker)
 })
 
 test('segment upsert/remove is idempotent and preserves outside text', () => {
   const head = '## Product\n'
   let text = head
   text = upsertSegmentText(text, 'seg-a', 'body A')
-  assert.ok(text.includes('<!-- dsh-vibe:seg-a:start -->'))
+  assert.ok(text.includes('<!-- vibe-init:seg-a:start -->'))
   const again = upsertSegmentText(text, 'seg-a', 'body A')
   assert.equal(again, text)
   const removed = removeSegmentText(text, 'seg-a')
@@ -309,12 +314,12 @@ test('upgrade ownership matrix: managed files overwrite while user assets stay b
   await initAndRecord(pack1, proj)
 
   const managedSkill = join(proj, '.agents', 'skills', 'archive-agent-notes', 'SKILL.md')
-  const managedTool = join(proj, '.dsh-vibe', 'toolchain', 'scripts', 'verify-md-links.ts')
+  const managedTool = join(proj, '.vibe-init', 'toolchain', 'scripts', 'verify-md-links.ts')
   const generatedDoc = join(proj, 'docs', 'AGENTS.md')
   const noteBody = join(proj, '.agents', 'notes', 'implemented', 'architecture', '2024-user-note.md')
   const noteManifest = join(proj, '.agents', 'notes', 'manifest.json')
   const businessDoc = join(proj, 'docs', 'business.md')
-  const userTool = join(proj, '.dsh-vibe', 'toolchain', 'user-script.ts')
+  const userTool = join(proj, '.vibe-init', 'toolchain', 'user-script.ts')
   const userSkill = join(proj, '.agents', 'skills', 'archive-agent-notes', 'user-reference.md')
   writeFileSync(managedSkill, readFileSync(managedSkill, 'utf8') + '\nuser edit that upgrade must replace\n')
   writeFileSync(managedTool, readFileSync(managedTool, 'utf8') + '\nuser edit that upgrade must replace\n')
@@ -344,7 +349,7 @@ test('upgrade ownership matrix: managed files overwrite while user assets stay b
   assert.equal(results.find((r) => r.id === 'toolchain:text-link:scripts/verify-md-links.ts').action, 'update')
   assert.equal(results.find((r) => r.label === 'docs/AGENTS.md').action, 'update')
   assert.equal(results.find((r) => r.id === 'project-standing-orders-block').action, 'update')
-  assert.equal(results.find((r) => r.label === '.dsh-vibe/toolchain/user-script.ts'), undefined)
+  assert.equal(results.find((r) => r.label === '.vibe-init/toolchain/user-script.ts'), undefined)
   assert.equal(results.find((r) => r.label === '.agents/skills/archive-agent-notes/user-reference.md'), undefined)
   assert.equal(results.find((r) => r.label === '.agents/notes/implemented/architecture/2024-user-note.md'), undefined)
   assert.equal(results.find((r) => r.label === '.agents/notes/manifest.json'), undefined)
@@ -395,12 +400,12 @@ test('upgrade removes only unmodified state-owned stale files and preserves modi
 test('upgrade legacy migration reports ambiguous files, never deletes them, and creates state', async () => {
   const proj = fixtureProject('upgrade-legacy')
   writeFileSync(join(proj, 'AGENTS.md'), '## Product\n')
-  mkdirSync(join(proj, '.dsh-vibe', 'toolchain'), { recursive: true })
-  writeFileSync(join(proj, '.dsh-vibe', 'toolchain', 'legacy-user.ts'), 'user tool\n')
-  const legacyDeclared = join(proj, '.dsh-vibe', 'toolchain', 'docs', 'i18n', 'README.md')
-  mkdirSync(join(proj, '.dsh-vibe', 'toolchain', 'docs', 'i18n'), { recursive: true })
+  mkdirSync(join(proj, '.vibe-init', 'toolchain'), { recursive: true })
+  writeFileSync(join(proj, '.vibe-init', 'toolchain', 'legacy-user.ts'), 'user tool\n')
+  const legacyDeclared = join(proj, '.vibe-init', 'toolchain', 'docs', 'i18n', 'README.md')
+  mkdirSync(join(proj, '.vibe-init', 'toolchain', 'docs', 'i18n'), { recursive: true })
   writeFileSync(legacyDeclared, readFileSync(join(REAL_PACK, 'toolchain', 'bilingual', 'docs', 'i18n', 'README.md'), 'utf8'))
-  const legacyDeclaredChanged = join(proj, '.dsh-vibe', 'toolchain', 'docs', 'i18n', 'README.zh.md')
+  const legacyDeclaredChanged = join(proj, '.vibe-init', 'toolchain', 'docs', 'i18n', 'README.zh.md')
   writeFileSync(legacyDeclaredChanged, readFileSync(join(REAL_PACK, 'toolchain', 'bilingual', 'docs', 'i18n', 'README.zh.md'), 'utf8') + '\nuser translation\n')
   mkdirSync(join(proj, '.agents', 'skills', 'archive-agent-notes'), { recursive: true })
   writeFileSync(join(proj, '.agents', 'skills', 'archive-agent-notes', 'legacy-user.md'), 'user skill\n')
@@ -410,27 +415,100 @@ test('upgrade legacy migration reports ambiguous files, never deletes them, and 
   const plan = await planProject(pack, proj, { mode: 'upgrade' })
   const results = await evaluatePlan(plan, {})
   assert.equal(plan.stateInfo.state, null)
-  assert.equal(results.find((r) => r.label === '.dsh-vibe/toolchain/legacy-user.ts').action, 'conflict')
-  assert.equal(results.find((r) => r.label === '.dsh-vibe/toolchain/docs/i18n/README.md').action, 'remove')
-  assert.equal(results.find((r) => r.label === '.dsh-vibe/toolchain/docs/i18n/README.zh.md').action, 'conflict')
+  assert.equal(results.find((r) => r.label === '.vibe-init/toolchain/legacy-user.ts').action, 'conflict')
+  assert.equal(results.find((r) => r.label === '.vibe-init/toolchain/docs/i18n/README.md').action, 'remove')
+  assert.equal(results.find((r) => r.label === '.vibe-init/toolchain/docs/i18n/README.zh.md').action, 'conflict')
   assert.equal(results.find((r) => r.label === '.agents/skills/archive-agent-notes/legacy-user.md').action, 'conflict')
   assert.equal(results.find((r) => r.label === '.agents/notes/implemented/architecture/2024-history.md'), undefined)
   await applyResults(results)
   await writeProjectState(proj, nextProjectState(plan, results, pack.version, plan.effectiveFeatures))
-  assert.ok(existsFile(join(proj, '.dsh-vibe/state.json')))
-  assert.ok(existsFile(join(proj, '.dsh-vibe/toolchain/legacy-user.ts')))
+  assert.ok(existsFile(join(proj, '.vibe-init/state.json')))
+  assert.ok(existsFile(join(proj, '.vibe-init/toolchain/legacy-user.ts')))
   assert.ok(!existsFile(legacyDeclared))
   assert.ok(existsFile(legacyDeclaredChanged))
   assert.ok(existsFile(join(proj, '.agents/skills/archive-agent-notes/legacy-user.md')))
 })
 
-test('upgrade rejects malformed or duplicated marker segments as conflicts', async () => {
-  const proj = fixtureProject('upgrade-marker-conflict')
+test('schema 2 rejects an old-namespace toolchain ownership record', async () => {
+  const proj = fixtureProject('schema2-old-toolchain-record')
+  writeFileSync(join(proj, 'AGENTS.md'), '## Product\n')
   const pack = await loadPack(REAL_PACK)
-  const marker = '<!-- dsh-vibe:project-standing-orders-block:start -->\n'
-  writeFileSync(join(proj, 'AGENTS.md'), marker + marker + '<!-- dsh-vibe:project-standing-orders-block:end -->\n')
-  const results = await evaluatePlan(await planProject(pack, proj, { mode: 'upgrade' }), {})
-  assert.equal(results.find((r) => r.id === 'project-standing-orders-block').action, 'conflict')
+  const { state } = await initAndRecord(pack, proj)
+  const toolchain = state.files.find((record) => record.kind === 'toolchain')
+  assert.ok(toolchain)
+  toolchain.path = toolchain.path.replace('.vibe-init/toolchain/', '.dsh-vibe/toolchain/')
+  writeFileSync(join(proj, '.vibe-init', 'state.json'), JSON.stringify(state, null, 2) + '\n')
+  const stateInfo = await readProjectState(proj)
+  assert.match(stateInfo.problem, /unsafe, duplicate, or unowned managed record/)
+})
+
+test('init and upgrades leave old namespace assets byte-identical and unplanned', async () => {
+  const proj = fixtureProject('hard-cut-old-assets')
+  const oldBlock = '<!-- dsh-vibe:project-standing-orders-block:start -->\nold managed body\n<!-- dsh-vibe:project-standing-orders-block:end -->'
+  const oldRoot = '## Product\n\n' + oldBlock + '\n\n## User tail\n'
+  const oldTool = 'old toolchain bytes\n'
+  const oldState = JSON.stringify({
+    schemaVersion: 1,
+    packVersion: '0.2.0',
+    features: { docGates: true },
+    segments: [{
+      id: 'project-standing-orders-block',
+      target: 'AGENTS.md',
+      source: 'standing-orders-block.md',
+      sourceSha256: createHash('sha256').update('old source').digest('hex'),
+      installedSha256: createHash('sha256').update(oldBlock).digest('hex')
+    }],
+    files: [{
+      path: '.dsh-vibe/toolchain/package.json',
+      kind: 'toolchain',
+      source: 'toolchain/spec.json',
+      sourceSha256: createHash('sha256').update('old spec').digest('hex'),
+      installedSha256: createHash('sha256').update(oldTool).digest('hex')
+    }]
+  }, null, 2) + '\n'
+  writeFileSync(join(proj, 'AGENTS.md'), oldRoot)
+  mkdirSync(join(proj, '.dsh-vibe', 'toolchain'), { recursive: true })
+  writeFileSync(join(proj, '.dsh-vibe', 'toolchain', 'package.json'), oldTool)
+  writeFileSync(join(proj, '.dsh-vibe', 'state.json'), oldState)
+  const pack = await loadPack(REAL_PACK)
+  const assertOldAssets = () => {
+    assert.equal(readFileSync(join(proj, '.dsh-vibe', 'state.json'), 'utf8'), oldState)
+    assert.equal(readFileSync(join(proj, '.dsh-vibe', 'toolchain', 'package.json'), 'utf8'), oldTool)
+    const root = readFileSync(join(proj, 'AGENTS.md'), 'utf8')
+    assert.equal(root.split(oldBlock).length, 2)
+  }
+  const runPlan = async (opts) => {
+    const plan = await planProject(pack, proj, opts)
+    const results = await evaluatePlan(plan, {})
+    for (const item of [...plan.entries, ...results]) {
+      assert.ok(!String(item.targetAbs || '').includes('.dsh-vibe'))
+      assert.ok(!String(item.label || '').includes('.dsh-vibe'))
+    }
+    await applyResults(results)
+    const state = nextProjectState(plan, results, pack.version, plan.effectiveFeatures || pack.features)
+    await writeProjectState(proj, state)
+    assertOldAssets()
+  }
+  await runPlan({ mode: 'init' })
+  await runPlan({ mode: 'upgrade' })
+  await runPlan({ mode: 'upgrade', features: { docGates: false } })
+})
+
+test('upgrade rejects malformed, duplicated, and cross-structured new markers', async () => {
+  const pack = await loadPack(REAL_PACK)
+  const id = 'project-standing-orders-block'
+  const cases = [
+    '<!-- vibe-init:' + id + ':start -->\n<!-- vibe-init:' + id + ':start -->\n<!-- vibe-init:' + id + ':end -->\n',
+    '<!-- vibe-init:' + id + ':start -->\nmissing end\n',
+    '<!-- vibe-init:' + id + ':start -->\n<!-- vibe-init:feature-text-link-management:start -->\n<!-- vibe-init:' + id + ':end -->\n<!-- vibe-init:feature-text-link-management:end -->\n'
+  ]
+  for (const [index, text] of cases.entries()) {
+    const proj = fixtureProject('upgrade-marker-conflict-' + index)
+    writeFileSync(join(proj, 'AGENTS.md'), text)
+    const results = await evaluatePlan(await planProject(pack, proj, { mode: 'upgrade' }), {})
+    assert.equal(results.find((r) => r.id === id).action, 'conflict')
+    assert.equal(readFileSync(join(proj, 'AGENTS.md'), 'utf8'), text)
+  }
 })
 
 test('upgrade removes a stale marker only when state confirms the old segment', async () => {
@@ -444,15 +522,41 @@ test('upgrade removes a stale marker only when state confirms the old segment', 
   manifest.files = manifest.files.filter((row) => row.id !== 'project-standing-orders-block')
   writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n')
   const pack2 = await loadPack(packDir)
+  const before = readFileSync(join(proj, 'AGENTS.md'), 'utf8')
   const results = await evaluatePlan(await planProject(pack2, proj, { mode: 'upgrade' }), {})
   const stale = results.find((r) => r.label?.includes('project-standing-orders-block'))
   assert.ok(stale)
   assert.equal(stale.action, 'update')
   await applyResults(results)
-  assert.ok(!readFileSync(join(proj, 'AGENTS.md'), 'utf8').includes('project-standing-orders-block:start'))
+  assert.equal(readFileSync(join(proj, 'AGENTS.md'), 'utf8'), removeSegmentText(before, 'project-standing-orders-block'))
 })
 
-test('polluted project: residue flagged, user notes never clobbered', async () => {
+test('upgrade keeps an edited stale new marker even with force', async () => {
+  const packDir = makePack()
+  const proj = fixtureProject('upgrade-stale-marker-edited')
+  writeFileSync(join(proj, 'AGENTS.md'), '## Product\n\n## User tail\n')
+  const pack1 = await loadPack(packDir)
+  await initAndRecord(pack1, proj)
+  const manifestPath = join(packDir, 'manifest.json')
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
+  manifest.files = manifest.files.filter((row) => row.id !== 'project-standing-orders-block')
+  writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n')
+  const rootPath = join(proj, 'AGENTS.md')
+  const edited = readFileSync(rootPath, 'utf8').replace('## Agent Note', '## User-edited Agent Note')
+  writeFileSync(rootPath, edited)
+  const pack2 = await loadPack(packDir)
+  const plan = await planProject(pack2, proj, { mode: 'upgrade', force: true })
+  assert.equal(plan.entries.some((entry) => entry.kind === 'segment' && entry.id === 'project-standing-orders-block' && entry.body === null), false)
+  const results = await evaluatePlan(plan, { force: true })
+  const stale = results.find((r) => r.label?.includes('project-standing-orders-block'))
+  assert.equal(stale.action, 'conflict')
+  await applyResults(results)
+  assert.equal(readFileSync(rootPath, 'utf8'), edited)
+  const next = nextProjectState(plan, results, pack2.version, plan.effectiveFeatures)
+  assert.ok(next.segments.some((record) => record.id === 'project-standing-orders-block'))
+})
+
+test('polluted project: obsolete residue heuristics stay removed and user notes remain untouched', async () => {
   const proj = fixtureProject('polluted')
   writeFileSync(join(proj, 'AGENTS.md'), '## Product rules\n')
   mkdirSync(join(proj, '.template'), { recursive: true })                    // old copy residue
@@ -464,7 +568,7 @@ test('polluted project: residue flagged, user notes never clobbered', async () =
   const extras = await auditExtras(pack, proj)
   const kinds = extras.map((n) => n.what)
   assert.ok(kinds.includes('residue-template'))
-  assert.ok(kinds.includes('residue-skill'))
+  assert.ok(!kinds.includes('residue-skill'))
   assert.ok(kinds.includes('unknown-top-level'))
   const res = await evaluatePlan(await planProject(pack, proj), {})
   const readme = res.find((r) => r.label === '.agents/notes/README.md')
@@ -501,6 +605,61 @@ test('loadPack reports rows whose source file is missing', async () => {
   rmSync(join(packDir, 'standing-orders-block.md'), { force: true })
   const pack = await loadPack(packDir)
   assert.ok(pack.problems.some((m) => m.includes('missing source file')))
+})
+
+test('loadPack rejects mismatched and unsafe toolchain targets', async () => {
+  const cases = [
+    {
+      name: 'mismatch',
+      manifestTarget: '.vibe-init/toolchain',
+      specTarget: '.vibe-init/other',
+      expected: 'must exactly match'
+    },
+    {
+      name: 'absolute',
+      manifestTarget: '/tmp/vibe-init-toolchain',
+      specTarget: '/tmp/vibe-init-toolchain',
+      expected: 'safe relative path'
+    },
+    {
+      name: 'empty',
+      manifestTarget: '',
+      specTarget: '',
+      expected: 'safe relative path'
+    },
+    {
+      name: 'dot-segment',
+      manifestTarget: '.vibe-init/./toolchain',
+      specTarget: '.vibe-init/./toolchain',
+      expected: 'safe relative path'
+    },
+    {
+      name: 'parent-segment',
+      manifestTarget: '.vibe-init/../toolchain',
+      specTarget: '.vibe-init/../toolchain',
+      expected: 'safe relative path'
+    },
+    {
+      name: 'backslash',
+      manifestTarget: '.vibe-init\\..\\toolchain',
+      specTarget: '.vibe-init\\..\\toolchain',
+      expected: 'safe relative path'
+    }
+  ]
+  for (const item of cases) {
+    const packDir = makePack()
+    const manifestPath = join(packDir, 'manifest.json')
+    const specPath = join(packDir, 'toolchain', 'spec.json')
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
+    const spec = JSON.parse(readFileSync(specPath, 'utf8'))
+    manifest.toolchain.target = item.manifestTarget
+    spec.target = item.specTarget
+    writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n')
+    writeFileSync(specPath, JSON.stringify(spec, null, 2) + '\n')
+    const pack = await loadPack(packDir)
+    assert.ok(pack.problems.some((problem) => problem.includes(item.expected)), item.name)
+    assert.equal(pack.toolchain, null, item.name)
+  }
 })
 
 test('resolveProjectRoot stops at the nearest .git', async () => {

@@ -10,7 +10,7 @@ import { planProject, evaluatePlan, applyResults } from '../lib/engine.mjs'
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 
 test('materialized standing orders require one commit per completed step', async () => {
-  const project = mkdtempSync(join(tmpdir(), 'dsh-vibe-commit-step-'))
+  const project = mkdtempSync(join(tmpdir(), 'vibe-init-commit-step-'))
   try {
     mkdirSync(join(project, '.git'))
     writeFileSync(join(project, 'AGENTS.md'), '# Product\n')

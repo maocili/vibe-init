@@ -1,4 +1,4 @@
-// dsh-vibe docGates toolchain tests (node:test).
+// vibe-init docGates toolchain tests (node:test).
 // Covers: default toolchain materialization (groups by feature), composed package.json,
 // group enable/disable removal, user-edit protection, audit awareness, idempotency.
 import { test, before, after } from 'node:test'
@@ -29,7 +29,7 @@ function makePack() {
   return dir
 }
 
-const HOME = '.dsh-vibe/toolchain'
+const HOME = '.vibe-init/toolchain'
 const inHome = (proj, rel) => join(proj, HOME, rel)
 
 async function applyInit(proj, features, packDir) {
@@ -43,7 +43,7 @@ async function applyInit(proj, features, packDir) {
 test('pack loads the toolchain spec with all groups', async () => {
   const pack = await loadPack(REAL_PACK)
   assert.ok(pack.toolchain)
-  assert.equal(pack.toolchain.target, '.dsh-vibe/toolchain')
+  assert.equal(pack.toolchain.target, '.vibe-init/toolchain')
   assert.equal(pack.toolchain.feature, 'docGates')
   const ids = pack.toolchain.groups.map((g) => g.id).sort()
   assert.deepEqual(ids, ['base', 'bilingual', 'doc-budgets', 'extras', 'hooks', 'scaffold', 'text-link'].sort())
@@ -87,7 +87,7 @@ test('default init materializes scaffold + docGates/base + default-on groups onl
   assert.ok(!pkg.devDependencies.jsdom)
   assert.ok(pkg.devDependencies.lefthook)
   // no .gitkeep/spec artifacts inside the managed toolchain
-  const tcFiles = applied.map((r) => r.label).filter((l) => l && l.startsWith('.dsh-vibe/toolchain'))
+  const tcFiles = applied.map((r) => r.label).filter((l) => l && l.startsWith('.vibe-init/toolchain'))
   assert.ok(!tcFiles.some((l) => l.endsWith('.gitkeep') || l.endsWith('.spec.ts') || l.includes('test-fixture')))
 })
 

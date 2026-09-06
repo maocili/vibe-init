@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "target": ".dsh-vibe/toolchain",
+  "target": ".vibe-init/toolchain",
   "feature": "docGates",
   "packageJson": {
-    "name": "dsh-vibe-toolchain",
+    "name": "vibe-init-toolchain",
     "private": true,
     "type": "module",
     "engines": { "node": ">=20" },

@@ -17,7 +17,7 @@ let TMP
 function run(args, opts = {}) {
   const r = spawnSync(process.execPath, [BIN, ...args], {
     encoding: 'utf8', ...opts,
-    env: { ...process.env, DSH_VIBE_SKIP_TOOLCHAIN_INSTALL: '1', ...(opts.env || {}) }
+    env: { ...process.env, VIBE_INIT_SKIP_TOOLCHAIN_INSTALL: '1', ...(opts.env || {}) }
   })
   return { code: r.status, out: r.stdout || '', err: r.stderr || '' }
 }
@@ -58,9 +58,10 @@ test('init is idempotent via the CLI and status has no global scope', () => {
   assert.ok(existsSync(join(proj, '.agents', 'notes', 'README.md')))
   assert.ok(existsSync(join(proj, '.agents', 'skills', 'archive-agent-notes', 'SKILL.md')))
   assert.ok(existsSync(join(proj, '.agents', 'skills', 'trim-reasoning-leakage', 'SKILL.md')))
-  const state = JSON.parse(readFileSync(join(proj, '.dsh-vibe', 'state.json'), 'utf8'))
-  assert.equal(state.schemaVersion, 1)
-  assert.equal(state.packVersion, '0.2.0')
+  const state = JSON.parse(readFileSync(join(proj, '.vibe-init', 'state.json'), 'utf8'))
+  assert.equal(state.schemaVersion, 2)
+  assert.equal(state.owner, 'vibe-init')
+  assert.equal(state.packVersion, '0.3.0')
   const st = run(['status', '--project', proj, '--json'])
   assert.equal(st.code, 0)
   const json = JSON.parse(st.out)
@@ -69,9 +70,9 @@ test('init is idempotent via the CLI and status has no global scope', () => {
   assert.equal(aud.code, 0)
   const audJson = JSON.parse(aud.out)
   assert.deepEqual(audJson.notes.filter((n) => n.what === 'pack-drift'), [])
-  const staleState = JSON.parse(readFileSync(join(proj, '.dsh-vibe', 'state.json'), 'utf8'))
+  const staleState = JSON.parse(readFileSync(join(proj, '.vibe-init', 'state.json'), 'utf8'))
   staleState.packVersion = 'old-pack'
-  writeFileSync(join(proj, '.dsh-vibe', 'state.json'), JSON.stringify(staleState, null, 2) + '\n')
+  writeFileSync(join(proj, '.vibe-init', 'state.json'), JSON.stringify(staleState, null, 2) + '\n')
   const staleStatus = JSON.parse(run(['status', '--project', proj, '--json']).out)
   assert.ok(staleStatus.notes.some((n) => n.what === 'state-outdated'))
 })
@@ -85,21 +86,48 @@ test('list-skills reports the default project skill set', () => {
   assert.ok(listed.out.includes('translate-docs'))
 })
 
+test('old pack environment override is ignored', () => {
+  const listed = run(['list-skills'], { env: { DSH_VIBE_PACK: join(TMP, 'missing-old-pack') } })
+  assert.equal(listed.code, 0)
+  assert.ok(listed.out.includes('archive-agent-notes'))
+})
+
 test('upgrade installs toolchain dependencies when package composition changes', async () => {
   let call = null
   await installToolchainIfNeeded(
-    { requiresInstall: true, toolchainHome: '/tmp/example/.dsh-vibe/toolchain' },
+    { requiresInstall: true, toolchainHome: '/tmp/example/.vibe-init/toolchain' },
     '/tmp/example',
     async (...args) => { call = args; return { stdout: '', stderr: '' } }
   )
-  assert.deepEqual(call.slice(0, 2), ['pnpm', ['-C', '/tmp/example/.dsh-vibe/toolchain', 'install']])
+  assert.deepEqual(call.slice(0, 2), ['pnpm', ['-C', '/tmp/example/.vibe-init/toolchain', 'install']])
   assert.equal(call[2].cwd, '/tmp/example')
+})
+
+test('old toolchain-install environment override is ignored', async () => {
+  const previousNew = process.env.VIBE_INIT_SKIP_TOOLCHAIN_INSTALL
+  const previousOld = process.env.DSH_VIBE_SKIP_TOOLCHAIN_INSTALL
+  delete process.env.VIBE_INIT_SKIP_TOOLCHAIN_INSTALL
+  process.env.DSH_VIBE_SKIP_TOOLCHAIN_INSTALL = '1'
+  let called = false
+  try {
+    await installToolchainIfNeeded(
+      { requiresInstall: true, toolchainHome: '/tmp/example/.vibe-init/toolchain' },
+      '/tmp/example',
+      async () => { called = true; return { stdout: '', stderr: '' } }
+    )
+  } finally {
+    if (previousNew === undefined) delete process.env.VIBE_INIT_SKIP_TOOLCHAIN_INSTALL
+    else process.env.VIBE_INIT_SKIP_TOOLCHAIN_INSTALL = previousNew
+    if (previousOld === undefined) delete process.env.DSH_VIBE_SKIP_TOOLCHAIN_INSTALL
+    else process.env.DSH_VIBE_SKIP_TOOLCHAIN_INSTALL = previousOld
+  }
+  assert.equal(called, true)
 })
 
 test('toolchain dependency failure is surfaced for a retry', async () => {
   await assert.rejects(
     installToolchainIfNeeded(
-      { requiresInstall: true, toolchainHome: '/tmp/example/.dsh-vibe/toolchain' },
+      { requiresInstall: true, toolchainHome: '/tmp/example/.vibe-init/toolchain' },
       '/tmp/example',
       async () => { throw Object.assign(new Error('network down'), { stderr: 'ERR_PNPM_FETCH_404' }) }
     ),
@@ -112,29 +140,43 @@ test('write commands in non-interactive mode require --yes, while dry-run remain
   const rejected = run(['upgrade', '--project', proj])
   assert.equal(rejected.code, 1)
   assert.ok(rejected.err.includes('non-interactive'))
-  assert.ok(!existsSync(join(proj, '.dsh-vibe', 'state.json')))
+  assert.ok(!existsSync(join(proj, '.vibe-init', 'state.json')))
   const preview = run(['upgrade', '--project', proj, '--dry-run'])
   assert.equal(preview.code, 0)
-  assert.ok(!existsSync(join(proj, '.dsh-vibe', 'state.json')))
+  assert.ok(!existsSync(join(proj, '.vibe-init', 'state.json')))
 })
 
 test('invalid state previews but does not apply an upgrade', () => {
   const proj = newProject('cli-invalid-state')
-  mkdirSync(join(proj, '.dsh-vibe'), { recursive: true })
-  writeFileSync(join(proj, '.dsh-vibe', 'state.json'), '{not-json\n')
+  mkdirSync(join(proj, '.vibe-init'), { recursive: true })
+  writeFileSync(join(proj, '.vibe-init', 'state.json'), '{not-json\n')
   const before = readFileSync(join(proj, 'AGENTS.md'), 'utf8')
   const result = run(['upgrade', '--project', proj, '--yes'])
   assert.equal(result.code, 1)
   assert.ok(result.err.includes('cannot parse state.json'))
   assert.equal(readFileSync(join(proj, 'AGENTS.md'), 'utf8'), before)
-  assert.equal(readFileSync(join(proj, '.dsh-vibe', 'state.json'), 'utf8'), '{not-json\n')
+  assert.equal(readFileSync(join(proj, '.vibe-init', 'state.json'), 'utf8'), '{not-json\n')
+})
+
+test('schema 1 in the new state path blocks upgrade without writes', () => {
+  const proj = newProject('cli-schema1-state')
+  const statePath = join(proj, '.vibe-init', 'state.json')
+  mkdirSync(dirname(statePath), { recursive: true })
+  const schema1 = JSON.stringify({ schemaVersion: 1, files: [], segments: [] }, null, 2) + '\n'
+  writeFileSync(statePath, schema1)
+  const before = readFileSync(join(proj, 'AGENTS.md'), 'utf8')
+  const result = run(['upgrade', '--project', proj, '--yes'])
+  assert.equal(result.code, 1)
+  assert.ok(result.err.includes('unsupported state schema 1'))
+  assert.equal(readFileSync(join(proj, 'AGENTS.md'), 'utf8'), before)
+  assert.equal(readFileSync(statePath, 'utf8'), schema1)
 })
 
 test('failed toolchain install leaves state uncommitted after files are updated', () => {
   const proj = newProject('cli-install-failure')
   const init = run(['init', '--project', proj, '--yes'])
   assert.equal(init.code, 0)
-  const statePath = join(proj, '.dsh-vibe', 'state.json')
+  const statePath = join(proj, '.vibe-init', 'state.json')
   const before = readFileSync(statePath, 'utf8')
   const fakeBinDir = join(TMP, 'failing-pnpm-bin')
   mkdirSync(fakeBinDir, { recursive: true })
@@ -142,12 +184,12 @@ test('failed toolchain install leaves state uncommitted after files are updated'
   writeFileSync(fakeBin, '#!/bin/sh\necho simulated install failure >&2\nexit 42\n')
   chmodSync(fakeBin, 0o755)
   const result = run(['upgrade', '--project', proj, '--feature', 'docGatesExtras=true', '--yes'], {
-    env: { DSH_VIBE_SKIP_TOOLCHAIN_INSTALL: '0', PATH: fakeBinDir + ':' + process.env.PATH }
+    env: { VIBE_INIT_SKIP_TOOLCHAIN_INSTALL: '0', PATH: fakeBinDir + ':' + process.env.PATH }
   })
   assert.equal(result.code, 1)
   assert.ok(result.err.includes('toolchain dependency install failed'))
   assert.equal(readFileSync(statePath, 'utf8'), before)
-  assert.ok(JSON.parse(readFileSync(join(proj, '.dsh-vibe', 'toolchain', 'package.json'), 'utf8')).scripts['verify-mermaid'])
+  assert.ok(JSON.parse(readFileSync(join(proj, '.vibe-init', 'toolchain', 'package.json'), 'utf8')).scripts['verify-mermaid'])
 })
 
 test('hash runs against a pack copy only and reaches 0 drift', () => {
@@ -161,6 +203,23 @@ test('hash runs against a pack copy only and reaches 0 drift', () => {
   // real pack manifest untouched
   const real = readFileSync(join(REAL_PACK, 'manifest.json'), 'utf8')
   assert.ok(real.includes('"feature-doc-budgets"'))
+})
+
+test('toolchain target mismatch is a pack problem that blocks upgrade', () => {
+  const proj = newProject('cli-pack-target-mismatch')
+  const packCopy = join(TMP, 'pack-target-mismatch')
+  cpSync(REAL_PACK, packCopy, { recursive: true })
+  const specPath = join(packCopy, 'toolchain', 'spec.json')
+  const spec = JSON.parse(readFileSync(specPath, 'utf8'))
+  spec.target = '.vibe-init/other-toolchain'
+  writeFileSync(specPath, JSON.stringify(spec, null, 2) + '\n')
+  const before = readFileSync(join(proj, 'AGENTS.md'), 'utf8')
+  const result = run(['upgrade', '--project', proj, '--pack', packCopy, '--yes'])
+  assert.equal(result.code, 1)
+  assert.ok(result.err.includes('pack problem: toolchain: manifest target must exactly match spec.target'))
+  assert.ok(result.err.includes('upgrade blocked'))
+  assert.equal(readFileSync(join(proj, 'AGENTS.md'), 'utf8'), before)
+  assert.equal(existsSync(join(proj, '.vibe-init')), false)
 })
 
 test('feature override flag reaches segments via CLI', () => {

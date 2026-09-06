@@ -13,7 +13,7 @@ let TMP
 function run(args, opts = {}) {
   const r = spawnSync(process.execPath, [BIN, ...args], {
     encoding: 'utf8', ...opts,
-    env: { ...process.env, DSH_VIBE_SKIP_TOOLCHAIN_INSTALL: '1', ...(opts.env || {}) }
+    env: { ...process.env, VIBE_INIT_SKIP_TOOLCHAIN_INSTALL: '1', ...(opts.env || {}) }
   })
   return { code: r.status, out: r.stdout || '', err: r.stderr || '' }
 }
@@ -32,7 +32,7 @@ test('CLI: default init materializes the docGates toolchain; disable removes it;
   const proj = newProject('cli-tc')
   const init = run(['init', '--project', proj, '--yes'])
   assert.equal(init.code, 0)
-  const home = join(proj, '.dsh-vibe', 'toolchain')
+  const home = join(proj, '.vibe-init', 'toolchain')
   assert.ok(existsSync(join(home, 'package.json')))
   assert.ok(existsSync(join(home, 'scripts', 'verify-md-links.ts')))
   assert.ok(existsSync(join(home, 'scripts', 'install-lefthook.mjs')))

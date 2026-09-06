@@ -59,7 +59,7 @@ before(() => {
   assert.match(help.out, /^vibe-init <command>/)
   assert.equal(existsSync(join(consumer, 'AGENTS.md')), false)
   assert.equal(existsSync(join(consumer, '.agents')), false)
-  assert.equal(existsSync(join(consumer, '.dsh-vibe')), false)
+  assert.equal(existsSync(join(consumer, '.vibe-init')), false)
 })
 
 after(() => {
@@ -77,7 +77,7 @@ test('tarball contains only the standalone CLI runtime and complete rules pack',
   for (const excluded of ['dsh-vibe.mjs', 'cordis.patch.yml', 'cordis.patch.sample.yml', 'bin/dsh-vibe.mjs']) {
     assert.equal(tarballFiles.has(excluded), false, excluded)
   }
-  for (const prefix of ['test/', 'docs/', '.agents/', '.dsh-vibe/', 'node_modules/']) {
+  for (const prefix of ['test/', 'docs/', '.agents/', '.vibe-init/', 'node_modules/']) {
     assert.equal([...tarballFiles].some((path) => path.startsWith(prefix)), false, prefix)
   }
 })
@@ -100,15 +100,18 @@ test('globally installed CLI initializes idempotently and reports status and aud
   const project = join(TMP, 'project')
   mkdirSync(join(project, '.git'), { recursive: true })
   writeFileSync(join(project, 'AGENTS.md'), '## Package consumer\n')
-  const env = { ...globalEnv, DSH_VIBE_SKIP_TOOLCHAIN_INSTALL: '1' }
+  const env = { ...globalEnv, VIBE_INIT_SKIP_TOOLCHAIN_INSTALL: '1' }
 
   const first = run(globalBin, ['init', '--project', project, '--yes'], { cwd: consumer, env })
   assert.equal(first.code, 0, first.err)
   assert.match(first.out, /\[vibe-init\].*applied/)
   assert.equal(existsSync(join(project, '.agents', 'notes', 'README.md')), true)
   assert.equal(existsSync(join(project, '.agents', 'skills', 'code-review', 'SKILL.md')), true)
-  assert.equal(existsSync(join(project, '.dsh-vibe', 'toolchain', 'package.json')), true)
-  assert.equal(existsSync(join(project, '.dsh-vibe', 'state.json')), true)
+  assert.equal(existsSync(join(project, '.vibe-init', 'toolchain', 'package.json')), true)
+  assert.equal(existsSync(join(project, '.vibe-init', 'state.json')), true)
+  const state = JSON.parse(readFileSync(join(project, '.vibe-init', 'state.json'), 'utf8'))
+  assert.equal(state.schemaVersion, 2)
+  assert.equal(state.owner, 'vibe-init')
 
   const second = run(globalBin, ['init', '--project', project, '--yes'], { cwd: consumer, env })
   assert.equal(second.code, 0, second.err)

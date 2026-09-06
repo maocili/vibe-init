@@ -36,7 +36,7 @@
       "target": "AGENTS.md",
       "source": "standing-orders-block.md",
       "mode": "append-under-marker",
-      "sha256": "0f439075172f0e87fdbbcee81155c69430999bc52540bb9259f413f8bbe4010e"
+      "sha256": "7927f6cd0aa8f3d71008992215cf998987b1e3402a67835e33cab1aa5fe66c33"
     },
     {
       "id": "project-docs-agents",
@@ -51,7 +51,7 @@
       "source": "features/text-link-management.md",
       "mode": "append-under-marker",
       "feature": "textLinkManagement",
-      "sha256": "54ff93af414eec4e8f5c454f221bc857a6a298c5e6f9ea956109a1c56fed1015"
+      "sha256": "cfa206195c16bf2e5d1246de81a7f7bd265afcf6e2c2af293ff0aa84ab5f513f"
     },
     {
       "id": "feature-bilingual-docs",
@@ -59,7 +59,7 @@
       "source": "features/bilingual-docs.md",
       "mode": "append-under-marker",
       "feature": "bilingualDocsDiscipline",
-      "sha256": "39eba8f1c590421b65ce4e93d33aedbd0b05fb37ef53be9fba39346191f2320d"
+      "sha256": "e9c4cd1bf66bf72c35a5bdddbf59ad7a1967d0016079c7ef2d1fc7194317901c"
     },
     {
       "id": "feature-doc-budgets",
@@ -67,7 +67,7 @@
       "source": "features/doc-budgets.md",
       "mode": "append-under-marker",
       "feature": "docBudgets",
-      "sha256": "aca42966d405e35bfa26db431f80c94f5d0d744c3f669ed8e151ecd2756fd205"
+      "sha256": "05502808c27aa0d1f9c38c5a65bdfab5b4419f75e4c26b7d54a2bff8a6f6a9f9"
     }
   ],
   "toolchain": {

@@ -28,22 +28,22 @@
       "id": "feature-doc-budgets",
       "target": "AGENTS.md",
       "source": "features/doc-budgets.md",
-      "sourceSha256": "aca42966d405e35bfa26db431f80c94f5d0d744c3f669ed8e151ecd2756fd205",
-      "installedSha256": "fd47a58a0efbd9706ebcfdae9f278b346801c63c159c82ac8825bee6f321461a"
+      "sourceSha256": "05502808c27aa0d1f9c38c5a65bdfab5b4419f75e4c26b7d54a2bff8a6f6a9f9",
+      "installedSha256": "2a93d0f3179910eaf7a3160424d02fab76f8860b39f4062d826e85d89acfd505"
     },
     {
       "id": "feature-text-link-management",
       "target": "AGENTS.md",
       "source": "features/text-link-management.md",
-      "sourceSha256": "54ff93af414eec4e8f5c454f221bc857a6a298c5e6f9ea956109a1c56fed1015",
-      "installedSha256": "d1ca6a2f6c032e877ae9a3d8027dcdb01d9b571edc85da64a7542bc2cbe8e186"
+      "sourceSha256": "cfa206195c16bf2e5d1246de81a7f7bd265afcf6e2c2af293ff0aa84ab5f513f",
+      "installedSha256": "96454cf507de279a50fb5f55ef64ccf3f1ef266601fed05581b37a18c59f1fb5"
     },
     {
       "id": "project-standing-orders-block",
       "target": "AGENTS.md",
       "source": "standing-orders-block.md",
-      "sourceSha256": "0f439075172f0e87fdbbcee81155c69430999bc52540bb9259f413f8bbe4010e",
-      "installedSha256": "3e05ac1eab8654c45a0fba4785fdf15cbd5b30c39dc87c9d5d89096d10972010"
+      "sourceSha256": "7927f6cd0aa8f3d71008992215cf998987b1e3402a67835e33cab1aa5fe66c33",
+      "installedSha256": "cac7485330a5aeed1182bbfc5b07bfa46d02af6446a358757ea0810f86e867fa"
     }
   ],
   "files": [

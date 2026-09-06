@@ -12,7 +12,7 @@
 | D4 双语纪律段默认关 | manifest bilingualDocsDiscipline=false + gating 测试 + CLI 默认段测试 | 达成 |
 | D5 全部技能 = 项目级副本（依赖包式） | default-skills 测试：默认复制/幂等；init 用户编辑冲突不覆盖；upgrade ownership 测试覆盖受管文件刷新与用户新增保留 | 达成 |
 | D6/D7 本文档定案；实现细节记录在 Agent Note | 文档权威关系（AGENTS/REQUIREMENTS/实现设计 Note 头部） | 达成 |
-| D8 根规则块指针式（短块指骨架） | standing-orders-block.md 内容形态 + e2e 物化后根 AGENTS.md 指针文案 | 达成 |
+| D8 `AGENTS.md` 英文单语且根规则块仅保留契约与指针 | 规则包四个根段内容 + root-instructions 回归测试（默认与双语纪律开启）+ e2e 物化结果 | 达成 |
 | D9 双语纪律段独立 key | manifest feature-bilingual-docs 行 feature=bilingualDocsDiscipline | 达成 |
 | D10 docBudgets 默认开 | manifest feature-doc-budgets 行 + gating 测试 + CLI 默认段测试 | 达成 |
 | D11 docGates 伞默认开启、extras 默认关闭 | manifest features + `toolchain/spec.json`；toolchain 测试覆盖默认物化集和 extras opt-in | 达成 |
@@ -42,7 +42,7 @@
 | 里程碑 | 状态 |
 |---|---|
 | M0 引擎 v1.0 对齐 | 已完成 |
-| M1 内容提炼 | 已完成（骨架门规/分类目录/双语三件套/指针根块/三特性段/默认项目 skill，sha256 同步） |
+| M1 内容提炼 | 已完成（骨架门规/分类目录/双语三件套/英文单语指针根块/三特性段/默认项目 skill，sha256 同步） |
 | M1b docGates 工具链 | **已完成（2026-09-04）**：packages/toolchain（scaffold/base/text-link/doc-budgets/bilingual/extras/hooks + spec.json）；引擎组门控物化/组装 package.json/关闭移除；真实验证：临时项目 init→pnpm install→doc-sync exit 0，pre-commit 挂钩由 postinstall 写入且不覆盖外来配置 |
 | M2 真实项目验证 | **已通过（2026-09-03）**：临时项目 init/status/audit 验证绿 |
 | M3 历史宿主分发 | **历史事实（2026-09-05）**：`@maocili/dsh-vibe`、DSH bundle、Cordis plugin 与宿主打包覆盖曾存在，已由 standalone hard cut 移除 |

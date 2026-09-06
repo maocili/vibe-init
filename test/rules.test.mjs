@@ -214,8 +214,8 @@ test('materialized agent content keeps portable internal links', async () => {
   await applyResults(await evaluatePlan(await planProject(pack, proj), {}))
 
   const root = readFileSync(join(proj, 'AGENTS.md'), 'utf8')
-  assert.ok(root.includes('[Agent Note 规则](.agents/notes/README.md)'))
   assert.ok(root.includes('[Agent Note rules](.agents/notes/README.md)'))
+  assert.ok(root.includes('[documentation standard](docs/AGENTS.md)'))
 
   const notes = readFileSync(join(proj, '.agents', 'notes', 'README.md'), 'utf8')
   assert.ok(notes.includes("[project root's AGENTS.md](../../AGENTS.md)"))

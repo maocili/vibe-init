@@ -24,7 +24,7 @@ vibe-init init --yes
 之后可用：
 
 ```bash
-# 检查受管内容、规则包摘要与旧命名空间残留（只读）
+# 检查受管内容、规则包摘要与受管面内意外内容（只读；不探测旧命名空间）
 vibe-init audit
 
 # 将规则包的新版内容迁移到项目（先加 --dry-run 更稳妥）
@@ -65,7 +65,7 @@ vibe-init upgrade \
 | `init` | 为一个项目创建受管面 |
 | `upgrade` | 以同一幂等引擎迁移到规则包当前版本 |
 | `status` | 查看逐项状态，不写盘 |
-| `audit` | `status` 加规则包完整性和旧命名空间残留检查，不写盘 |
+| `audit` | `status` 加规则包完整性和意外内容检查，不写盘（绝不探测旧 `.dsh-vibe/` 命名空间） |
 | `hash --pack packages` | 在修改规则包后刷新规则行与技能资产的 manifest sha256 |
 | `list-skills` | 列出默认安装的项目技能 |
 

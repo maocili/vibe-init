@@ -24,7 +24,7 @@ vibe-init init --yes
 Afterward, you can use:
 
 ```bash
-# 检查受管内容、规则包摘要与旧命名空间残留（只读）
+# 检查受管内容、规则包摘要与受管面内意外内容（只读；不探测旧命名空间）
 vibe-init audit
 
 # 将规则包的新版内容迁移到项目（先加 --dry-run 更稳妥）
@@ -65,7 +65,7 @@ Each project stores the pack version, feature configuration, markers, and source
 | `init` | Create the managed surface for a project |
 | `upgrade` | Migrate to the current rule-pack version with the same idempotent engine |
 | `status` | Show itemized status without writing to disk |
-| `audit` | Run `status` plus rule-pack integrity and old-namespace residue checks without writing to disk |
+| `audit` | Run `status` plus rule-pack integrity and unexpected-content checks without writing to disk (the old `.dsh-vibe/` namespace is never inspected) |
 | `hash --pack packages` | Refresh manifest sha256 values for rule lines and skill assets after modifying the rule pack |
 | `list-skills` | List the project skills installed by default |
 

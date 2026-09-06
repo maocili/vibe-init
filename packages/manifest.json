@@ -36,14 +36,14 @@
       "target": "AGENTS.md",
       "source": "standing-orders-block.md",
       "mode": "append-under-marker",
-      "sha256": "36b3b7583fcec0c724a965134da30d4850f8ca72dbc75bf44461f1e5f4ada45e"
+      "sha256": "0f439075172f0e87fdbbcee81155c69430999bc52540bb9259f413f8bbe4010e"
     },
     {
       "id": "project-docs-agents",
       "target": "docs/AGENTS.md",
       "source": "docs/AGENTS.md",
       "feature": "docBudgets",
-      "sha256": "9feec5c489088409d5aa8eb3902a770229460cddbc442941c76b3246f5c6d54c"
+      "sha256": "146e1f82032c18a9fe1489a50e4b83f803dafb6739a56f49ae137574926a5883"
     },
     {
       "id": "feature-text-link-management",
@@ -51,7 +51,7 @@
       "source": "features/text-link-management.md",
       "mode": "append-under-marker",
       "feature": "textLinkManagement",
-      "sha256": "1b43846b3a21fbf30576fbfb08365d41d8415301f269493e478d460f12e6c4ca"
+      "sha256": "54ff93af414eec4e8f5c454f221bc857a6a298c5e6f9ea956109a1c56fed1015"
     },
     {
       "id": "feature-bilingual-docs",
@@ -59,7 +59,7 @@
       "source": "features/bilingual-docs.md",
       "mode": "append-under-marker",
       "feature": "bilingualDocsDiscipline",
-      "sha256": "e960fe2d04cd07304a67bd8af91ecb6b4d6ee4067282613d1c692504ca697dd9"
+      "sha256": "39eba8f1c590421b65ce4e93d33aedbd0b05fb37ef53be9fba39346191f2320d"
     },
     {
       "id": "feature-doc-budgets",
@@ -67,7 +67,7 @@
       "source": "features/doc-budgets.md",
       "mode": "append-under-marker",
       "feature": "docBudgets",
-      "sha256": "ee92a01090074707375014c642a76435c263e8e97d87e702c7ea127e4eeba83e"
+      "sha256": "aca42966d405e35bfa26db431f80c94f5d0d744c3f669ed8e151ecd2756fd205"
     }
   ],
   "toolchain": {
@@ -101,7 +101,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "c9e191efe0d9d8a5bb07b68859660f31b741cd6166b8e50b79d0decfc25523a4"
+          "sha256": "5e5e96596325357284240d10161b11645df54f72d2762effa60be8dad8505c78"
         },
         {
           "path": "agents/openai.yaml",
@@ -114,7 +114,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "6934bc14f4643c664a88c62036fbfb911293a06f06ff1d0f63ba20c920caf6fb"
+          "sha256": "7731f562bca59dd4c73a1e55f304aa8beea8e9a59835b313e593fc4d469c67fb"
         },
         {
           "path": "agents/openai.yaml",
@@ -140,7 +140,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "eb25a9add49f0b54059fc0c28277f5a303e5e8a7fce48421d60569cf72f654e7"
+          "sha256": "62212fa8a78932597b890fdba2dd4f61c9337155a0ad14adda1cb7aa3a19b83a"
         },
         {
           "path": "agents/openai.yaml",
@@ -153,7 +153,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "79c2bc0fa90d940a0f34c031b243b0ae0fd00fc3cb9c297fae753087302679f3"
+          "sha256": "28e35cf4d25dc2c6e9a6b20ecba15fccb6fe32858963ffc179f93f48d9e4792f"
         },
         {
           "path": "agents/openai.yaml",
@@ -192,7 +192,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "df83c81e7781961d79bbc879e0e2d53783257fdfed3f3100f4b66e9335d7020a"
+          "sha256": "a2e766eda8f76c426c87ad1ea53f46b0c8c4cd9fad22cec298f31e836456a3dd"
         },
         {
           "path": "agents/openai.yaml",
@@ -226,7 +226,7 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "6da763d23924e4357fea1a41f1a275d2e498e1400118927609e8491df1920a8f"
+          "sha256": "caaacfba641c5535ae0df3e10518b1340a468c2c9f65a62fbac1b2cbd7abb67a"
         },
         {
           "path": "agents/openai.yaml",

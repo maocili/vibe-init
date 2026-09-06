@@ -9,7 +9,7 @@ import { existsSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { agentCorpusRoot, findReferenceViolations, uniqueRepoFiles, type ReferenceViolation as Violation } from './repo-files.ts'
 
-// dsh-vibe distilled: scan the project root (the dir holding `.agents`).
+// vibe-init distilled: scan the project root (the dir holding `.agents`).
 const root = agentCorpusRoot()
 
 /** Repo-authored TypeScript that may cite docs in comments. */

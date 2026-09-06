@@ -41,7 +41,7 @@ import {
 import { agentCorpusRoot } from './repo-files.ts'
 
 const home = resolve(import.meta.dirname, '..')
-// dsh-vibe distilled: corpus/manifest live beside the gates (toolchain home); the brief targets project docs.
+// vibe-init distilled: corpus/manifest live beside the gates (toolchain home); the brief targets project docs.
 const root = agentCorpusRoot()
 const manifest = parseTranslationPairingManifest(readFileSync(join(home, 'scripts/translation-pairing.manifest.json'), 'utf8'))
 const terminology = readFileSync(join(home, 'docs/i18n/terminology.md'), 'utf8')

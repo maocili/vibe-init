@@ -1,6 +1,6 @@
 ---
 name: archive-agent-notes
-description: Use when adding, auditing, pruning, archiving, restoring, or reviewing Agent Notes in a project initialized by dsh-vibe; classify future value, resolve supersession, and preserve the archive's sealed triplet and manifest rules.
+description: Use when adding, auditing, pruning, archiving, restoring, or reviewing Agent Notes in a project initialized by vibe-init; classify future value, resolve supersession, and preserve the archive's sealed triplet and manifest rules.
 ---
 
 # Archive Agent Notes
@@ -93,12 +93,12 @@ complete declared record or triplet, with all inbound links repaired or removed.
 Run the focused archive verifier, the project's documentation gate, applicable configured lint or static
 checks, and the narrowest checks selected from the changed scope. If a required verifier or gate is
 missing or fails, stop, report the exact unavailable or failing check, and do not claim that sealing or
-validation succeeded. In a dsh-vibe project, invoke package scripts through
-`.dsh-vibe/toolchain` (or the project's declared equivalent), including
-`pnpm -C .dsh-vibe/toolchain run verify-archived-agent-notes` and the relevant `lint` or `doc-sync`
+validation succeeded. In a vibe-init project, invoke package scripts through
+`.vibe-init/toolchain` (or the project's declared equivalent), including
+`pnpm -C .vibe-init/toolchain run verify-archived-agent-notes` and the relevant `lint` or `doc-sync`
 script. Run `git diff --check` separately because it is not a package script. Report implemented notes
 kept or archived, rejected notes kept or deleted, proposed notes rejected if any, and each genuinely
 borderline outcome. Use [pre-push-checks](../pre-push-checks/SKILL.md) for supplemental evidence
 selection when the change is headed for publication. Include pass/fail evidence for every check,
-including `lint` when exposed by the dsh-vibe toolchain. Do not claim archived outbound links are valid
+including `lint` when exposed by the vibe-init toolchain. Do not claim archived outbound links are valid
 when the archive verifier intentionally leaves them unchecked.

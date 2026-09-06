@@ -160,8 +160,6 @@ export const TRANSLATION_SCOPE_GLOB_EXCLUDES = [
   '**/.pytest_cache/**',
   'apps/web/dist/**',
   '.artifacts/**',
-  'python/sdk-runtime/src/deepseek_harness_runtime/runtime/dsh-jsonrpc-agent-*/**',
-  'python/sdk-runtime/src/deepseek_harness_runtime/runtime/node/**',
   'vendor/**',
 ]
 
@@ -172,14 +170,11 @@ function isTranslationSourceExcluded(file: string): boolean {
       || segment.startsWith('.doc-typecheck-')
     || segment.startsWith('.node-next-types-'))
     || file.startsWith('apps/web/dist/')
-    || file.startsWith('python/sdk-runtime/src/deepseek_harness_runtime/runtime/dsh-jsonrpc-agent-')
-    || file.startsWith('python/sdk-runtime/src/deepseek_harness_runtime/runtime/node/')
 }
 
 /** Whether one discovered Markdown or sidecar path belongs to the bilingual source corpus. */
-// dsh-vibe distilled: scope covers project docs/README/contributing only. Agent Notes under
-// .agents/notes keep their own (lighter, optional-bilingual) discipline in this pack, and the
-// deepseek-harness-specific python/ corpus is out of scope for consumers.
+// vibe-init scope covers project docs/README/contributing only. Agent Notes under
+// .agents/notes keep their own (lighter, optional-bilingual) discipline in this pack.
 export function isTranslationScopeFile(file: string): boolean {
   return !file.startsWith('.agents/notes/')
     && !isTranslationSourceExcluded(file) && (README_ARTIFACT.test(file)
@@ -303,11 +298,9 @@ export function parseTranslationMarkdown(content: string): Nodes {
   return fromMarkdown(content, { extensions: [gfm()], mdastExtensions: [gfmFromMarkdown()] })
 }
 
-const PUBLIC_REPOSITORY_BLOB_ROOT = 'https://github.com/deepseek-ai/deepseek-harness/blob/master/'
-
-/** Return the accepted relative and public-repository links to one counterpart. */
+/** Return the accepted relative link to one counterpart. */
 export function languageSwitcherTargets(counterpart: string): string[] {
-  return [basename(counterpart), `${PUBLIC_REPOSITORY_BLOB_ROOT}${counterpart}`]
+  return [basename(counterpart)]
 }
 
 /** Whether the tree contains a link to any accepted target. */
@@ -328,13 +321,6 @@ export function requiresSourceLanguageSwitcher(source: string): boolean {
     'docs/agent-lifecycle.md',
     'docs/capability-seams.md',
     'docs/config-catalog.md',
-    'docs/cordis-api/context.md',
-    'docs/cordis-api/events.md',
-    'docs/cordis-api/fiber.md',
-    // Excluded from pairing, but kept here for generated-category completeness and direct spec coverage.
-    'docs/cordis-api/inherited.md',
-    'docs/cordis-api/registry.md',
-    'docs/cordis-api/service.md',
     'docs/event-producer-consumer.md',
     'docs/graph-atlas.md',
     'docs/module-graph.md',

@@ -25,7 +25,7 @@
 | MCP | MCP | | | |
 | PR | PR | PR（Pull Request） | | |
 | RAG | RAG | RAG（检索增强生成） | | |
-| SDK | SDK | | | 只指受支持的 Python 与 TypeScript SDK 所使用的 JSON-RPC 客户端／服务器协议；DeepSeek Harness 项目本身不是 SDK |
+| SDK | SDK | | | 只指受支持的 Python 与 TypeScript SDK 所使用的 JSON-RPC 客户端／服务器协议；本工具本身不是 SDK |
 | SSE | SSE | SSE（Server-Sent Events） | | |
 
 ## 英文类（中英文文本中均使用英文）
@@ -38,7 +38,7 @@
 | agent loop | agent loop | agent loop（智能体循环） | | |
 | blob hash | blob hash | | | `git hash-object` 的结果 |
 | coding agent | coding agent | coding agent（编程智能体） | | agent 组合词，正文保留英文 |
-| Cordis | Cordis | | | |
+| Cordis | Cordis | | | 通用插件运行时名称；仅在明确的通用语境中使用 |
 | dispose | dispose | dispose（资源释放） | | |
 | doc-sync | doc-sync | doc-sync（文档同步门禁） | | |
 | fiber | fiber | | | |
@@ -56,7 +56,7 @@
 | Round | Round | | 回合、目标回合、Ralph 回合 | 外层策略使用 Round 时，领域层级为 Session > Round > Turn（轮次） > Step（步骤）；Round 是可选的外层策略迭代，并非每个会话轮次都具有的通用层级。Goal Round 与 Ralph Round 均保留英文。一个 Round 承载一个轮次，步骤隶属于该轮次；明确的零步骤轮次仍保持原义。 |
 | schema | schema | | | |
 | schema DSL | schema DSL | | | |
-| seam | seam | | 接缝 | 一个可替换能力的整体，包含 Service Definition / Service Provider / Consumer 三种角色；角色需要独立演化时才拆包，也可由同一包承担多个角色。以 `packages/shell` 为范例；Service Definition 是 Cordis `Service`（抽象类或具体 registry 服务），不是 TypeScript interface。任何单一角色、普通边界或扩展点都不能称为 seam。本仓库正文保留英文；与 `extension point` 是不同概念 |
+| seam | seam | | 接缝 | 一个可替换能力的整体，包含 Service Definition / Service Provider / Consumer 三种角色；角色需要独立演化时才拆包，也可由同一包承担多个角色。Service Definition 是运行时 `Service`（抽象类或具体 registry 服务），不是 TypeScript interface。任何单一角色、普通边界或扩展点都不能称为 seam。本仓库正文保留英文；与 `extension point` 是不同概念 |
 | Service Provider | Service Provider | | Service provider | 能力 seam 的命名角色；单数固定写作 Service Provider，复数写作 Service Providers。泛指提供服务的 provider 不适用本词条 |
 | skill | skill | skill（技能） | | |
 | slot | slot | | 坑位、孔位 | 客户端架构中的具名可注册位置，保留英文 |
@@ -66,7 +66,7 @@
 | job id | job id | | 任务 id | 保留英文 |
 | subagent | subagent | | | |
 | transcript | transcript | transcript（文本记录） | | 指会话渲染给用户或编辑器的完整文本，区别于事件日志 |
-| Typert | Typert | | TypeRT、typeRT、Type RT | DeepSeek Harness 类型图、生成器、loader 与运行时 registry 的产品拼写 |
+| Typert | Typert | | TypeRT、typeRT、Type RT | 类型图、生成器、loader 与运行时 registry 的专有拼写 |
 | waterfall | waterfall | waterfall（瀑布式事件） | | |
 | wheel | wheel 包 | | | Python 打包格式 |
 | worktree | worktree | | | git 工作区概念 |
@@ -106,8 +106,8 @@
 | compaction | 压缩 | 压缩（compaction） | | |
 | companion tool | 配套工具 | | | |
 | composition bundle | 组合包 | | | 只约束应用或插件的组合语境，不约束所有 `bundle` |
-| Cordis plugin config | Cordis 插件配置 | | | Cordis 插件公开的 `Config` 对象或配置结构 |
-| config key | 配置键 | | | Cordis 插件配置中的单个字段 |
+| plugin config | 插件配置 | | | 插件公开的 `Config` 对象或配置结构 |
+| config key | 配置键 | | | 插件配置中的单个字段 |
 | consumer | 消费方 | | 消费者 | |
 | content block | 内容块 | | | |
 | Cookbook | 实操手册 | | | 文档标题用语 |
@@ -116,8 +116,7 @@
 | configurable-provider directory | 可配置提供方目录 | | | llm seam 中 `registerConfigurableProviders()` 维护的目录；沿用 Service Catalog →「服务目录」先例 |
 | context compaction | 上下文压缩 | 上下文压缩（context compaction） | | |
 | contract | 约定 | | | 如：`pairing contract` →`配对约定` |
-| Cordis config entry | Cordis 配置项 | | | 指 `cordis.yml` 插件列表中的一项；插件实现本身写`Cordis 插件` |
-| Cordis plugin | Cordis 插件 | | | Cordis 加载的插件实现，不指 `cordis.yml` 中的一项配置 |
+| plugin config entry | 插件配置项 | | | 指插件配置列表中的一项；插件实现本身写「插件」 |
 | crash recovery | 崩溃恢复 | | | |
 | deploy root | 部署根目录 | | | |
 | dormant | 休眠 | | 睡眠、蛰伏 | 指已声明可配置但当前未注册路由的提供方 |
@@ -158,14 +157,14 @@
 | opt-out ratio | opt-out 比例 | | 退出检查比例 | |
 | orphan | 遗留 | | 孤儿、孤立 | 指英文源已不存在的 `.zh.md`（如「遗留译文」）；进程语境按 OS 惯用语译「孤儿进程」 |
 | orphan branch | 孤立分支 | | 孤儿分支 | 沿用 git 官方中文翻译 |
-| package | 包 | | | 指 npm 包（`@deepseek-ai/dsh-*`）；`package.json` 等代码标识保持原样 |
+| package | 包 | | | 指 npm 包；`package.json` 等代码标识保持原样 |
 | pairing | 配对 | | | |
 | parent-subset grants | 父级子集授权 | | 父集合授权 | 指授权范围仅限于父级所持授权的子集 |
 | peer dependency | 对等依赖 | 对等依赖（peer dependency） | | |
 | permission | 权限 | | | |
 | persistence | 持久化 | | | |
 | pipeline | 流水线 | | | |
-| plugin | 插件 | | | |
+| plugin | 插件 | | | 通用扩展组件；不暗示特定产品或运行时 |
 | postmortem | 事故复盘 | 事故复盘（postmortem） | 事后分析、事故记录 | 事故记录与分析文档；目录或路径中的 `postmortem` 保持代码形式 |
 | prompt | 提示词 | | | |
 | provider | 提供方 | | | |

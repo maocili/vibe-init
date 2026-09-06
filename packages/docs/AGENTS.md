@@ -22,7 +22,7 @@ context.
 
 ## Wordcount budgets
 
-The [budget manifest](../.dsh-vibe/toolchain/scripts/doc-budgets.manifest.json) sets mechanical
+The [budget manifest](../.vibe-init/toolchain/scripts/doc-budgets.manifest.json) sets mechanical
 ceilings for standing documents. Current ceilings are 1900 words for the root `AGENTS.md` and 1320
 words for this file. These are guardrails, not reduction targets.
 
@@ -35,7 +35,7 @@ Agent Notes, code comments, and generated toolchain files are outside this docum
 they are explicitly listed in the manifest. Run the gate from the project root:
 
 ```bash
-pnpm -C .dsh-vibe/toolchain run verify-doc-budgets --list
+pnpm -C .vibe-init/toolchain run verify-doc-budgets --list
 ```
 
 This instruction file is maintained in English only like the root `AGENTS.md`; the bilingual pairing

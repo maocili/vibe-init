@@ -14,8 +14,8 @@ import { markdownFences } from './markdown.ts'
 import { partitionPairedMarkdownDerivatives } from './paired-markdown-derivatives.ts'
 import { agentCorpusRoot, isArchivedAgentNotePath } from './repo-files.ts'
 
-// dsh-vibe distilled: gates scan the project root (the dir holding `.agents`), not
-// the script's own parent — consumers run them from `.dsh-vibe/toolchain`.
+// vibe-init distilled: gates scan the project root (the dir holding `.agents`), not
+// the script's own parent — consumers run them from `.vibe-init/toolchain`.
 const root = agentCorpusRoot()
 const agentsRoot = relative(root, resolve(root, '.agents'))
 const home = resolve(import.meta.dirname, '..')
@@ -25,7 +25,7 @@ const home = resolve(import.meta.dirname, '..')
  * counted in the opt-out ratio; the catalog and type-equivalence variants are
  * excluded from that ratio because their owning gates verify them.
  */
-type BlockKind = 'check' | 'ignore' | 'type-equiv' | 'cordis-catalog' | 'persistence-catalog' | 'config-catalog'
+type BlockKind = 'check' | 'ignore' | 'type-equiv' | 'persistence-catalog' | 'config-catalog'
 
 /** One extracted code block. */
 interface Block {
@@ -42,7 +42,6 @@ const KIND_BY_INFO: Record<string, BlockKind> = {
   'ts ignore-check': 'ignore',
   'ts type-equiv': 'type-equiv',
   'ts public-api': 'type-equiv',
-  'ts cordis-catalog': 'cordis-catalog',
   'ts persistence-catalog': 'persistence-catalog',
   'ts config-catalog': 'config-catalog',
 }
@@ -233,7 +232,7 @@ if (checked.length === 0) {
   process.exit(0)
 }
 
-const useBuiltTypes = process.env.DSH_DOC_TYPECHECK_USE_BUILD_OUTPUT === '1'
+const useBuiltTypes = process.env.VIBE_INIT_DOC_TYPECHECK_USE_BUILD_OUTPUT === '1'
 const compilationError = useBuiltTypes
   ? (() => {
     const diagnostics = compileBlocksAgainstBuiltTypes(checked)

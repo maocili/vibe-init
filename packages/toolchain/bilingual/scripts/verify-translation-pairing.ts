@@ -33,8 +33,8 @@ import {
   translationStructureSignature,
 } from './translation-pairing.ts'
 
-// dsh-vibe distilled: gates scan the project root (the dir holding `.agents`), not
-// the script's own parent — consumers run them from `.dsh-vibe/toolchain`.
+// vibe-init distilled: gates scan the project root (the dir holding `.agents`), not
+// the script's own parent — consumers run them from `.vibe-init/toolchain`.
 const root = agentCorpusRoot()
 const agentsRoot = relative(root, resolve(root, '.agents'))
 /** Strip a leading `../` so scope/exclusion decisions see git-root-relative paths. */
@@ -75,7 +75,7 @@ const SCOPE_PATTERNS = [
   agentsRoot + '/notes/**/*.i18n.yaml',
 ]
 
-// dsh-vibe distilled: the pairing manifest lives beside the gates (toolchain home).
+// vibe-init distilled: the pairing manifest lives beside the gates (toolchain home).
 const manifestContent = readFileSync(resolve(import.meta.dirname, '..', 'scripts/translation-pairing.manifest.json'), 'utf8')
 const manifest = parseTranslationPairingManifest(manifestContent)
 

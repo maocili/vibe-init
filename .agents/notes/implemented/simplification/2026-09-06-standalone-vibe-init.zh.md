@@ -30,7 +30,7 @@ Status: implemented
 
 ### Retained design
 
-确定性的 `plan` → `evaluate` → `apply` 分层继续作为实现边界。dry run 和所有只读报告都会 evaluate 与写入操作相同的 plan。`packages/` 继续作为规则、笔记骨架、技能、特性和工具链内容唯一的版本化来源；运行时代码不得重复这些内容。
+确定性的 `plan` → `evaluate` → `apply` 分层继续作为实现边界。dry run 和所有只读报告都会 evaluate 与写入操作相同的 plan。`packages/` 继续作为规则、笔记骨架、技能、特性和工具链内容唯一的版本化来源；运行时代码不得重复这些内容。物化工具链中的双语提示语料和配对 manifest 由工具链负责，并从 `.vibe-init/toolchain/` 解析；项目文档继续从项目根目录解析。
 
 冲突保护也继续保留。初始化不覆盖外来内容，更新根据新状态记录和 content hash 区分工具拥有的内容与用户改动。格式错误或重复的新 marker 段，以及用户修改过的受管文件，会阻止对应写入而非被覆盖。这些保护只适用于新命名空间，不检查旧资产。
 

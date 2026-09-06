@@ -72,8 +72,8 @@
       "path": ".agents/notes/README.i18n.yaml",
       "kind": "notes-explainer",
       "source": "notes-skeleton/README.i18n.yaml",
-      "sourceSha256": "84cc48e930a4d29d4155035390bc5cfd39d2b03b87dc1fe49ad4f6545f0578ed",
-      "installedSha256": "84cc48e930a4d29d4155035390bc5cfd39d2b03b87dc1fe49ad4f6545f0578ed"
+      "sourceSha256": "6a8671b932b58270b1773f539c4b7e86f71e0293bc6d19bc7c5ea8af28d76a33",
+      "installedSha256": "6a8671b932b58270b1773f539c4b7e86f71e0293bc6d19bc7c5ea8af28d76a33"
     },
     {
       "path": ".agents/notes/README.md",

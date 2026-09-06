@@ -3,7 +3,7 @@
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
-import { cpSync, mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync } from 'node:fs'
+import { cpSync, mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync, readdirSync, symlinkSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { cleanSource, loadPack, hashPack } from '../lib/pack.mjs'
@@ -397,6 +397,23 @@ test('upgrade removes only unmodified state-owned stale files and preserves modi
   assert.ok(readFileSync(join(changedProj, staleRel), 'utf8').includes('user change'))
 })
 
+test('legacy toolchain scan tolerates package-manager symlinks in node_modules', async () => {
+  const proj = fixtureProject('upgrade-legacy-node-modules')
+  writeFileSync(join(proj, 'AGENTS.md'), '## Product\n')
+  const home = join(proj, '.vibe-init', 'toolchain')
+  mkdirSync(join(home, 'node_modules', '.pnpm'), { recursive: true })
+  mkdirSync(join(proj, 'external-store'), { recursive: true })
+  symlinkSync(join(proj, 'external-store'), join(home, 'node_modules', '.pnpm', 'linked-pkg'), 'dir')
+  writeFileSync(join(home, 'legacy-user.ts'), 'user tool\n')
+  const pack = await loadPack(REAL_PACK)
+  const plan = await planProject(pack, proj, { mode: 'upgrade' })
+  const results = await evaluatePlan(plan, {})
+  assert.equal(plan.stateInfo.state, null)
+  assert.equal(results.find((r) => r.label === '.vibe-init/toolchain/legacy-user.ts').action, 'conflict')
+  // package-manager content is never reported as a legacy conflict nor walked for containment
+  assert.equal(results.find((r) => r.label && r.label.includes('node_modules')), undefined)
+})
+
 test('upgrade legacy migration reports ambiguous files, never deletes them, and creates state', async () => {
   const proj = fixtureProject('upgrade-legacy')
   writeFileSync(join(proj, 'AGENTS.md'), '## Product\n')
@@ -580,6 +597,8 @@ test('hashPack refreshes sha256 after a pack source changes', async () => {
   const packDir = makePack()
   const target = join(packDir, 'standing-orders-block.md')
   writeFileSync(target, readFileSync(target, 'utf8') + '\nchanged\n')
+  const drifted = await loadPack(packDir)
+  assert.ok(drifted.problems.some((problem) => problem.includes('project-standing-orders-block') && problem.includes('sha256 drift')))
   const out = await hashPack(packDir)
   assert.ok(out.changed >= 1)
   const pack = await loadPack(packDir)
@@ -680,6 +699,109 @@ test('loadPack excludes unsafe row paths and accepts nested targets', async () =
   assert.ok(pack.problems.some((problem) => problem.includes('unsafe-target') && problem.includes('target')))
 })
 
+test('loadPack excludes escaping row, skill, and toolchain symlinks without reading them', async () => {
+  const cases = [
+    ['row', (packDir, outside) => {
+      const source = join(packDir, 'standing-orders-block.md')
+      rmSync(source)
+      symlinkSync(join(outside, 'secret.md'), source)
+    }],
+    ['skill', (packDir, outside) => {
+      const source = join(packDir, 'skills', 'prose-standard', 'references', 'examples.md')
+      rmSync(source)
+      symlinkSync(join(outside, 'secret.md'), source)
+    }],
+    ['toolchain', (packDir, outside) => {
+      const source = join(packDir, 'toolchain', 'text-link', 'scripts', 'verify-md-links.ts')
+      rmSync(source)
+      symlinkSync(join(outside, 'secret.md'), source)
+    }]
+  ]
+  for (const [name, mutate] of cases) {
+    const packDir = makePack()
+    const outside = join(TMP, 'outside-pack-link-' + name)
+    mkdirSync(outside, { recursive: true })
+    writeFileSync(join(outside, 'secret.md'), 'outside secret ' + name + '\n')
+    mutate(packDir, outside)
+    const before = readFileSync(join(outside, 'secret.md'), 'utf8')
+    const pack = await loadPack(packDir)
+    assert.ok(pack.problems.some((problem) => /unsafe|real root/.test(problem)), name)
+    if (name === 'row') assert.equal(pack.rows.some((row) => row.id === 'project-standing-orders-block'), false)
+    if (name === 'skill') assert.equal(pack.skills.some((skill) => skill.name === 'prose-standard'), false)
+    if (name === 'toolchain') assert.equal(pack.toolchain.groups.some((group) => group.id === 'text-link'), false)
+    const hashed = await hashPack(packDir)
+    assert.ok(hashed.problems.length > 0, name)
+    assert.equal(readFileSync(join(outside, 'secret.md'), 'utf8'), before, name)
+  }
+})
+
+test('loadPack accepts a row source symlink that resolves inside the pack', async () => {
+  const packDir = makePack()
+  const alias = join(packDir, 'safe-source-alias.md')
+  symlinkSync('standing-orders-block.md', alias)
+  const manifestPath = join(packDir, 'manifest.json')
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
+  const original = manifest.files.find((row) => row.id === 'project-standing-orders-block')
+  manifest.files.push({ ...original, id: 'safe-source-alias', source: 'safe-source-alias.md', target: 'nested/safe.md' })
+  writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n')
+  const pack = await loadPack(packDir)
+  assert.ok(pack.rows.some((row) => row.id === 'safe-source-alias'))
+  assert.equal(pack.problems.some((problem) => problem.includes('safe-source-alias')), false)
+})
+
+test('project planning rejects pre-existing target and ancestor symlink escapes', async () => {
+  const pack = await loadPack(REAL_PACK)
+  const cases = [
+    ['AGENTS.md', 'file'],
+    ['docs/AGENTS.md', 'file'],
+    ['.agents/notes', 'dir'],
+    ['.agents/skills', 'dir'],
+    ['.vibe-init/toolchain', 'dir']
+  ]
+  for (const [rel, kind] of cases) {
+    const proj = fixtureProject('target-link-' + rel.replaceAll('/', '-'))
+    const outside = join(TMP, 'outside-target-' + rel.replaceAll('/', '-'))
+    mkdirSync(outside, { recursive: true })
+    const target = kind === 'file' ? join(outside, 'sentinel.txt') : outside
+    if (kind === 'file') writeFileSync(target, 'outside sentinel\n')
+    const link = join(proj, rel)
+    mkdirSync(dirname(link), { recursive: true })
+    if (existsFile(link)) rmSync(link)
+    symlinkSync(target, link)
+    await assert.rejects(() => planProject(pack, proj, { mode: 'init' }), /project target confinement failed/)
+    if (kind === 'file') assert.equal(readFileSync(target, 'utf8'), 'outside sentinel\n')
+    else assert.deepEqual(readdirSync(outside), [])
+  }
+})
+
+test('state-derived stale removal rejects a symlinked managed ancestor', async () => {
+  const project = fixtureProject('state-stale-link')
+  const packDir = join(TMP, 'synthetic-state-pack')
+  mkdirSync(packDir, { recursive: true })
+  const hash = 'a'.repeat(64)
+  await writeProjectState(project, {
+    schemaVersion: 2,
+    owner: 'vibe-init',
+    packVersion: 'old',
+    features: { optionalSkills: [] },
+    segments: [],
+    files: [{
+      path: '.vibe-init/toolchain/stale.txt',
+      kind: 'toolchain',
+      source: 'toolchain/stale.txt',
+      sourceSha256: hash,
+      installedSha256: hash
+    }]
+  })
+  const outside = join(TMP, 'outside-state-stale')
+  mkdirSync(outside, { recursive: true })
+  writeFileSync(join(outside, 'stale.txt'), 'outside stale sentinel\n')
+  symlinkSync(outside, join(project, '.vibe-init', 'toolchain'))
+  const pack = { dir: packDir, version: 'new', features: { optionalSkills: [] }, rows: [], skills: [], toolchain: null, problems: [], manifest: {} }
+  await assert.rejects(() => planProject(pack, project, { mode: 'upgrade' }), /state file.*path escapes real root/)
+  assert.equal(readFileSync(join(outside, 'stale.txt'), 'utf8'), 'outside stale sentinel\n')
+})
+
 test('engine rejects synthetic pack targets outside the project root', async () => {
   const project = fixtureProject('synthetic-escape')
   const outside = join(dirname(project), 'escape.txt')
@@ -688,6 +810,7 @@ test('engine rejects synthetic pack targets outside the project root', async () 
     rows: [{ id: 'escape', rel: 'source.md', sourceAbs: join(TMP, 'source.md'), target: '../escape.txt', mode: 'copy', feature: null, actualSha256: '' }],
     toolchain: null, problems: [], manifest: {}
   }
+  mkdirSync(pack.dir, { recursive: true })
   writeFileSync(pack.rows[0].sourceAbs, 'secret\n')
   await assert.rejects(() => planProject(pack, project, { mode: 'init' }), /unsafe pack project target|escapes project root/)
   assert.equal(existsFile(outside), false)
@@ -699,6 +822,21 @@ test('resolveProjectRoot stops at the nearest .git', async () => {
   mkdirSync(outer, { recursive: true })
   const root = await resolveProjectRoot(outer)
   assert.equal(root, inner)
+})
+
+test('a caller symlink to the selected project root remains supported', async () => {
+  const project = fixtureProject('root-through-symlink')
+  const alias = join(TMP, 'root-through-symlink-alias')
+  const sub = join(project, 'sub')
+  mkdirSync(sub, { recursive: true })
+  symlinkSync(project, alias)
+  const root = await resolveProjectRoot(join(alias, 'sub'))
+  assert.equal(root, alias)
+  const pack = await loadPack(REAL_PACK)
+  const plan = await planProject(pack, root, { mode: 'init' })
+  assert.ok(plan.entries.every((entry) => !entry.targetAbs || entry.targetAbs === alias || entry.targetAbs.startsWith(alias + '/')))
+  await applyResults(await evaluatePlan(plan, {}))
+  assert.ok(existsFile(join(project, '.agents', 'notes', 'README.md')))
 })
 
 function existsFile(p) {

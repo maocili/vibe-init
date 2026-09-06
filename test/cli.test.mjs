@@ -4,7 +4,7 @@
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { cpSync, mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync, existsSync, chmodSync } from 'node:fs'
+import { cpSync, mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync, existsSync, chmodSync, lstatSync, readdirSync, readlinkSync, symlinkSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { installToolchainIfNeeded } from '../lib/cli.mjs'
@@ -30,6 +30,19 @@ function newProject(name) {
   mkdirSync(join(dir, '.git'), { recursive: true })
   writeFileSync(join(dir, 'AGENTS.md'), '## Demo project\n')
   return dir
+}
+
+function snapshotTree(root, prefix = '') {
+  const rows = []
+  for (const name of readdirSync(root).sort()) {
+    const abs = join(root, name)
+    const rel = prefix ? prefix + '/' + name : name
+    const st = lstatSync(abs)
+    if (st.isSymbolicLink()) rows.push(rel + ' -> ' + readlinkSync(abs))
+    else if (st.isDirectory()) rows.push(rel + '/', ...snapshotTree(abs, rel))
+    else rows.push(rel + ': ' + readFileSync(abs, 'utf8'))
+  }
+  return rows
 }
 
 test('help lists project-only command surface; unknown command exits 2', () => {
@@ -93,17 +106,42 @@ test('old pack environment override is ignored', () => {
 })
 
 test('upgrade installs toolchain dependencies when package composition changes', async () => {
+  const project = newProject('install-helper')
+  const toolchainHome = join(project, '.vibe-init', 'toolchain')
+  mkdirSync(toolchainHome, { recursive: true })
   let call = null
   await installToolchainIfNeeded(
-    { requiresInstall: true, toolchainHome: '/tmp/example/.vibe-init/toolchain' },
-    '/tmp/example',
+    { requiresInstall: true, toolchainHome },
+    project,
     async (...args) => { call = args; return { stdout: '', stderr: '' } }
   )
-  assert.deepEqual(call.slice(0, 2), ['pnpm', ['-C', '/tmp/example/.vibe-init/toolchain', 'install']])
-  assert.equal(call[2].cwd, '/tmp/example')
+  assert.deepEqual(call.slice(0, 2), ['pnpm', ['-C', toolchainHome, 'install']])
+  assert.equal(call[2].cwd, project)
+})
+
+test('toolchain dependency install tolerates package-manager store symlinks in node_modules', async () => {
+  const project = newProject('install-node-modules')
+  const toolchainHome = join(project, '.vibe-init', 'toolchain')
+  const store = join(project, 'external-pnpm-store')
+  mkdirSync(join(toolchainHome, 'node_modules', '.bin'), { recursive: true })
+  mkdirSync(store, { recursive: true })
+  // pnpm lays out node_modules/.pnpm with symlinks into a store outside the toolchain;
+  // install must not walk that tree for containment.
+  symlinkSync(store, join(toolchainHome, 'node_modules', '.pnpm'), 'dir')
+  writeFileSync(join(toolchainHome, 'package.json'), '{}\n')
+  let call = null
+  await installToolchainIfNeeded(
+    { requiresInstall: true, toolchainHome },
+    project,
+    async (...args) => { call = args; return { stdout: '', stderr: '' } }
+  )
+  assert.deepEqual(call.slice(0, 2), ['pnpm', ['-C', toolchainHome, 'install']])
 })
 
 test('old toolchain-install environment override is ignored', async () => {
+  const project = newProject('old-install-override')
+  const toolchainHome = join(project, '.vibe-init', 'toolchain')
+  mkdirSync(toolchainHome, { recursive: true })
   const previousNew = process.env.VIBE_INIT_SKIP_TOOLCHAIN_INSTALL
   const previousOld = process.env.DSH_VIBE_SKIP_TOOLCHAIN_INSTALL
   delete process.env.VIBE_INIT_SKIP_TOOLCHAIN_INSTALL
@@ -111,8 +149,8 @@ test('old toolchain-install environment override is ignored', async () => {
   let called = false
   try {
     await installToolchainIfNeeded(
-      { requiresInstall: true, toolchainHome: '/tmp/example/.vibe-init/toolchain' },
-      '/tmp/example',
+      { requiresInstall: true, toolchainHome },
+      project,
       async () => { called = true; return { stdout: '', stderr: '' } }
     )
   } finally {
@@ -125,10 +163,13 @@ test('old toolchain-install environment override is ignored', async () => {
 })
 
 test('toolchain dependency failure is surfaced for a retry', async () => {
+  const project = newProject('install-failure-helper')
+  const toolchainHome = join(project, '.vibe-init', 'toolchain')
+  mkdirSync(toolchainHome, { recursive: true })
   await assert.rejects(
     installToolchainIfNeeded(
-      { requiresInstall: true, toolchainHome: '/tmp/example/.vibe-init/toolchain' },
-      '/tmp/example',
+      { requiresInstall: true, toolchainHome },
+      project,
       async () => { throw Object.assign(new Error('network down'), { stderr: 'ERR_PNPM_FETCH_404' }) }
     ),
     /toolchain dependency install failed: ERR_PNPM_FETCH_404/
@@ -205,6 +246,26 @@ test('hash runs against a pack copy only and reaches 0 drift', () => {
   assert.ok(real.includes('"feature-doc-budgets"'))
 })
 
+test('CLI rejects project .agents and .vibe-init symlink escapes before mutation', () => {
+  for (const name of ['.agents', '.vibe-init']) {
+    const proj = newProject('project-symlink-' + name.slice(1))
+    const outside = join(TMP, 'outside-project-' + name.slice(1))
+    mkdirSync(join(outside, 'nested'), { recursive: true })
+    writeFileSync(join(outside, 'sentinel.txt'), 'outside sentinel\n')
+    writeFileSync(join(outside, 'nested', 'keep.txt'), 'nested sentinel\n')
+    symlinkSync(outside, join(proj, name))
+    const before = snapshotTree(outside)
+    const rootBefore = readFileSync(join(proj, 'AGENTS.md'), 'utf8')
+
+    const result = run(['init', '--project', proj, '--yes'])
+
+    assert.equal(result.code, 1, name)
+    assert.match(result.err, /project target confinement failed/, name)
+    assert.deepEqual(snapshotTree(outside), before, name)
+    assert.equal(readFileSync(join(proj, 'AGENTS.md'), 'utf8'), rootBefore, name)
+  }
+})
+
 test('unsafe copied packs block init without touching project or outside sentinels', () => {
   const cases = [
     ['target-parent', (manifest) => { manifest.files[0].target = '../../escape.txt' }],
@@ -229,6 +290,60 @@ test('unsafe copied packs block init without touching project or outside sentine
     assert.equal(existsSync(join(proj, '.vibe-init')), false, name)
     assert.equal(readFileSync(outside, 'utf8'), 'sentinel-secret\n', name)
   }
+})
+
+test('CLI blocks unsafe toolchain group sources and escaping manifest source symlinks', () => {
+  const cases = [
+    ['group-parent', (packCopy) => {
+      const specPath = join(packCopy, 'toolchain', 'spec.json')
+      const spec = JSON.parse(readFileSync(specPath, 'utf8'))
+      spec.groups[0].src = '../../outside-toolchain'
+      writeFileSync(specPath, JSON.stringify(spec, null, 2) + '\n')
+    }],
+    ['row-source-symlink', (packCopy, outside) => {
+      const source = join(packCopy, 'standing-orders-block.md')
+      rmSync(source)
+      symlinkSync(join(outside, 'sentinel.txt'), source)
+    }]
+  ]
+  for (const [name, mutate] of cases) {
+    const proj = newProject('unsafe-real-pack-' + name)
+    const packCopy = join(TMP, 'unsafe-real-pack-copy-' + name)
+    const outside = join(TMP, 'unsafe-real-pack-outside-' + name)
+    cpSync(REAL_PACK, packCopy, { recursive: true })
+    mkdirSync(outside, { recursive: true })
+    writeFileSync(join(outside, 'sentinel.txt'), 'outside pack sentinel\n')
+    mutate(packCopy, outside)
+    const before = snapshotTree(outside)
+    const result = run(['init', '--project', proj, '--pack', packCopy, '--yes'])
+    assert.equal(result.code, 1, name)
+    assert.match(result.err, /pack problem/, name)
+    assert.match(result.err, /blocked: rule pack integrity validation failed/, name)
+    assert.deepEqual(snapshotTree(outside), before, name)
+    assert.equal(existsSync(join(proj, '.vibe-init')), false, name)
+  }
+})
+
+test('row hash drift blocks init and hash repairs a safe source', () => {
+  const proj = newProject('row-hash-drift')
+  const packCopy = join(TMP, 'pack-row-hash-drift')
+  cpSync(REAL_PACK, packCopy, { recursive: true })
+  const source = join(packCopy, 'standing-orders-block.md')
+  writeFileSync(source, readFileSync(source, 'utf8') + '\nsafe drift\n')
+
+  const blocked = run(['init', '--project', proj, '--pack', packCopy, '--yes'])
+  assert.equal(blocked.code, 1)
+  assert.match(blocked.err, /sha256 drift/)
+  assert.equal(existsSync(join(proj, '.vibe-init')), false)
+
+  const repaired = run(['hash', '--pack', packCopy])
+  assert.equal(repaired.code, 0)
+  assert.match(repaired.out, /hash refreshed: [1-9]/)
+  const zeroDrift = run(['hash', '--pack', packCopy])
+  assert.equal(zeroDrift.code, 0)
+  assert.match(zeroDrift.out, /hash refreshed: 0\/\d+/)
+  const initialized = run(['init', '--project', proj, '--pack', packCopy, '--yes'])
+  assert.equal(initialized.code, 0)
 })
 
 test('valid nested manifest target is materialized under the project root', () => {

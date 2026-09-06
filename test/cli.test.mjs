@@ -1,4 +1,4 @@
-// dsh-vibe CLI integration tests (node:test): spawn the real bin.
+// vibe-init CLI integration tests (node:test): spawn the real bin.
 // Uses a temp project fixture and a temp copy of the pack (real packages is never mutated;
 // hash runs only against the temp copy).
 import { test, before, after } from 'node:test'
@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url'
 import { installToolchainIfNeeded } from '../lib/cli.mjs'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const BIN = join(ROOT, 'bin', 'dsh-vibe.mjs')
+const BIN = join(ROOT, 'bin', 'vibe-init.mjs')
 const REAL_PACK = join(ROOT, 'packages')
 let TMP
 
@@ -39,12 +39,6 @@ test('help lists project-only command surface; unknown command exits 2', () => {
   assert.ok(!h.out.includes('install-global'))
   const u = run(['bogus-command'])
   assert.equal(u.code, 2)
-})
-
-test('install-global is retired with an explicit error', () => {
-  const r = run(['install-global', '--yes'], { cwd: TMP })
-  assert.equal(r.code, 2)
-  assert.ok(r.err.includes('retired'))
 })
 
 test('init is idempotent via the CLI and status has no global scope', () => {
@@ -154,14 +148,6 @@ test('failed toolchain install leaves state uncommitted after files are updated'
   assert.ok(result.err.includes('toolchain dependency install failed'))
   assert.equal(readFileSync(statePath, 'utf8'), before)
   assert.ok(JSON.parse(readFileSync(join(proj, '.dsh-vibe', 'toolchain', 'package.json'), 'utf8')).scripts['verify-mermaid'])
-})
-
-test('plugin apply() mounts with no side effects (R10)', () => {
-  const script = "import('./dsh-vibe.mjs').then((m) => m.apply({}))"
-  const r = spawnSync(process.execPath, ['-e', script], { encoding: 'utf8', cwd: ROOT })
-  assert.equal(r.status, 0)
-  assert.ok(r.stdout.includes('mounted'))
-  assert.ok(!r.stderr.includes('[dsh-vibe] mounted, but pack unavailable'))
 })
 
 test('hash runs against a pack copy only and reaches 0 drift', () => {

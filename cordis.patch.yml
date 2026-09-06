@@ -1,4 +1,0 @@
-# Activate dsh-vibe as a profile plugin when this package is installed.
-- insert:
-    - id: dsh-vibe
-      name: '@maocili/dsh-vibe'

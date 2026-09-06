@@ -1,39 +1,27 @@
 {
-  "name": "@maocili/dsh-vibe",
-  "version": "0.2.0",
+  "name": "@maocili/vibe-init",
+  "version": "0.3.0",
   "packageManager": "pnpm@11.22.0",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/maocili/dsh-vibe.git"
+    "url": "git+ssh://git@github.com/maocili/vibe-init.git"
   },
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
-  "description": "DSH plugin (per-project initializer, REQUIREMENTS v1.0): materializes a versioned rule pack into each project — fresh .agents/notes skeleton, marker rule segments in root AGENTS.md, and selected skill copies under .agents/skills. Never writes the user-global plane. Content lives in packages/.",
+  "description": "Project initializer that materializes versioned rules, notes, skills, and tooling.",
   "type": "module",
   "engines": { "node": ">=18" },
   "files": [
-    "dsh-vibe.mjs",
     "bin/",
     "lib/",
-    "packages/",
-    "cordis.patch.yml"
+    "packages/"
   ],
   "scripts": {
     "test": "node --test",
     "package:check": "pnpm test && pnpm pack --dry-run",
     "package:build": "pnpm run package:check && pnpm pack --pack-destination artifacts"
   },
-  "exports": {
-    ".": "./dsh-vibe.mjs",
-    "./lib/*": "./lib/*.mjs",
-    "./cordis.patch.yml": "./cordis.patch.yml"
-  },
-  "bin": { "dsh-vibe": "./bin/dsh-vibe.mjs" },
-  "dsh": {
-    "bundle": {
-      "patch": "./cordis.patch.yml"
-    }
-  }
+  "bin": { "vibe-init": "./bin/vibe-init.mjs" }
 }

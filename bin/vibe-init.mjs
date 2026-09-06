@@ -1,4 +1,4 @@
 #!/usr/bin/env node
-// dsh-vibe CLI entry (M1). Thin wrapper over lib/cli.mjs — also importable by future tools.
+// Standalone vibe-init CLI entry. Thin wrapper over lib/cli.mjs.
 import { main } from '../lib/cli.mjs'
 process.exitCode = await main(process.argv.slice(2))

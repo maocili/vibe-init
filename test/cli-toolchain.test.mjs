@@ -1,4 +1,4 @@
-// dsh-vibe CLI docGates toolchain integration (spawn the real bin).
+// vibe-init CLI docGates toolchain integration (spawn the real bin).
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
@@ -7,7 +7,7 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const BIN = join(ROOT, 'bin', 'dsh-vibe.mjs')
+const BIN = join(ROOT, 'bin', 'vibe-init.mjs')
 let TMP
 
 function run(args, opts = {}) {

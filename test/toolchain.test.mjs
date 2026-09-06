@@ -92,6 +92,24 @@ test('default init materializes scaffold + docGates/base + default-on groups onl
   assert.ok(!tcFiles.some((l) => l.endsWith('.gitkeep') || l.endsWith('.spec.ts') || l.includes('test-fixture')))
 })
 
+test('materialized markdown links are checked while package templates are not', async () => {
+  const file = join(ROOT, 'docs', 'toolchain-link-test.md')
+  writeFileSync(file, '[missing](missing.md)\n')
+  try {
+    const script = join(ROOT, '.vibe-init', 'toolchain', 'scripts', 'verify-md-links.ts')
+    const runner = join(ROOT, '.vibe-init', 'toolchain', 'node_modules', 'tsx', 'dist', 'cli.mjs')
+    const result = spawnSync(process.execPath, [runner, script], { cwd: ROOT, encoding: 'utf8' })
+    assert.equal(result.status, 1)
+    assert.ok(result.stderr.includes('docs/toolchain-link-test.md'))
+    assert.ok(!result.stderr.includes('packages/features/'))
+    assert.ok(!result.stderr.includes('packages/docs/'))
+    assert.ok(!result.stderr.includes('packages/skills/'))
+    assert.ok(!result.stderr.includes('packages/notes-skeleton/'))
+  } finally {
+    rmSync(file, { force: true })
+  }
+})
+
 test('init is idempotent for the toolchain (second run does nothing)', async () => {
   const proj = fixtureProject('idem')
   await applyInit(proj)

@@ -380,8 +380,8 @@
       "path": ".vibe-init/toolchain/scripts/verify-md-links.ts",
       "kind": "toolchain",
       "source": "toolchain/text-link/scripts/verify-md-links.ts",
-      "sourceSha256": "77238c9d9cb81a4ce739df4f814c5028029558c41f1b6dfac202d6e6eea2679c",
-      "installedSha256": "77238c9d9cb81a4ce739df4f814c5028029558c41f1b6dfac202d6e6eea2679c"
+      "sourceSha256": "ec8bc34cdecb06ad8f25f547645e86f4d4264807c723756671daa67453e6b48b",
+      "installedSha256": "ec8bc34cdecb06ad8f25f547645e86f4d4264807c723756671daa67453e6b48b"
     },
     {
       "path": ".vibe-init/toolchain/tsconfig.host.json",

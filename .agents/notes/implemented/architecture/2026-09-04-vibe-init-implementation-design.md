@@ -14,7 +14,7 @@ The implementation is organized as a deterministic `plan` → `evaluate` → `ap
 
 `upgrade` is ownership-aware. Marker segments, generated documentation, declared toolchain files, declared skill files, and note-skeleton explainers are tool-owned and may be refreshed. Dated Agent Notes, note manifests, business documentation, and unknown files remain project-owned. Stale managed files are removed only when state proves ownership and the installed hash is unchanged; modified or ambiguous paths are retained as conflicts. Toolchain dependencies are installed before state is atomically committed.
 
-The former standalone design document is now a pointer; this note is the home for implementation decisions and their rationale. Stable scope and behavior remain in [`REQUIREMENTS`](../../../../docs/REQUIREMENTS-vibe-init.md), evidence remains in [`ACCEPTANCE`](../../../../docs/ACCEPTANCE.md), and the removal decision is recorded in the [standalone hard-cut Note](../../simplification/2026-09-06-standalone-vibe-init.md).
+The former standalone design document is now a pointer; this note is the home for implementation decisions and their rationale. Stable scope and behavior remain in [`REQUIREMENTS`](../../../../docs/REQUIREMENTS-vibe-init.md), evidence remains in [`ACCEPTANCE`](../../../../docs/ACCEPTANCE.md), and the removal decision is recorded in the [standalone hard-cut Note](../simplification/2026-09-06-standalone-vibe-init.md).
 
 ## Alternatives considered
 
@@ -24,10 +24,10 @@ The former standalone design document is now a pointer; this note is the home fo
 
 **Use only commit messages.** Git history is useful for forensics but is not a discoverable, cross-linked decision record and does not state rejected alternatives.
 
-**Retain a host plugin, bundle, and profile adapter.** The earlier implementation used `@maocili/dsh-vibe` with a DSH bundle and Cordis plugin, but those surfaces did not participate in project planning or application. The standalone hard cut removes their release coupling and keeps host integration as a separately justified future decision; its rationale and reintroduction conditions remain in the [standalone hard-cut Note](../../simplification/2026-09-06-standalone-vibe-init.md).
+**Retain a host plugin, bundle, and profile adapter.** The earlier implementation used `@maocili/dsh-vibe` with a DSH bundle and Cordis plugin, but those surfaces did not participate in project planning or application. The standalone hard cut removes their release coupling and keeps host integration as a separately justified future decision; its rationale and reintroduction conditions remain in the [standalone hard-cut Note](../simplification/2026-09-06-standalone-vibe-init.md).
 
 **Keep the absolute file URL as the distribution path.** It works for a checkout but ties installation to one machine path and cannot be consumed from a package manager; it remains only as a historical local-development alternative.
 
 ## Consequences
 
-Future architecture or implementation changes update this note and its Chinese counterpart in the same change. Public docs link here instead of copying mechanics. Any change to the package manifest, materialization semantics, conflict policy, namespace, or ownership policy must keep implementation tests and acceptance evidence aligned. The package manifest, CLI package check, state format, and ownership tests are the source of truth for the standalone distribution and project-local migration contract.
+Future architecture or implementation changes update this note and its Chinese counterpart in the same change. Public docs link here instead of copying mechanics. Any change to the package manifest, materialization semantics, conflict policy, namespace, or ownership policy must keep implementation tests and acceptance evidence aligned. The package manifest, CLI package check, state format, and ownership tests are the source of truth for the standalone distribution and project-local migration contract. Markdown-link verification treats `packages/README.md` as repository-owned documentation; canonical package templates are checked only at materialized roots (`AGENTS.md`, `docs/`, `.agents/`, and `.vibe-init/toolchain/`).

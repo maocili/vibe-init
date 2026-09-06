@@ -14,7 +14,7 @@ Status: implemented
 
 `upgrade` 按所有权迁移。marker 段、生成文档、声明的工具链文件、声明的技能文件和笔记骨架说明文件由工具拥有，可刷新同步；日期命名的 Agent Note、笔记 manifest、业务文档和未知文件仍由项目拥有。只有状态确认拥有且当前内容仍匹配安装哈希的受管旧文件才会删除；修改或归属不明的路径保留并报告冲突。工具链依赖安装成功后才原子提交状态。
 
-原独立设计文档现在只保留指针；本笔记负责实现决策及其理由。稳定范围和行为见 [`REQUIREMENTS`](../../../../docs/REQUIREMENTS-vibe-init.md)，证据见 [`ACCEPTANCE`](../../../../docs/ACCEPTANCE.md)，移除决策见[独立硬切 Note](../../simplification/2026-09-06-standalone-vibe-init.zh.md)。
+原独立设计文档现在只保留指针；本笔记负责实现决策及其理由。稳定范围和行为见 [`REQUIREMENTS`](../../../../docs/REQUIREMENTS-vibe-init.md)，证据见 [`ACCEPTANCE`](../../../../docs/ACCEPTANCE.md)，移除决策见[独立硬切 Note](../simplification/2026-09-06-standalone-vibe-init.zh.md)。
 
 ## Alternatives considered
 
@@ -24,10 +24,10 @@ Status: implemented
 
 **只使用提交信息。** Git 历史适合追溯，却不够可发现、不可交叉链接，也不会记录被否决的替代方案。
 
-**保留宿主 plugin、bundle 和 profile adapter。** 早期实现曾使用 `@maocili/dsh-vibe`、DSH bundle 和 Cordis plugin，但这些表面不参与项目计划或应用。独立硬切移除了发布耦合；宿主集成是否重引入仍需单独证明，理由和重引入条件保留在[独立硬切 Note](../../simplification/2026-09-06-standalone-vibe-init.zh.md)中。
+**保留宿主 plugin、bundle 和 profile adapter。** 早期实现曾使用 `@maocili/dsh-vibe`、DSH bundle 和 Cordis plugin，但这些表面不参与项目计划或应用。独立硬切移除了发布耦合；宿主集成是否重引入仍需单独证明，理由和重引入条件保留在[独立硬切 Note](../simplification/2026-09-06-standalone-vibe-init.zh.md)中。
 
 **继续以绝对 file URL 作为分发路径。** 这适用于 checkout，却会把安装绑定到单机路径，无法由包管理器消费；因此只作为历史性的本地开发替代方案保留。
 
 ## Consequences
 
-今后的架构或实现变更须在同一变更中更新本笔记及中文副本。公共文档链接到这里，不再复制机制说明。修改规则包 manifest、物化语义、冲突策略、命名空间或所有权策略时，必须同步保持实现测试和验收证据一致。包 manifest、CLI package check、状态格式和所有权测试是独立分发与项目本地迁移契约的事实来源。
+今后的架构或实现变更须在同一变更中更新本笔记及中文副本。公共文档链接到这里，不再复制机制说明。修改规则包 manifest、物化语义、冲突策略、命名空间或所有权策略时，必须同步保持实现测试和验收证据一致。包 manifest、CLI package check、状态格式和所有权测试是独立分发与项目本地迁移契约的事实来源。Markdown 链接校验把 `packages/README.md` 视为仓库自有文档；规范包模板只在物化根（`AGENTS.md`、`docs/`、`.agents/` 和 `.vibe-init/toolchain/`）校验。

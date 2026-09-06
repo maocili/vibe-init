@@ -22,14 +22,12 @@ const agentsRoot = relative(root, resolve(root, '.agents'))
 const PATTERNS = [
   'README.md',
   'README.zh.md',
-  agentsRoot + '/notes/**/*.md',
-  'docs/**/*.md',
-  'packages/*/*.md',
-  'packages/*/*/*.md',
-  'examples/**/*.md',
+  'packages/README.md',
   'AGENTS.md',
-  'packages/AGENTS.md',
-  agentsRoot + '/skills/**/*.md',
+  'docs/**/*.md',
+  agentsRoot + '/**/*.md',
+  '.vibe-init/toolchain/**/*.md',
+  'examples/**/*.md',
 ]
 
 /** A broken relative link: a missing target path or a missing anchor on it. */

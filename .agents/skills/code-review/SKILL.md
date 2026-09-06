@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Use when reviewing a pull request or change in a project initialized by dsh-vibe; verify live scope, contracts, lifecycle and security behavior, required evidence, and actionable findings.
+description: Use when reviewing a pull request or change in a project initialized by vibe-init; verify live scope, contracts, lifecycle and security behavior, required evidence, and actionable findings.
 ---
 
 # Review a Change

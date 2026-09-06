@@ -8,7 +8,7 @@ Status: implemented
 
 ## Decision
 
-项目常设规则要求每个可独立验证的 step 完成后立即创建一个 Git commit。step 指一个有明确结果的实现、文档、配置或测试变更；为得到该结果可以涉及多个文件。提交前必须运行适用校验，多个已完成 step 不得共用一个 commit。生成项目使用的[提交规则](../../../../packages/standing-orders-block.md)是该要求的来源。
+项目常设规则要求每个可独立验证的 step 完成后立即创建一个 Git commit。step 指一个有明确结果的实现、文档、配置或测试变更；为得到该结果可以涉及多个文件。提交前必须运行适用校验，多个已完成 step 不得共用一个 commit。生成项目使用的[提交规则](../../../../packages/standing-orders-block.md)是该要求的来源；当任务明确要求最终只创建一个 commit 时，以任务级要求优先于这条通用常设规则。
 
 ## Alternatives considered
 

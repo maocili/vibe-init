@@ -1,6 +1,6 @@
 ---
 name: prose-standard
-description: Use when writing, reviewing, restoring, trimming, or auditing prose, comments, documentation, prompts, diagnostics, or visible strings in a project initialized by dsh-vibe; preserve required contracts while removing reasoning leakage and repetition.
+description: Use when writing, reviewing, restoring, trimming, or auditing prose, comments, documentation, prompts, diagnostics, or visible strings in a project initialized by vibe-init; preserve required contracts while removing reasoning leakage and repetition.
 ---
 
 # Apply the Prose Standard

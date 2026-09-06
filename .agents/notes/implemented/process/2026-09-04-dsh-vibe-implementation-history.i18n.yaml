@@ -1,6 +1,0 @@
-# Bilingual-pair consistency record (docs/i18n/README.md): the git blob hash of each
-# side as of the last confirmed-consistent state. Both languages carry equal authority;
-# after editing either side, bring the other along and re-record with:
-#   pnpm run verify-translation-pairing --write .agents/notes/implemented/process/2026-09-04-dsh-vibe-implementation-history.md
-2026-09-04-dsh-vibe-implementation-history.md: e092dfb5cd5a4d31f2678de2ce015668832400e7
-2026-09-04-dsh-vibe-implementation-history.zh.md: b6623f3abadf72f974d1a844f4f8ddf50d3edf55

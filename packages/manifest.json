@@ -5,13 +5,13 @@
       "id": "project-notes-readme",
       "target": ".agents/notes/README.md",
       "source": "notes-skeleton/README.md",
-      "sha256": "99cff478e704b941017d6dbfd6fffd8d737a2171fb03ae7f462c64ba1a6409e5"
+      "sha256": "12d9a5dd93884cc22e047622293b28461f2dc12648c056e2cf429e3776b30a6d"
     },
     {
       "id": "project-notes-readme-zh",
       "target": ".agents/notes/README.zh.md",
       "source": "notes-skeleton/README.zh.md",
-      "sha256": "efb15aec5013850141361b64f21b7ea45c95ec042f28a7719b01d4a5630d2105"
+      "sha256": "599c20080ce598aacaf1538a1dc967e7dbf24e91772a7d9fa1f273720a49df28"
     },
     {
       "id": "project-notes-i18n",

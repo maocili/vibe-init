@@ -8,7 +8,7 @@ A multi-step agent session can finish several independently verifiable changes w
 
 ## Decision
 
-The project standing orders require one Git commit immediately after each independently verifiable step. A step is one implementation, documentation, configuration, or test change with a clear result; it may span the files needed for that result. The applicable checks run before the commit, and multiple completed steps do not share one commit. The [standing rule](../../../../packages/standing-orders-block.md) is the source for generated projects.
+The project standing orders require one Git commit immediately after each independently verifiable step. A step is one implementation, documentation, configuration, or test change with a clear result; it may span the files needed for that result. The applicable checks run before the commit, and multiple completed steps do not share one commit. The [standing rule](../../../../packages/standing-orders-block.md) is the source for generated projects. When a task explicitly requires exactly one final commit, that task-level instruction takes precedence over this general standing order.
 
 ## Alternatives considered
 

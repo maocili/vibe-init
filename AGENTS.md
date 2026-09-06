@@ -1,87 +1,70 @@
 # AGENTS.md — vibe-init 仓库入口
 
-本仓库即 **vibe-init** 插件本体：仓库根就是插件源码（项目级初始化器）——对每个项目物化出受管面
-（项目根 AGENTS.md 的 marker 规则段 + `.agents/notes/` 笔记骨架 + 选定技能副本），**不触碰用户全局面**
-（~/.dsh/AGENTS.md、用户技能根）。规则与技能文本的唯一版本化出处是同仓的 `packages/`，插件只做
-项目级安装/管理；项目文档在 `docs/`。
-范围/目标口径：`docs/REQUIREMENTS-vibe-init.md`（**定案 v1.0**）；实现方案与取舍记录在
-`.agents/notes/implemented/architecture/2026-09-04-vibe-init-implementation-design.md`。
+本仓库是 **vibe-init** 独立 CLI 初始化器：从 `packages/` 读取版本化规则包，为每个项目物化受管面（项目根
+`AGENTS.md` 的 marker 规则段、`.agents/notes/` 笔记骨架、选定技能副本和 `.vibe-init/toolchain/` 工具链），
+不触碰用户全局配置或技能目录。范围/目标口径：[`docs/REQUIREMENTS-vibe-init.md`](docs/REQUIREMENTS-vibe-init.md)；
+实现方案与取舍记录在
+[实现设计 Agent Note](.agents/notes/implemented/architecture/2026-09-04-vibe-init-implementation-design.md)。
 
-> EN TL;DR: this repo is the **vibe-init** plugin itself — a per-project initializer. The repo root
-> holds the plugin sources, `packages/` is the single versioned content source, and the project
-> docs live in `docs/`. For each project it materializes a managed surface: marker-wrapped rule
-> segments in the root `AGENTS.md` (note discipline + text-link management by default), a fresh
-> bilingual-ready notes skeleton under `.agents/notes/`, and declared skill copies under
-> `.agents/skills/` managed like dependency packages. It never touches the user-global plane
-> (`~/.dsh/AGENTS.md`, user skill roots). Scope authority: `REQUIREMENTS-vibe-init.md` v1.0
-> (+ M1b decisions D11–D13); rule-pack content (skeleton gates, bilingual
-> trio, pointer block, feature sections, docGates toolchain under `toolchain/`) is distilled from
-> `../vibe-coding-templates/` and sha256-synced; `skills/` is the declared default project skill set.
+> EN TL;DR: this repository publishes **vibe-init** as the standalone `@maocili/vibe-init` CLI initializer. It
+> materializes a project-local managed surface from `packages/`: marker-wrapped rules in the project root
+> `AGENTS.md`, a bilingual-ready `.agents/notes/` skeleton, declared `.agents/skills/` copies, and the
+> `.vibe-init/toolchain/` documentation gates. The CLI does not expose a module or plugin surface, bundle metadata,
+> host mount, or user-global installation plane. Scope authority is
+> [`docs/REQUIREMENTS-vibe-init.md`](docs/REQUIREMENTS-vibe-init.md); implementation rationale lives in the linked
+> Agent Notes.
 
 ## 入口文档
 
-- [`README.md`](README.md) — 仓库总览 + 插件说明（命令面、物化语义、挂载、当前状态）。
-- [`docs/README.md`](docs/README.md) — 项目文档索引与总览（2026-09-04 目录调整由仓库根移入 docs/）。
-- [`docs/REQUIREMENTS-vibe-init.md`](docs/REQUIREMENTS-vibe-init.md) — 需求与目标
-  （**定案 v1.0**；据用户决策：**项目级初始化器、不碰全局面**；作为唯一范围口径；
-  决策基线 D1–D13 见文档 §0）。
+- [`README.md`](README.md) — 仓库总览、CLI 安装、物化语义和命令面。
+- [`docs/README.md`](docs/README.md) — 项目文档索引与总览。
+- [`docs/REQUIREMENTS-vibe-init.md`](docs/REQUIREMENTS-vibe-init.md) — 需求与目标（定案 v1.0，范围口径）。
 - [`docs/ACCEPTANCE.md`](docs/ACCEPTANCE.md) — 验收追溯矩阵。
 - [实现设计 Agent Note](.agents/notes/implemented/architecture/2026-09-04-vibe-init-implementation-design.md)、
   [实现历史 Agent Note](.agents/notes/implemented/process/2026-09-04-vibe-init-implementation-history.md)、
   [Upgrade 所有权迁移 Note](.agents/notes/implemented/process/2026-09-04-upgrade-ownership-migration.md) — 实现设计与决策级历史。
 - [`packages/README.md`](packages/README.md) — 内置规则包内容映射与门禁说明。
 
-## 目录结构（2026-09-04 调整后）
+## 目录结构
 
 ```
-vibe-init/                      # 仓库根 = 插件源码（原 plugin/ 展平到根）
+vibe-init/
 ├── AGENTS.md                   # 本文件（仓库入口）
-├── README.md                   # 插件说明（原 plugin/README.md 上移；命令面/物化语义/挂载）
-├── vibe-init.mjs               # Cordis 插件入口（挂载无副作用）
+├── README.md                   # CLI 说明（安装、命令面、物化语义）
 ├── bin/vibe-init.mjs           # CLI 入口（init/upgrade/status/audit/hash/list-skills）
 ├── lib/                        # engine / pack / cli / diff
-├── test/                       # 自动化测试（node:test；仓库根 pnpm test，48 条）
-├── package.json                # name @maocili/vibe-init；bin；dsh.bundle 元数据
-├── cordis.patch.yml            # 发布包的 DSH bundle patch
-├── cordis.patch.sample.yml     # checkout 开发挂载样例（指向仓库根入口）
+├── test/                       # 自动化测试（node:test）
+├── package.json                # @maocili/vibe-init；vibe-init bin
 ├── packages/                   # 内置规则包 —— 唯一版本化内容源（manifest.json + sha256）
-│   ├── notes-skeleton/         #   → 项目 .agents/notes/ 骨架（双语三件套+四象限）
-│   ├── standing-orders-block.md#   → 项目根 AGENTS.md 的 marker 段（指针式）
-│   ├── skills/                 #   → 项目 .agents/skills/（依赖包式副本；全部声明技能默认安装）
-│   ├── features/               #   特性规则段（textLinkManagement/bilingualDocsDiscipline 等）
-│   └── toolchain/              #   docGates 工具链（spec.json 组 → 项目 .vibe-init/toolchain）
-└── docs/                       # 项目文档（原仓库根文档移入本目录）
-    ├── README.md               #   总览/目录结构/当前状态（原根 README）
+│   ├── notes-skeleton/         #   → 项目 .agents/notes/ 骨架
+│   ├── standing-orders-block.md#   → 项目根 AGENTS.md 的 marker 段
+│   ├── skills/                 #   → 项目 .agents/skills/ 副本
+│   ├── features/               #   特性规则段
+│   └── toolchain/              #   docGates 工具链
+└── docs/                       # 项目文档
+    ├── README.md               #   总览与文档索引
     ├── AGENTS.md               #   文档分层、篇幅目标与预算门禁规范
-    ├── REQUIREMENTS-vibe-init.md  # 需求与目标（定案 v1.0，范围口径）
-    ├── DESIGN-vibe-init.md        # 设计 Agent Note 的兼容指针页
+    ├── REQUIREMENTS-vibe-init.md  # 需求与目标
     ├── ACCEPTANCE.md           #   需求-验证追溯矩阵
-    └── CHANGELOG.md            #   实现历史 Agent Note 的兼容指针页
+    └── CHANGELOG.md            #   实现历史兼容指针页
 ```
 
-- 内容源与插件同仓：`packages/` 的 `manifest.json` 声明文件清单与 `sha256`（含 features 开关与
-  toolchain 声明）；子目录映射物化目标见 [`packages/README.md`](packages/README.md)。`global/`
-  （→ ~/.dsh）已按 v1.0 退役删除。
-- 不再有 `.template/` 或随插件分发的消费者 `.agents/` 内容子树（2026-09-04 目录调整删除）：其语料/工具链
-  已在 M1b 归入 `packages/toolchain/`（docGates）；仓库自身 `.agents/notes/` 仅保留开发记录，
-  `skills/` 内容已提炼为全部默认项目技能。
+- 内容源与初始化器同仓：`packages/manifest.json` 声明文件清单、特性、工具链和 `sha256`；子目录映射物化目标见
+  [`packages/README.md`](packages/README.md)。
+- 仓库自身 `.agents/notes/` 仅保留开发记录；消费者的项目面由 CLI 在目标项目中创建。
 
 ## 会话规则
 
 - 开工前先读「入口文档」；**范围与目标以 `docs/REQUIREMENTS…`（v1.0 定案）为准**，实现方案与取舍以
   [实现设计 Agent Note](.agents/notes/implemented/architecture/2026-09-04-vibe-init-implementation-design.md) 为准。
-- **规则内容一律写入 `packages/`**（不把规则内容硬编码进插件）；改仓库根插件源码
-  （`vibe-init.mjs`、`bin/`、`lib/`、`test/`、`package.json`）只动安装/管理逻辑。
+- **规则内容一律写入 `packages/`**（不把规则内容硬编码进 CLI）；改仓库 CLI 源码
+  （`bin/`、`lib/`、`test/`、`package.json`）只动安装/管理逻辑。
 - 修改 `packages/` 文件时保持 `manifest.json` 的 files 清单与 `sha256` 同步
   （`status`/`upgrade` 依赖内容寻址；刷新用 `node bin/vibe-init.mjs hash --pack packages` 或
-  `$VIBE_INIT_PACK`）；改动 `toolchain/**` 分组/依赖时同步 `spec.json`，并跑仓库根 `pnpm test`
-  （48 条含 docGates 物化/移除、upgrade 所有权迁移与 tarball 安装回归）。
-- 修改 `docs/` 或根 README 时留意跨目录相对链接（`docs/**` 内互链、指向根 `AGENTS.md`/`README.md`
-  需 `../` 前缀）。
-- 本仓库 `AGENTS.md`、`README.md`、`docs/**`、`packages/` 与插件源码均为容器级内容，不在任何
-  项目门禁范围内；`packages/` 自己的评审门禁（doc-sync 语义子集）实现期待定。
-
-
+  `$VIBE_INIT_PACK`）；改动 `toolchain/**` 分组/依赖时同步 `spec.json`，并跑仓库根 `pnpm test`。
+- 修改 `docs/` 或根 README 时留意跨目录相对链接（`docs/**` 内互链、指向根 `AGENTS.md`/`README.md` 需 `../` 前缀）。
+- 本仓库 `AGENTS.md`、`README.md`、`docs/**`、`packages/` 与 CLI 源码均为容器级内容，不在任何项目门禁范围内；
+  `packages/` 自己的评审门禁（doc-sync 语义子集）实现期待定。
 
 
 

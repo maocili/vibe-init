@@ -11,7 +11,7 @@
 先从版本化 Git 仓库全局安装独立 CLI：
 
 ```bash
-pnpm install --global github:maocili/vibe-init#v0.3.0
+pnpm install --global github:maocili/vibe-init#v0.4.2
 ```
 
 在目标项目中先预览，再明确执行：

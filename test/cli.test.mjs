@@ -74,7 +74,7 @@ test('init is idempotent via the CLI and status has no global scope', () => {
   const state = JSON.parse(readFileSync(join(proj, '.vibe-init', 'state.json'), 'utf8'))
   assert.equal(state.schemaVersion, 2)
   assert.equal(state.owner, 'vibe-init')
-  assert.equal(state.packVersion, '0.3.0')
+  assert.equal(state.packVersion, '0.4.2')
   const st = run(['status', '--project', proj, '--json'])
   assert.equal(st.code, 0)
   const json = JSON.parse(st.out)

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "owner": "vibe-init",
-  "packVersion": "0.3.0",
+  "packVersion": "0.4.2",
   "features": {
     "textLinkManagement": true,
     "bilingualPairing": true,

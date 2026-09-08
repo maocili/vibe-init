@@ -85,7 +85,7 @@ test('tarball contains only the standalone CLI runtime and complete rules pack',
 test('installed manifest exposes one binary and no module or host-plugin surface', () => {
   const manifest = JSON.parse(readFileSync(join(consumer, 'node_modules', '@maocili', 'vibe-init', 'package.json'), 'utf8'))
   assert.equal(manifest.name, '@maocili/vibe-init')
-  assert.equal(manifest.version, '0.3.0')
+  assert.equal(manifest.version, '0.4.2')
   assert.deepEqual(manifest.files, ['bin/', 'lib/', 'packages/'])
   assert.deepEqual(manifest.bin, { 'vibe-init': './bin/vibe-init.mjs' })
   assert.equal(manifest.exports, undefined)

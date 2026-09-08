@@ -11,7 +11,7 @@ It manages marker-wrapped rule segments in the project's root `AGENTS.md`, the `
 Install the standalone CLI globally from the versioned Git repository:
 
 ```bash
-pnpm install --global github:maocili/vibe-init#v0.3.0
+pnpm install --global github:maocili/vibe-init#v0.4.2
 ```
 
 In the target project, preview the changes first, then explicitly apply them:

@@ -42,8 +42,8 @@
       "id": "project-standing-orders-block",
       "target": "AGENTS.md",
       "source": "standing-orders-block.md",
-      "sourceSha256": "7927f6cd0aa8f3d71008992215cf998987b1e3402a67835e33cab1aa5fe66c33",
-      "installedSha256": "cac7485330a5aeed1182bbfc5b07bfa46d02af6446a358757ea0810f86e867fa"
+      "sourceSha256": "cdac9df74f13d56ab876e984fcb17f9fc08c40fd960f1c81630b48a7b7907f73",
+      "installedSha256": "17790f393ad49cb42b722b5cd7421411135e9581198f55dda9cc11b3abb78b55"
     }
   ],
   "files": [
@@ -205,8 +205,8 @@
       "path": ".agents/skills/pre-push-checks/SKILL.md",
       "kind": "skill",
       "source": "skills/pre-push-checks/SKILL.md",
-      "sourceSha256": "e157d48e5f66b624a866160eae2917a375031a7df880d6135eeeba64018d8b10",
-      "installedSha256": "e157d48e5f66b624a866160eae2917a375031a7df880d6135eeeba64018d8b10"
+      "sourceSha256": "210d1caf43725d12394e03f35f12877416aefb1d03ba4be7a3fe59e96f2aa097",
+      "installedSha256": "210d1caf43725d12394e03f35f12877416aefb1d03ba4be7a3fe59e96f2aa097"
     },
     {
       "path": ".agents/skills/prose-standard/agents/openai.yaml",
@@ -310,8 +310,8 @@
       "path": ".vibe-init/toolchain/README.md",
       "kind": "toolchain",
       "source": "toolchain/scaffold/README.md",
-      "sourceSha256": "6caa8654bb4c725cfe472549bf778df26088644002c65bc1d42fe434b0914635",
-      "installedSha256": "6caa8654bb4c725cfe472549bf778df26088644002c65bc1d42fe434b0914635"
+      "sourceSha256": "a9cf3167e2c6cc6ce581efa4a609330f983682255fb9864d1726af277fc645a6",
+      "installedSha256": "a9cf3167e2c6cc6ce581efa4a609330f983682255fb9864d1726af277fc645a6"
     },
     {
       "path": ".vibe-init/toolchain/scripts/agent-note-tree.ts",
@@ -345,8 +345,8 @@
       "path": ".vibe-init/toolchain/scripts/install-lefthook.mjs",
       "kind": "toolchain",
       "source": "toolchain/hooks/scripts/install-lefthook.mjs",
-      "sourceSha256": "d1e33c3e4ef8e811f17b4068ef0a3e4883ab38224cabc01c502f1b9ca62dc51c",
-      "installedSha256": "d1e33c3e4ef8e811f17b4068ef0a3e4883ab38224cabc01c502f1b9ca62dc51c"
+      "sourceSha256": "830d3beb6065039d2ea41085d5f7a1256d35a9702fd49886477f47f8cf004330",
+      "installedSha256": "830d3beb6065039d2ea41085d5f7a1256d35a9702fd49886477f47f8cf004330"
     },
     {
       "path": ".vibe-init/toolchain/scripts/markdown.ts",

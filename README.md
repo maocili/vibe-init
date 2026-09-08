@@ -24,10 +24,10 @@ vibe-init init --yes
 Afterward, you can use:
 
 ```bash
-# 检查受管内容、规则包摘要与受管面内意外内容（只读；不探测旧命名空间）
+# Inspect managed content, the rule-pack summary, and unexpected managed-surface content
 vibe-init audit
 
-# 将规则包的新版内容迁移到项目（先加 --dry-run 更稳妥）
+# Upgrade the project to the latest rule pack; preview with --dry-run first
 vibe-init upgrade --yes
 ```
 
@@ -44,12 +44,14 @@ The default entry point is the Git project containing the current directory. You
 
 `textLinkManagement`, `bilingualPairing`, `docBudgets`, and `docGates` are enabled by default; `bilingualDocsDiscipline` and `docGatesExtras` are disabled by default. For example:
 
+When `bilingualDocsDiscipline` is disabled, author documentation in English by default. Enabling it permits either English or Chinese as the source language for a paired update.
+
 ```bash
-# 为本次迁移启用双语纪律及其门禁
+# Enable bilingual documentation discipline and its gates for this upgrade
 vibe-init upgrade \
   --feature bilingualDocsDiscipline=true --yes
 
-# 移除由初始化器管理的 docGates 工具链
+# Remove the docGates toolchain managed by the initializer
 vibe-init upgrade \
   --feature docGates=false --yes
 ```

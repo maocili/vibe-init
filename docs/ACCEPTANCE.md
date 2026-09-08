@@ -16,7 +16,7 @@
 | D9 双语纪律段独立 key | manifest feature-bilingual-docs 行 feature=bilingualDocsDiscipline | 达成 |
 | D10 docBudgets 默认开 | manifest feature-doc-budgets 行 + gating 测试 + CLI 默认段测试 | 达成 |
 | D11 docGates 伞默认开启、extras 默认关闭 | manifest features + `toolchain/spec.json`；toolchain 测试覆盖默认物化集和 extras opt-in | 达成 |
-| D12 工具链落点与分组门控 | toolchain 测试覆盖整目录移除、用户改动保留、bilingual 组和 hook 行为；foreign `lefthook.yml` 不覆盖 | 达成 |
+| D12 工具链落点与分组门控 | toolchain 测试覆盖整目录移除、用户改动保留、bilingual 组和窄 hook 行为；安装器测试覆盖 worktree 隔离、hook-path 冲突保护、并发锁与失败回滚；foreign `lefthook.yml` 不覆盖 | 达成 |
 | D13 upgrade 使用 state 做所有权迁移，文件/依赖成功后原子提交 | `lib/state.mjs`；ownership/stale/legacy/malformed-marker 测试；依赖失败测试 | 达成 |
 | D14 standalone hard cut | package/bin 清单、schema 2 状态、旧 namespace 不变测试和 [standalone hard-cut Note](../.agents/notes/implemented/simplification/2026-09-06-standalone-vibe-init.md) | 达成（2026-09-06） |
 
@@ -43,7 +43,7 @@
 |---|---|
 | M0 引擎 v1.0 对齐 | 已完成 |
 | M1 内容提炼 | 已完成（骨架门规/分类目录/双语三件套/英文单语指针根块/三特性段/默认项目 skill，sha256 同步） |
-| M1b docGates 工具链 | **已完成（2026-09-04）**：packages/toolchain（scaffold/base/text-link/doc-budgets/bilingual/extras/hooks + spec.json）；引擎组门控物化/组装 package.json/关闭移除；真实验证：临时项目 init→pnpm install→doc-sync exit 0，pre-commit 挂钩由 postinstall 写入且不覆盖外来配置 |
+| M1b docGates 工具链 | **已完成（2026-09-08 更新）**：packages/toolchain（scaffold/base/text-link/doc-budgets/bilingual/extras/hooks + spec.json）；引擎组门控物化/组装 package.json/关闭移除；真实验证：临时项目 init→pnpm install→doc-sync exit 0，postinstall 生成窄 pre-commit/pre-merge 与 doc-sync pre-push，并在 worktree-local hooksPath 安装且不覆盖外来配置 |
 | M2 真实项目验证 | **已通过（2026-09-03）**：临时项目 init/status/audit 验证绿 |
 | M3 历史宿主分发 | **历史事实（2026-09-05）**：`@maocili/dsh-vibe`、DSH bundle、Cordis plugin 与宿主打包覆盖曾存在，已由 standalone hard cut 移除 |
 | M4 standalone hard cut | **已完成（2026-09-06）**：仅 `@maocili/vibe-init` CLI；无模块/plugin/bundle 表面；schema 2 与旧 namespace hard cut |

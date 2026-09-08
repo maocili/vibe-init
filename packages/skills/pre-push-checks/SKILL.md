@@ -77,7 +77,7 @@ for hook in "$HOOKS_PATH/pre-commit" "$HOOKS_PATH/pre-push"; do
 done
 ```
 
-Create a gate list with one command per changed path category. A declared hook owns a check only when its inspected body invokes that check. Do not run a check manually if the same unchanged check will run in the next hook.
+When an inspected hook delegates to Lefthook, inspect the tracked `lefthook.yml` or `.lefthook.yml` named by that wrapper or discovered above. Treat only commands declared for that exact hook as hook-owned; the wrapper alone is not evidence that a check will run. Create a gate list with one command per changed path category. Do not run a check manually if the same unchanged check will run in the next hook.
 
 ## 4. Execute the path-to-command matrix
 

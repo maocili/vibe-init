@@ -18,7 +18,7 @@
 | D9 | `bilingualDocsDiscipline` 独立于双语骨架，默认关闭。 |
 | D10 | `docBudgets` 默认开启。 |
 | D11 | `docGates` 是默认开启的工具链伞；`docGatesExtras` 默认关闭；各纪律特性各有脚本组。 |
-| D12 | 工具链落在项目 `.vibe-init/toolchain/`；双语组随双语纪律开启；挂钩随伞安装；作者测试链不随包。 |
+| D12 | 工具链落在项目 `.vibe-init/toolchain/`；双语组随双语纪律开启；窄门禁挂钩按 worktree 隔离安装，推送前运行文档门禁；相关本地证据按改动面选择，作者测试链与 CI 全量矩阵不随包。 |
 | D13 | `upgrade` 依据项目 `.vibe-init/state.json` 做所有权迁移；规则/生成文档/声明的工具链与技能可覆盖同步，Agent Note 正文、业务文档和未知文件不可覆盖；状态仅在文件迁移与依赖安装均成功后原子提交。 |
 | D14 | 当前 namespace 为 `.vibe-init/`、`vibe-init:*` 和 schema 2；旧 `.dsh-vibe/`、`dsh-vibe:*` 与旧环境变量不被发现、迁移、修改或删除。 |
 

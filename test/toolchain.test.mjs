@@ -87,6 +87,9 @@ test('default init materializes scaffold + docGates/base + default-on groups onl
   assert.ok(!pkg.devDependencies.vitest)
   assert.ok(!pkg.devDependencies.jsdom)
   assert.ok(pkg.devDependencies.lefthook)
+  const installer = readFileSync(inHome(proj, 'scripts/install-lefthook.mjs'), 'utf8')
+  assert.match(installer, /VIBE_INIT_LEFTHOOK_ALLOW_HOOKS_PATH_OVERRIDE/)
+  assert.match(installer, /vibe-init-hooks/)
   // no .gitkeep/spec artifacts inside the managed toolchain
   const tcFiles = applied.map((r) => r.label).filter((l) => l && l.startsWith('.vibe-init/toolchain'))
   assert.ok(!tcFiles.some((l) => l.endsWith('.gitkeep') || l.endsWith('.spec.ts') || l.includes('test-fixture')))

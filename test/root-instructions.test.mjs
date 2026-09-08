@@ -43,6 +43,7 @@ test('materialized root instructions are concise English pointers without workfl
       const root = fixture.agents.get('AGENTS.md')
       assert.ok(root)
       assert.match(root, /\[Agent Note rules\]\(.agents\/notes\/README\.md\)/)
+      assert.match(root, /\[pre-push checks skill\]\(.agents\/skills\/pre-push-checks\/SKILL\.md\)/)
       assert.match(root, /\[documentation standard\]\(docs\/AGENTS\.md\)/)
       assert.match(root, /pnpm -C \.vibe-init\/toolchain run doc-sync/)
       assert.doesNotMatch(root, /Alternatives considered|Commit discipline|independently verifiable step|^EN:/m)

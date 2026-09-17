@@ -96,4 +96,5 @@ translate, reformat, move, delete, or repair outbound links from it.
 A .zh.md counterpart mirrors its English sibling section-for-section; the machine-checked header tokens
 (`# Agent Note: ` and the `Status:` line) stay in English verbatim. The pairing is declared in
 [README.i18n.yaml](README.i18n.yaml); projects without the bilingual feature simply keep .md only and
-ignore the sidecar.
+ignore the sidecar. When pairing is declared, `doc-sync` rejects incomplete active triplets, orphaned
+counterparts, and consistency records that do not contain the current Git blob hashes of both sides.

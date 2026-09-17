@@ -78,3 +78,5 @@ Archived: 行）。
 
 .zh.md 与英文姊妹版逐节对应；机器校验的头 token（# Agent Note: 与 Status: 行）保持英文原样。
 配对在 [README.i18n.yaml](README.i18n.yaml) 中声明；未启用双语的项目只保留 .md 并忽略 sidecar。
+声明配对后，`doc-sync` 会拒绝不完整的 active 三件套、没有源文件的对侧文件，以及未记录两侧
+当前 Git blob hash 的一致性记录。

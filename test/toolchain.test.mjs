@@ -3,6 +3,7 @@
 // group enable/disable removal, user-edit protection, audit awareness, idempotency.
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
 import { cpSync, mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync, existsSync, readdirSync } from 'node:fs'
 import { spawnSync } from 'node:child_process'
 import { dirname, join, resolve } from 'node:path'
@@ -39,6 +40,10 @@ async function applyInit(proj, features, packDir) {
   const results = await evaluatePlan(plan, features ? { features } : {})
   const applied = await applyResults(results)
   return { pack, plan, results, applied }
+}
+
+function gitBlobHash(content) {
+  return createHash('sha1').update(`blob ${Buffer.byteLength(content)}\0`).update(content).digest('hex')
 }
 
 test('pack loads the toolchain spec with all groups', async () => {
@@ -111,6 +116,51 @@ test('materialized markdown links are checked while package templates are not', 
   } finally {
     rmSync(file, { force: true })
   }
+})
+
+test('Agent Note format gate rejects incomplete and stale active bilingual triplets', async () => {
+  const proj = fixtureProject('active-note-triplets')
+  await applyInit(proj)
+  const noteDir = join(proj, '.agents', 'notes', 'implemented', 'bug-fix')
+  mkdirSync(noteDir, { recursive: true })
+  const source = '# Agent Note: close the gap\n\nStatus: implemented\n\n## Problem\n\nGap.\n\n## Decision\n\nCheck it.\n\n## Alternatives considered\n\n**Leave it.** The gap remains.\n\n## Consequences\n\nThe gate fails closed.\n'
+  const chinese = '# Agent Note: 补齐缺口\n\nStatus: implemented\n\n## Problem\n\n存在缺口。\n\n## Decision\n\n检查它。\n\n## Alternatives considered\n\n**保持原状。** 缺口仍然存在。\n\n## Consequences\n\n门禁以失败关闭。\n'
+  const stem = join(noteDir, '2026-09-17-close-the-gap')
+  writeFileSync(`${stem}.md`, source)
+  const script = inHome(proj, 'scripts/verify-agent-note-format.ts')
+  const runner = join(ROOT, '.vibe-init', 'toolchain', 'node_modules', 'tsx', 'dist', 'cli.mjs')
+  const run = () => spawnSync(process.execPath, [runner, script], { cwd: proj, encoding: 'utf8' })
+
+  const incomplete = run()
+  assert.equal(incomplete.status, 1)
+  assert.match(incomplete.stderr, /incomplete active triplet/)
+  assert.match(incomplete.stderr, /2026-09-17-close-the-gap\.zh\.md/)
+  assert.match(incomplete.stderr, /2026-09-17-close-the-gap\.i18n\.yaml/)
+
+  writeFileSync(`${stem}.zh.md`, chinese)
+  writeFileSync(`${stem}.i18n.yaml`, `2026-09-17-close-the-gap.md: ${gitBlobHash(source)}\n2026-09-17-close-the-gap.zh.md: ${gitBlobHash(chinese)}\n`)
+  const complete = run()
+  assert.equal(complete.status, 0, complete.stderr)
+
+  writeFileSync(`${stem}.zh.md`, chinese + '\n失去同步。\n')
+  const stale = run()
+  assert.equal(stale.status, 1)
+  assert.match(stale.stderr, /consistency record must contain the current Git blob hashes/)
+})
+
+test('Agent Note format gate permits English-only active Notes when pairing is disabled', async () => {
+  const proj = fixtureProject('active-note-english-only')
+  await applyInit(proj, { bilingualPairing: false })
+  mkdirSync(join(proj, '.vibe-init'), { recursive: true })
+  writeFileSync(join(proj, '.vibe-init', 'state.json'), JSON.stringify({ features: { bilingualPairing: false } }))
+  const noteDir = join(proj, '.agents', 'notes', 'implemented', 'bug-fix')
+  mkdirSync(noteDir, { recursive: true })
+  writeFileSync(join(noteDir, '2026-09-17-english-only.md'), '# Agent Note: English only\n\nStatus: implemented\n\n## Problem\n\nGap.\n\n## Decision\n\nCheck it.\n\n## Alternatives considered\n\n**Require pairing.** The feature is disabled.\n\n## Consequences\n\nThe English Note remains valid.\n')
+  const result = spawnSync(process.execPath, [
+    join(ROOT, '.vibe-init', 'toolchain', 'node_modules', 'tsx', 'dist', 'cli.mjs'),
+    inHome(proj, 'scripts/verify-agent-note-format.ts'),
+  ], { cwd: proj, encoding: 'utf8' })
+  assert.equal(result.status, 0, result.stderr)
 })
 
 test('init is idempotent for the toolchain (second run does nothing)', async () => {

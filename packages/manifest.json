@@ -5,19 +5,19 @@
       "id": "project-notes-readme",
       "target": ".agents/notes/README.md",
       "source": "notes-skeleton/README.md",
-      "sha256": "12d9a5dd93884cc22e047622293b28461f2dc12648c056e2cf429e3776b30a6d"
+      "sha256": "9cf74a007a46b84c7e3b8890048912720b7ae1dfe28710055fbc4543c975d534"
     },
     {
       "id": "project-notes-readme-zh",
       "target": ".agents/notes/README.zh.md",
       "source": "notes-skeleton/README.zh.md",
-      "sha256": "599c20080ce598aacaf1538a1dc967e7dbf24e91772a7d9fa1f273720a49df28"
+      "sha256": "fe5fe1ad81f32caa25dc896692fb4a34d514f05becb886715d72dd45e34afa07"
     },
     {
       "id": "project-notes-i18n",
       "target": ".agents/notes/README.i18n.yaml",
       "source": "notes-skeleton/README.i18n.yaml",
-      "sha256": "e2db70a9eb5f4fd1baa5d96927e026052b92b17456ea5b13033b30155b91dddf"
+      "sha256": "0947335d9652eedbc5a3bbd2a9c1d591fd3d0f7930ed4f319c2880352e3bb694"
     },
     {
       "id": "project-notes-agents",

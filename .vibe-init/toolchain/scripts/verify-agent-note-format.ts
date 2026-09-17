@@ -1,12 +1,13 @@
 /**
  * Enforce Agent Note headers, lifecycle-specific sections, alternatives, and retired
  * marker rules. Classification and filenames belong to the sibling tree gate;
- * translation structure belongs to the pairing gate. Exact format and
- * grandfathering rules live in `.agents/notes/README.md`.
+ * this gate also owns active Note triplet completeness when pairing is declared.
+ * Exact format and grandfathering rules live in `.agents/notes/README.md`.
  */
 
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { validateActiveNoteTriplets } from './active-agent-notes.ts'
 import { agentNoteRoot, walkAgentNoteTree } from './agent-note-tree.ts'
 
 /** The date these format rules took effect; the grandfather comment is valid only before it. */
@@ -36,6 +37,7 @@ const REQUIRED: Record<string, string[]> = {
 const BANNED_IMPLEMENTED = /^## (?:Proposal\b|Plan\b|Migration plan\b|Acceptance criteria\b)/i
 
 const { notes, errors } = walkAgentNoteTree()
+errors.push(...validateActiveNoteTriplets(agentNoteRoot, notes))
 
 for (const note of notes) {
   const fail = (msg: string): void => {
